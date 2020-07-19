@@ -1,11 +1,12 @@
 import tkinter as tk
 from gui.frames import gui_frames
+from gui.configure import *
 
 
 class TopWindow(tk.Frame):
     def __init__(self, root):
         tk.Frame.__init__(self, root)
-        self.configure(background="red")
+        self.configure(background=TW_BG)
         self.pack(fill="both", expand=1)
 
         self.selected_frame = 0
