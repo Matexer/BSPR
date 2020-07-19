@@ -5,8 +5,7 @@ from globals import *
 
 class GUI:
     def __init__(self):
-        self.frames = []
-        self.selected_frame = 0
+        self.top = None
 
     def start(self):
         root = tk.Tk()
@@ -15,23 +14,5 @@ class GUI:
         root.geometry("800x400")
         root.protocol("WM_DELETE_WINDOW", lambda: root.destroy())
         root.mainloop()
-        self.frames = top.frames
+        self.top = top
         return top
-
-    def change_frame(self, id):
-        self.frames[self.selected_frame].grid_forget()
-        frame = self.frames[id]
-        frame.grid(*frame.position)
-        self.selected_frame = id
-
-
-gui = GUI()
-
-
-def start():
-    top = gui.start()
-    return top
-
-
-def change_frame(id):
-    gui.change_frame(id)

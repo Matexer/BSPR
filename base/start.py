@@ -1,4 +1,5 @@
-import gui
+from gui import GUI
 
-top_window = gui.start()
+gui = GUI()
+top = gui.start()
 
