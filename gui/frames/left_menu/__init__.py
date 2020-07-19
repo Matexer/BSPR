@@ -1,13 +1,15 @@
-import tkinter.ttk as ttk
-from ...elements import LeftMenuButton
+import tkinter as tk
+from gui.configure import *
+from gui.elements import LeftMenuButton
 
 
-class LeftMenuFrame(ttk.Frame):
+class LeftMenuFrame(tk.Frame):
     grid_config = {"sticky": "W"}
 
     def __init__(self, top):
-        ttk.Frame.__init__(self, top)
-        self.designate_label = ttk.Label(self)
+        tk.Frame.__init__(self, top)
+        self.configure(background=LMF_BG)
+        self.designate_label = tk.Label(self)
         self.designate_label.grid(**self.grid_config)
         self.designate_label.configure(text='''Wyznacz''')
 
