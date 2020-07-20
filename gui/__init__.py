@@ -11,7 +11,7 @@ class GUI:
         root = tk.Tk()
         top = TopWindow(root)
         root.title(TITLE)
-        root.geometry("800x400")
+        root.geometry("1000x600")
         root.protocol("WM_DELETE_WINDOW", lambda: root.destroy())
         root.mainloop()
         self.top = top
