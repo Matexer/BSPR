@@ -10,7 +10,7 @@ class TopMenuFrame(tk.Frame):
 
         self.fuel_list_btn = TopMenuButton(self)
         self.fuel_list_btn.pack(side="left")
-        self.fuel_list_btn.configure(text='''Lista paliw''')
+        self.fuel_list_btn.configure(text='Lista paliw')
 
         self.survey_list_btn = TopMenuButton(self)
         self.survey_list_btn.pack(side="left")

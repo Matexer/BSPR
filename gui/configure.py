@@ -18,5 +18,8 @@ LMB_wrap = 100
 LMB_width = 13
 
 #TopMenuButton
-TMB_BG = BRIGHT_GREY
+TMB_BG = "white"
 TMB_WIDTH = 10
+
+#ActionFrame
+AF_BG = BRIGHT_GREY
