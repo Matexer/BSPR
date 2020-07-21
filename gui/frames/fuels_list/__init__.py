@@ -1,5 +1,5 @@
 import tkinter as tk
-from gui.elements import AddButton, DeleteButton, EditButton
+from gui.elements import *
 from gui.configure import AF_BG
 
 
@@ -26,4 +26,6 @@ class FuelsListFrame(tk.Frame):
     def create_list_container(self):
         list_container = tk.Frame(self,
                                   background="green")
+        tree = TreeList(list_container)
+        tree.pack(fill="both", expand=1)
         return list_container
