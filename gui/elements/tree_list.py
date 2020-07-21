@@ -15,24 +15,22 @@ class TreeList(tk.Frame):
         scroll.config(command=tree.yview)
         self.tree = tree
         self.top = top
-        self.set_columns(("test 1", "test 2"))
 
     def set_columns(self, columns):
         tree = self.tree
-        self.top.update_idletasks()
 
-        num_of_col = len(columns)
-        tree_width = tree.winfo_width()
-        width_unit = tree_width // num_of_col
-        half_width = width_unit // 2
-
-        tree.heading('#0', text=columns[0])
-        tree.column('#0', minwidth=width_unit, width=width_unit, anchor='center', stretch=1)
         tree['columns'] = columns[1:]
         tree['displaycolumns'] = columns[1:]
-        for column in columns[1:]:
-            tree.column(column, width=width_unit,
-                        minwidth=half_width,
-                        anchor='center',
-                        stretch=0)
-            tree.heading(column, text=column)
+
+        tree.heading('#0', text=columns[0])
+        for num, column in enumerate(columns[1:]):
+            tree.heading(num, text=column)
+
+    def set_columns_width(self, tree_width, widths):
+        widths = [int(width * tree_width) for width in widths]
+
+        self.tree.column('#0', minwidth=widths[0]//2, width=widths[0])
+        for num, width in enumerate(widths[1:]):
+            self.tree.column(num, width=width,
+                             minwidth=width//2,
+                             stretch=1)

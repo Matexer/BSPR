@@ -9,9 +9,14 @@ class FuelsListFrame(tk.Frame):
         self.configure(background=AF_BG)
 
         btn_container, self.buttons = self.create_btn_container()
-        list_container = self.create_list_container()
+        list_container, tree = self.create_list_container()
         btn_container.pack(side="top")
         list_container.pack(fill="both", expand=1)
+
+        top.update()
+        tree_width = top.winfo_width()
+        tree.set_columns(("test 1 dddddddddddddddddddddkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkm", "test 2", "test 3"))
+        tree.set_columns_width(tree_width, (0.6, 0.2, 0.2))
 
     def create_btn_container(self):
         btn_container = tk.Frame(self)
@@ -28,4 +33,4 @@ class FuelsListFrame(tk.Frame):
                                   background="green")
         tree = TreeList(list_container)
         tree.pack(fill="both", expand=1)
-        return list_container
+        return list_container, tree
