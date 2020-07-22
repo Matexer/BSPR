@@ -10,6 +10,9 @@ class FuelsListFrame(tk.Frame):
 
         btn_container, self.buttons = self.create_btn_container()
         list_container, tree = self.create_list_container()
+
+        self.buttons[0].configure(command=lambda: top.change_frame(1))
+
         btn_container.pack(side="top")
         list_container.pack(fill="both", expand=1)
 

@@ -19,7 +19,8 @@ class TopWindow(tk.Frame):
         self.frames[self.selected_frame].pack(fill="both", expand=1)
 
     def __load_frames(self):
-        frames = [FuelsListFrame(self)
+        frames = [FuelsListFrame(self),
+                  AddFuelFrame(self)
                   ]
         return frames
 
