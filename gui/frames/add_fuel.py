@@ -1,25 +1,60 @@
 import tkinter as tk
-from gui.elements import InputTable
+from gui.elements import InputTable, TitleLabel, SubtitleLabel
 
 
 class AddFuelFrame(tk.Frame):
     def __init__(self, top):
         tk.Frame.__init__(self, top)
 
-        table = self.create_inputs_container()
-        table.pack(side="top", anchor="w")
+        title = self.create_title()
+        name_container, name_entry = self.create_name_container()
+        inputs_subtitle = self.create_inputs_subtitle()
+        inputs_container, table = self.create_inputs_container()
+        comment_subtitle = self.create_comment_subtitle()
+
+        title.pack(side="top", fill="x")
+        name_container.pack(side="top", anchor="w", padx=5, pady=30)
+        inputs_subtitle.pack(side="top", fill="x")
+        inputs_container.pack(side="top", anchor="w", padx=5)
+        comment_subtitle.pack(side="top", fill="x")
+
+    def create_title(self):
+        title = TitleLabel(self)
+        title.configure(text="DODAWANIE NOWEGO PALIWA")
+        return title
+
+    def create_name_container(self):
+        name_container = tk.Frame(self)
+        label = tk.Label(name_container)
+        label.configure(text="Nazwa paliwa",
+                        font="bold")
+        entry = tk.Entry(name_container)
+        entry.configure(width=30)
+        label.grid()
+        entry.grid(row=0, column=1, padx=7)
+        return name_container, entry
+
+    def create_inputs_subtitle(self):
+        subtitle = SubtitleLabel(self)
+        subtitle.configure(text="DANE OD PRODUCENTA")
+        return subtitle
 
     def create_inputs_container(self):
-        variables = (("Średnica zewnętrzna ładunku paliwa [mm]",
-                      "Średnica wewnętrzna ładunku paliwa [mm]",
-                      "Długość ładunku paliwa [mm]",
+        inputs_container = tk.Frame(self)
+        variables = (("Średnica zewnętrzna\nładunku paliwa [mm]",
+                      "Średnica wewnętrzna\nładunku paliwa [mm]",
+                      "Długość ładunku\npaliwa [mm]",
                       "Masa paliwa [g]"),
-                     ("f", "h"))
-        properties = {"ipadx": 0,
-                      "ipady": 0,
-                      "padx": 5,
-                      "pady": 5,
-                      "sticky": "W"}
-        table = InputTable(self, variables)
-        return table
+                     ("Siła paliwa [MJ/kg]",
+                      "Wykładnik adiabaty gazowych\nproduktów spalania"))
+        table = InputTable(inputs_container, variables)
+        table.pack()
+        return inputs_container, table
 
+    def create_comment_subtitle(self):
+        subtitle = SubtitleLabel(self)
+        subtitle.configure(text="KOMENTARZ")
+        return subtitle
+
+    def create_comment_container(self):
+        comment_container = tk.Frame(self)

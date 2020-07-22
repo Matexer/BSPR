@@ -46,7 +46,7 @@ class InputTable(tk.Frame):
         return inputs
 
     def __gen_row(self, text_label):
-        label = tk.Label(self)
+        label = tk.Label(self, justify="left", anchor="w")
         label.configure(text=text_label)
         entry = tk.Entry(self, width=12)
         row = Row(label, entry)

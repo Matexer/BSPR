@@ -23,3 +23,11 @@ TMB_WIDTH = 10
 
 #ActionFrame
 AF_BG = BRIGHT_GREY
+
+#TitleLabel
+TL_BG = "black"
+TL_FG = "white"
+
+#SubtitleLabel
+STL_BG = "#2B2828"
+STL_FG = "white"
