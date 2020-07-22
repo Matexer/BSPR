@@ -3,5 +3,6 @@ from .btns import AddButton, EditButton, DeleteButton,\
     SaveButton, CancelButton, ClearButton
 from .input_table import InputTable
 from .labels import TitleLabel, SubtitleLabel
+from .frames import ActionFrame
 
 from .tree_list import TreeList

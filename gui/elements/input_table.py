@@ -51,21 +51,3 @@ class InputTable(tk.Frame):
         entry = tk.Entry(self, width=12)
         row = Row(label, entry)
         return row
-
-
-#test
-if __name__ == "__main__":
-    variables = (("atttttttttttt", "b", "c"),
-                 ("e", "f", "h"))
-    properties = {"ipadx": 0,
-                  "ipady": 0,
-                  "padx": 5,
-                  "pady": 5,
-                  "sticky": "W"}
-
-    root = tk.Tk()
-    input_table = InputTable(root, variables, ipadx=3)
-    entries = input_table.inputs
-    entry_1 = input_table.inputs[0][0].entry
-    entry_1.insert(0, "eeeg")
-    root.mainloop()

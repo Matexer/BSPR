@@ -3,10 +3,9 @@ from gui.elements import *
 from gui.configure import AF_BG
 
 
-class FuelsListFrame(tk.Frame):
+class FuelsListFrame(ActionFrame):
     def __init__(self, top):
-        tk.Frame.__init__(self, top)
-        self.configure(background=AF_BG)
+        ActionFrame.__init__(self, top)
 
         btn_container, self.buttons = self.create_btn_container()
         list_container, tree = self.create_list_container()
