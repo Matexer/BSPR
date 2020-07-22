@@ -12,7 +12,7 @@ class FuelsListFrame(ActionFrame):
 
         self.buttons[0].configure(command=lambda: top.change_frame(1))
 
-        btn_container.pack(side="top")
+        btn_container.pack(side="top", pady=5)
         list_container.pack(fill="both", expand=1)
 
         top.update()
@@ -25,14 +25,13 @@ class FuelsListFrame(ActionFrame):
         add_btn = AddButton(btn_container)
         add_btn.pack(side="left")
         edit_btn = EditButton(btn_container)
-        edit_btn.pack(side="left")
+        edit_btn.pack(side="left", padx=10)
         delete_btn = DeleteButton(btn_container)
         delete_btn.pack(side="left")
         return btn_container, (add_btn, edit_btn, delete_btn)
 
     def create_list_container(self):
-        list_container = tk.Frame(self,
-                                  background="green")
+        list_container = tk.Frame(self)
         tree = TreeList(list_container)
         tree.pack(fill="both", expand=1)
         return list_container, tree

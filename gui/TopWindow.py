@@ -20,7 +20,8 @@ class TopWindow(tk.Frame):
 
     def __load_frames(self):
         frames = [FuelsListFrame(self),
-                  AddFuelFrame(self)
+                  AddFuelFrame(self),
+                  SurveysListFrame(self)
                   ]
         return frames
 
