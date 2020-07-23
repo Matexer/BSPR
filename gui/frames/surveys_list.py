@@ -34,15 +34,21 @@ class SurveysListFrame(FuelsListFrame):
 
     @staticmethod
     def create_cboxs(top):
-        fuel_label = tk.Label(top)
+        left = tk.Frame(top)
+        fuel_label = tk.Label(left)
         fuel_label.configure(text="Paliwo")
-        fuel_cbox = ttk.Combobox(top)
-        type_label = tk.Label(top)
+        fuel_cbox = ttk.Combobox(left)
+
+        right = tk.Frame(top)
+        type_label = tk.Label(right)
         type_label.configure(text="Rodzaj pomiaru")
-        type_cbox = ttk.Combobox(top)
+        type_cbox = ttk.Combobox(right)
 
         fuel_label.pack(side="left")
         fuel_cbox.pack(side="left")
         type_label.pack(side="left")
         type_cbox.pack(side="left")
+
+        left.pack(side="left")
+        right.pack(side="left", padx=10)
         return fuel_cbox, type_cbox
