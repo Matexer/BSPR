@@ -7,11 +7,11 @@ class AddFuelFrame(tk.Frame):
     def __init__(self, top):
         tk.Frame.__init__(self, top)
 
-        title = self.create_title()
+        title = self.create_title("DODAWANIE NOWEGO PALIWA")
         name_container, name_entry = self.create_name_container()
-        inputs_subtitle = self.create_inputs_subtitle()
+        inputs_subtitle = self.create_subtitle("DANE OD PRODUCENTA")
         inputs_container, table = self.create_inputs_container()
-        comment_subtitle = self.create_comment_subtitle()
+        comment_subtitle = self.create_subtitle("KOMENTARZ")
         comment_container, comment = self.create_comment_container()
         btns_container, self.buttons = self.create_buttons_container()
 
@@ -23,9 +23,9 @@ class AddFuelFrame(tk.Frame):
         comment_container.pack(side="top", anchor="w", padx=5)
         btns_container.pack(side="bottom", fill="x")
 
-    def create_title(self):
+    def create_title(self, text):
         title = TitleLabel(self)
-        title.configure(text="DODAWANIE NOWEGO PALIWA")
+        title.configure(text=text)
         return title
 
     def create_name_container(self):
@@ -39,9 +39,9 @@ class AddFuelFrame(tk.Frame):
         entry.grid(row=0, column=1, padx=7)
         return name_container, entry
 
-    def create_inputs_subtitle(self):
+    def create_subtitle(self, text):
         subtitle = SubtitleLabel(self)
-        subtitle.configure(text="DANE OD PRODUCENTA")
+        subtitle.configure(text=text)
         return subtitle
 
     def create_inputs_container(self):
@@ -55,11 +55,6 @@ class AddFuelFrame(tk.Frame):
         table = InputTable(inputs_container, variables)
         table.pack()
         return inputs_container, table
-
-    def create_comment_subtitle(self):
-        subtitle = SubtitleLabel(self)
-        subtitle.configure(text="KOMENTARZ")
-        return subtitle
 
     def create_comment_container(self):
         comment_container = tk.Frame(self)
