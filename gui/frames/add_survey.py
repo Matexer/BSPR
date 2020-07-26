@@ -18,7 +18,7 @@ class AddSurveyFrame(AddFuelFrame):
         btns_container, self.buttons = self.create_buttons_container()
 
         title.pack(side="top", fill="x")
-        name_container.pack(side="top", anchor="w", padx=5, pady=20)
+        name_container.pack(side="top", anchor="w", padx=5, pady=10)
         init_container.pack(side="top", anchor="w", fill="x", padx=5)
         inputs_subtitle.pack(side="top", fill="x")
         inputs_container.pack(side="top", anchor="w", padx=5)
@@ -55,6 +55,6 @@ class AddSurveyFrame(AddFuelFrame):
         btn = Button(init_survey_container)
         btn.configure(text="Importuj plik",
                       background="orange")
-        btn.pack(side="left", padx=10)
+        btn.pack(side="left", padx=10, pady=5)
         return init_survey_container, (cbox, entry, btn)
 

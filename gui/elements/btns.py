@@ -6,8 +6,8 @@ class Button(tk.Button):
         tk.Button.__init__(self, top)
         self.configure(cursor="hand2",
                        font="bold",
+                       highlightthickness=0
                        )
-
 
 class SaveButton(Button):
     def __init__(self, top):
