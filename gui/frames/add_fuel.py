@@ -47,20 +47,22 @@ class AddFuelFrame(tk.Frame):
     def create_inputs_container(self):
         inputs_container = tk.Frame(self)
         variables = (("Średnica zewnętrzna\nładunku paliwa [mm]",
-                      "Średnica wewnętrzna\nładunku paliwa [mm]",
-                      "Długość ładunku\npaliwa [mm]",
+                      "Średnica wewnętrzna\nładunku paliwa [mm]"),
+
+                      ("Długość ładunku\npaliwa [mm]",
                       "Masa paliwa [g]"),
+
                      ("Siła paliwa [MJ/kg]",
                       "Wykładnik adiabaty gazowych\nproduktów spalania"))
         table = InputTable(inputs_container, variables)
         table.pack()
         return inputs_container, table
 
-    def create_comment_container(self):
+    def create_comment_container(self, width=100, height=8):
         comment_container = tk.Frame(self)
         comment = tk.Text(comment_container)
-        comment.configure(width=100,
-                          height=8)
+        comment.configure(width=width,
+                          height=height)
         comment.pack(pady=5)
         return comment_container, comment
 

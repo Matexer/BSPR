@@ -1,7 +1,8 @@
 import tkinter as tk
 import tkinter.ttk as ttk
-from gui.elements import Button
+from gui.elements import Button, SubtitleLabel, InputTable
 from gui.frames import AddFuelFrame
+from gui.configure import STL_BG
 
 
 class AddSurveyFrame(AddFuelFrame):
@@ -11,17 +12,21 @@ class AddSurveyFrame(AddFuelFrame):
         title = self.create_title("DODAWANIE NOWEGO POMIARU")
         name_container, name_cbox = self.create_name_container()
         init_container, self.init_widgets = self.create_init_survey_container()
-        inputs_subtitle = self.create_subtitle("DANE OD PRODUCENTA")
-        inputs_container, table = self.create_inputs_container()
+        survey_subtitle = self.create_subtitle("DANE POMIARU")
+        survey_container, survey_table = self.create_survey_container()
+        fuel_subtitle, fill_btn = self.create_fuel_subtitle("DANE PALIWA")
+        fuel_container, fuel_table = self.create_fuel_container()
         comment_subtitle = self.create_subtitle("KOMENTARZ")
-        comment_container, comment = self.create_comment_container()
+        comment_container, comment = self.create_comment_container(100, 6)
         btns_container, self.buttons = self.create_buttons_container()
 
         title.pack(side="top", fill="x")
         name_container.pack(side="top", anchor="w", padx=5, pady=10)
         init_container.pack(side="top", anchor="w", fill="x", padx=5)
-        inputs_subtitle.pack(side="top", fill="x")
-        inputs_container.pack(side="top", anchor="w", padx=5)
+        survey_subtitle.pack(side="top", fill="x")
+        survey_container.pack(side="top", anchor="w", padx=5)
+        fuel_subtitle.pack(side="top", fill="x", expand=1, anchor="w")
+        fuel_container.pack(side="top", anchor="w", padx=5)
         comment_subtitle.pack(side="top", fill="x")
         comment_container.pack(side="top", anchor="w", padx=5)
         btns_container.pack(side="bottom", fill="x")
@@ -57,4 +62,39 @@ class AddSurveyFrame(AddFuelFrame):
                       background="orange")
         btn.pack(side="left", padx=10, pady=5)
         return init_survey_container, (cbox, entry, btn)
+
+    def create_survey_container(self):
+        survey_container = tk.Frame(self)
+        variables = (("Średnica zewnętrzna\nładunku paliwa [mm]",
+                      "Średnica wewnętrzna\nładunku paliwa [mm]"),
+
+                     ("Długość ładunku\npaliwa [mm]",
+                      "Masa paliwa [g]"))
+        table = InputTable(survey_container, variables)
+        table.pack()
+        return survey_container, table
+
+    def create_fuel_subtitle(self, text):
+        container = tk.Frame(self)
+        container.configure(background=STL_BG)
+        subtitle = SubtitleLabel(container)
+        subtitle.configure(text=text)
+        btn = Button(container)
+        btn.configure(text="Wypełnij",
+                      background="turquoise2")
+        subtitle.pack(side="left")
+        btn.pack(side="left", padx=5)
+        return container, btn
+
+    def create_fuel_container(self):
+        fuel_container = tk.Frame(self)
+        variables = (("Średnica zewnętrzna\nładunku paliwa [mm]",
+                      "Średnica wewnętrzna\nładunku paliwa [mm]"),
+
+                     ("Długość ładunku\npaliwa [mm]",
+                      "Masa paliwa [g]"))
+        table = InputTable(fuel_container, variables)
+        table.pack()
+        return fuel_container, table
+
 
