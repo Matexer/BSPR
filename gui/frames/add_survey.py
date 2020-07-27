@@ -25,7 +25,7 @@ class AddSurveyFrame(AddFuelFrame):
         init_container.pack(side="top", anchor="w", fill="x", padx=5)
         survey_subtitle.pack(side="top", fill="x")
         survey_container.pack(side="top", anchor="w", padx=5)
-        fuel_subtitle.pack(side="top", fill="x", expand=1, anchor="w")
+        fuel_subtitle.pack(side="top", fill="x")
         fuel_container.pack(side="top", anchor="w", padx=5)
         comment_subtitle.pack(side="top", fill="x")
         comment_container.pack(side="top", anchor="w", padx=5)
@@ -65,11 +65,13 @@ class AddSurveyFrame(AddFuelFrame):
 
     def create_survey_container(self):
         survey_container = tk.Frame(self)
-        variables = (("Średnica zewnętrzna\nładunku paliwa [mm]",
-                      "Średnica wewnętrzna\nładunku paliwa [mm]"),
+        variables = (("Średnica krytyczna\ndyszy [mm]",),
 
-                     ("Długość ładunku\npaliwa [mm]",
-                      "Masa paliwa [g]"))
+                     ("Średnica komory\nspalania [mm]",
+                      "Długość komory\nspalania [mm]"),
+
+                     ("Współczynnik strat\nwydatku",
+                      "Współczynnik strat\ncieplnych"))
         table = InputTable(survey_container, variables)
         table.pack()
         return survey_container, table
