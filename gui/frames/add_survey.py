@@ -81,7 +81,8 @@ class AddSurveyFrame(AddFuelFrame):
         subtitle.configure(text=text)
         btn = Button(container)
         btn.configure(text="Wypełnij",
-                      background="turquoise2")
+                      background="azure3",
+                      borderwidth=0)
         subtitle.pack(side="left")
         btn.pack(side="left", padx=5)
         return container, btn
