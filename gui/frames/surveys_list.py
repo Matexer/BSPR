@@ -23,8 +23,8 @@ class SurveysListFrame(FuelsListFrame):
 
         top.update()
         tree_width = top.winfo_width()
-        tree.set_columns(("test 1 dddddddddddddddddddddkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkm", "test 2", "test 3"))
-        tree.set_columns_width(tree_width, (0.6, 0.2, 0.2))
+        tree.set_columns(("Lp.", "Śr. kryt. dyszy [mm]", "Czas próbkowania [ms]", "Masa paliwa [g]", "Data"))
+        tree.set_columns_width(tree_width, (0.01, 0.225, 0.225, 0.225, 0.225))
 
     def create_options(self, top):
         cbox_container = tk.Frame(top)
