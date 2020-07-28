@@ -1,12 +1,13 @@
 import tkinter as tk
 from gui.elements import *
-from gui.configure import AF_BG
+from .template import TemplateFrame
 
 
-class FuelsListFrame(ActionFrame):
+class FuelsListFrame(TemplateFrame):
     def __init__(self, top):
-        ActionFrame.__init__(self, top)
+        TemplateFrame.__init__(self, top)
 
+        title = self.create_title("LISTA PALIW")
         btn_container = tk.Frame(self)
         list_container = tk.Frame(self)
         self.buttons = self.create_btns(btn_container)
@@ -14,13 +15,20 @@ class FuelsListFrame(ActionFrame):
 
         self.buttons[0].configure(command=lambda: top.change_frame(1))
 
+        title.pack(side="top", fill="x", anchor="w")
         btn_container.pack(side="top", pady=5)
         list_container.pack(fill="both", expand=1)
 
         top.update()
         tree_width = top.winfo_width()
-        tree.set_columns(("test 1 dddddddddddddddddddddkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkm", "test 2", "test 3"))
-        tree.set_columns_width(tree_width, (0.6, 0.2, 0.2))
+        tree.set_columns(("Nazwa",
+                          "Siła [MJ/kg]",
+                          "k",
+                          "Masa [g]",
+                          "Długość [mm]",
+                          "Śr. zew. [mm]",
+                          "Śr. wew. [mm]"))
+        tree.set_columns_width(tree_width, (0.3, 0.15, 0.07, 0.12, 0.12, 0.12, 0.12))
 
     @staticmethod
     def create_btns(top):

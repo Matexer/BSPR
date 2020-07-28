@@ -2,12 +2,14 @@ import tkinter as tk
 import tkinter.ttk as ttk
 from gui.elements import *
 from .fuels_list import FuelsListFrame
+from .template import TemplateFrame
 
 
 class SurveysListFrame(FuelsListFrame):
     def __init__(self, top):
-        ActionFrame.__init__(self, top)
+        TemplateFrame.__init__(self, top)
 
+        title = self.create_title("LISTA POMIARÓW")
         options_container = tk.Frame(self)
         self.cboxs, self.buttons = self.create_options(options_container)
         list_container = tk.Frame(self)
@@ -15,6 +17,7 @@ class SurveysListFrame(FuelsListFrame):
 
         self.buttons[0].configure(command=lambda: top.change_frame(3))
 
+        title.pack(side="top", fill="x")
         options_container.pack(side="top", fill="x", pady=5)
         list_container.pack(side="top", fill="both", expand=1)
 
