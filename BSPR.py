@@ -1,1 +1,3 @@
-import base.start
+from head.app import Application
+
+Application()
