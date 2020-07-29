@@ -23,6 +23,7 @@ class AddFuelFrame(tk.Frame):
         comment_container.pack(side="top", anchor="w", padx=5)
         btns_container.pack(side="bottom", fill="x")
 
+
     def create_title(self, text):
         title = TitleLabel(self)
         title.configure(text=text)
@@ -82,7 +83,13 @@ class AddFuelFrame(tk.Frame):
         name = self.name_entry.get()
         inputs = self.inputs_table.get_inserted_values()
         comment = self.comment.get('0', 'end')
-        values = name + inputs + comment
-        return values
+        return name, inputs, comment
 
     def point_entries(self, numbers):
+        name_num = numbers[0]
+        inputs_num = numbers[1:]
+        if name_num == 0:
+            self.name_entry.configure(background="white")
+        else:
+            self.name_entry.configure(background="red")
+        self.inputs_table.point_entries(inputs_num)
