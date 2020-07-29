@@ -1,6 +1,7 @@
 from globals import FORBIDDEN_NAME_SIGNS
 import head.database as db
 
+
 class AddFuelAct:
     def __init__(self, top):
         self.frame = top.frames[1]
@@ -33,7 +34,8 @@ class AddFuelAct:
         # mass = values[4]
         # strength = values[5]
         # k = values[6]
-        # comment = values[7]    UNUSED
+        # comment = values[7]
+        report[7] = 0
 
         if name != "":
             if not set(name).intersection(FORBIDDEN_NAME_SIGNS):
