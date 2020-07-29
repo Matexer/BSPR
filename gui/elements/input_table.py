@@ -73,6 +73,12 @@ class InputTable(tk.Frame):
             else:
                 self.inputs[val_n].entry.configure(background="red")
 
+    def clear_entries(self):
+        for imp in self.inputs:
+            imp.entry.delete('0', 'end')
+        numbers = [0] * (len(self.inputs))
+        self.point_entries(numbers)
+
 
 if __name__ == "__main__":
     variables = ("atttttttttttt", "b", "c")
@@ -90,4 +96,5 @@ if __name__ == "__main__":
     entry_1.insert(0, "eeeg")
     print(input_table.get_inserted_values())
     input_table.point_entries([0, 1, 0])
+    input_table.clear_entries()
     root.mainloop()

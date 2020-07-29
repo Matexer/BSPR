@@ -6,6 +6,7 @@ from globals import *
 class GUI:
     def __init__(self):
         self.top = None
+        self.root = None
 
     def start(self):
         root = tk.Tk()
@@ -13,6 +14,9 @@ class GUI:
         root.title(TITLE)
         root.geometry("1000x600")
         root.protocol("WM_DELETE_WINDOW", lambda: root.destroy())
-        root.mainloop()
         self.top = top
+        self.root = root
         return top
+
+    def run_loop(self):
+        self.root.mainloop()

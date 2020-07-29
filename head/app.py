@@ -1,17 +1,20 @@
 from gui import GUI
+from .acts import *
 
 
 class Application:
     def __init__(self):
-        self.top = self.start()
+        self.gui, self.top = self.start()
         self.frames = self.top.frames
+        self.acts = self.load_acts()
+        self.gui.run_loop()
 
     @staticmethod
     def start():
         gui = GUI()
         top = gui.start()
-        return top
+        return gui, top
 
-    def fill_lists(self):
-        fuels_list_frame = self.frames[0]
-        survey_list_frames = self.frames[2]
+    def load_acts(self):
+        acts = [AddFuelAct(self.top)]
+        return acts
