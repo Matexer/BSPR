@@ -18,7 +18,7 @@ class AddSurveyFrame(AddFuelFrame):
         fuel_container, fuel_table = self.create_fuel_container()
         comment_subtitle = self.create_subtitle("KOMENTARZ")
         comment_container, comment = self.create_comment_container(100, 6)
-        btns_container, self.buttons = self.create_buttons_container()
+        btns_container, self.buttons, self.message = self.create_buttons_container()
 
         title.pack(side="top", fill="x")
         name_container.pack(side="top", anchor="w", padx=5, pady=10)

@@ -1,5 +1,6 @@
 from globals import FORBIDDEN_NAME_SIGNS
 import head.database as db
+from head.objects import Fuel
 
 
 class AddFuelAct:
@@ -56,6 +57,8 @@ class AddFuelAct:
             if isinstance(val, float):
                 if val > 0:
                     report[num+1] = 0
+                else:
+                    report[num+1] = "Wartość musi być dodatnia."
 
         outer_d = values[1]
         inner_d = values[2]
@@ -81,6 +84,12 @@ class AddFuelAct:
         else:
             return True
 
-    @staticmethod
-    def add_fuel_to_database(values):
-        print(values)
+    def add_fuel_to_database(self, values):
+        new_fuel = Fuel()
+        new_fuel.update(values)
+        try:
+            db.save_fuel(new_fuel)
+        except Exception:
+            self.frame.show_message("Nie udało się zapisać paliwa")
+        finally:
+            self.frame.show_message("Zapisano pomyślnie", "green")

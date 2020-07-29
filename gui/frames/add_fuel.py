@@ -13,7 +13,7 @@ class AddFuelFrame(tk.Frame):
         inputs_container, self.inputs_table = self.create_inputs_container()
         comment_subtitle = self.create_subtitle("KOMENTARZ")
         comment_container, self.comment = self.create_comment_container()
-        btns_container, self.buttons = self.create_buttons_container()
+        btns_container, self.buttons, self.message = self.create_buttons_container()
 
         title.pack(side="top", fill="x")
         name_container.pack(side="top", anchor="w", padx=5, pady=20)
@@ -74,11 +74,13 @@ class AddFuelFrame(tk.Frame):
         save_btn = SaveButton(btns_container)
         clear_btn = ClearButton(btns_container)
         cancel_btn = CancelButton(btns_container)
+        message_label = MessageLabel(btns_container)
+        message_label.configure(bg=TL_BG)
         config = {"padx": 5, "pady": 5, "ipadx": 2, "ipady": 2}
         save_btn.pack(side="right", **config)
         cancel_btn.pack(side="left", **config)
         clear_btn.pack(side="left", **config)
-        return btns_container, (save_btn, clear_btn, cancel_btn)
+        return btns_container, (save_btn, clear_btn, cancel_btn), message_label
 
     def get_inserted_values(self):
         name = [self.name_entry.get()]
@@ -100,3 +102,12 @@ class AddFuelFrame(tk.Frame):
         self.name_entry.configure(background="white")
         self.inputs_table.clear_entries()
         self.comment.delete("1.0", 'end')
+        self.hide_message()
+
+    def show_message(self, text, color="red"):
+        self.message.set_text(text)
+        self.message.set_color(color)
+        self.message.pack(side="right", expand=1)
+
+    def hide_message(self):
+        self.message.pack_forget()
