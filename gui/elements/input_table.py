@@ -17,13 +17,13 @@ class InputTable(tk.Frame):
                       "sticky": "W"
                              }
         self.__properties.update(properties)
-        self.inputs = self.__gen_tabel(data)
+        self.inputs = self.__gen_table(data)
 
-    def __gen_tabel(self, data):
+    def __gen_table(self, data):
         inputs = []
         if self.__is_nested(data):
             for col_n, column in enumerate(data):
-                inputs.append(self.__gen_column(col_n, column))
+                inputs += self.__gen_column(col_n, column)
         else:
             inputs = self.__gen_column(0, data)
         return inputs
@@ -51,3 +51,43 @@ class InputTable(tk.Frame):
         entry = tk.Entry(self, width=12)
         row = Row(label, entry)
         return row
+
+    def get_inserted_values(self):
+        """
+        :return: list of values. From first column down (down, right)
+        """
+        values = []
+        for row in self.inputs:
+            value = row.entry.get()
+            values.append(value)
+        return values
+
+    def point_entries(self, numbers):
+        """
+        :param numbers: list = [0 1 0 0]
+        Second entry in self.insert get red bg. Rest white.
+        """
+        for val_n, number in enumerate(numbers):
+            if number == 0:
+                self.inputs[val_n].entry.configure(background="white")
+            else:
+                self.inputs[val_n].entry.configure(background="red")
+
+
+if __name__ == "__main__":
+    variables = ("atttttttttttt", "b", "c")
+    properties = {"ipadx": 0,
+                  "ipady": 0,
+                  "padx": 5,
+                  "pady": 5,
+                  "sticky": "W"}
+
+    root = tk.Tk()
+    input_table = InputTable(root, variables, ipadx=3)
+    input_table.pack()
+    entries = input_table.inputs
+    entry_1 = input_table.inputs[0].entry
+    entry_1.insert(0, "eeeg")
+    print(input_table.get_inserted_values())
+    input_table.point_entries([0, 1, 0])
+    root.mainloop()

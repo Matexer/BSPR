@@ -8,11 +8,11 @@ class AddFuelFrame(tk.Frame):
         tk.Frame.__init__(self, top)
 
         title = self.create_title("DODAWANIE NOWEGO PALIWA")
-        name_container, name_entry = self.create_name_container()
+        name_container, self.name_entry = self.create_name_container()
         inputs_subtitle = self.create_subtitle("DANE OD PRODUCENTA")
-        inputs_container, table = self.create_inputs_container()
+        inputs_container, self.inputs_table = self.create_inputs_container()
         comment_subtitle = self.create_subtitle("KOMENTARZ")
-        comment_container, comment = self.create_comment_container()
+        comment_container, self.comment = self.create_comment_container()
         btns_container, self.buttons = self.create_buttons_container()
 
         title.pack(side="top", fill="x")
@@ -78,4 +78,11 @@ class AddFuelFrame(tk.Frame):
         clear_btn.pack(side="left", **config)
         return btns_container, (save_btn, clear_btn, cancel_btn)
 
+    def get_inserted_values(self):
+        name = self.name_entry.get()
+        inputs = self.inputs_table.get_inserted_values()
+        comment = self.comment.get('0', 'end')
+        values = name + inputs + comment
+        return values
 
+    def point_entries(self, numbers):
