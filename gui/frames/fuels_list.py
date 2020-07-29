@@ -1,7 +1,7 @@
 import tkinter as tk
 from gui.elements import *
 from .template import TemplateFrame
-from head.database import get_fuels_list, load_fuel
+import head.database as db
 
 
 class FuelsListFrame(TemplateFrame):
@@ -13,7 +13,7 @@ class FuelsListFrame(TemplateFrame):
         btn_container = tk.Frame(self)
         list_container = tk.Frame(self)
         self.buttons = self.create_btns(btn_container)
-        tree = self.create_list(list_container)
+        tree_list = self.create_list(list_container)
 
         self.buttons[0].configure(command=lambda: top.change_frame(1))
 
@@ -21,8 +21,9 @@ class FuelsListFrame(TemplateFrame):
         btn_container.pack(side="top", pady=5)
         list_container.pack(fill="both", expand=1)
 
-        self.tree = tree
+        self.tree_list = tree_list
         self.set_list()
+        self.fill_list()
 
     @staticmethod
     def create_btns(top):
@@ -41,22 +42,36 @@ class FuelsListFrame(TemplateFrame):
         return tree
 
     def set_list(self):
-        tree = self.tree
+        tree_list = self.tree_list
         top = self.top
         top.update()
         tree_width = top.winfo_width()
-        tree.set_columns(("Nazwa",
+        tree_list.set_columns(("Nazwa",
                           "Siła [MJ/kg]",
                           "k",
                           "Masa [g]",
                           "Długość [mm]",
                           "Śr. zew. [mm]",
                           "Śr. wew. [mm]"))
-        tree.set_columns_width(tree_width, (0.3, 0.15, 0.07, 0.12, 0.12, 0.12, 0.12))
+        tree_list.set_columns_width(tree_width, (0.3, 0.15, 0.07, 0.12, 0.12, 0.12, 0.12))
 
-    def load_list_data(self):
-        fuels = get_fuels_list()
+    @staticmethod
+    def load_data():
+        fuels = db.get_fuels_list()
         data = []
-        for fuel in fuels:
-            info = load_fuel(fuel)
-            data.append(info)
+        for fuel_name in fuels:
+            fuel = db.load_fuel(fuel_name)
+            data.append(fuel)
+        return data
+
+    def fill_list(self):
+        data = self.load_data()
+        tree_list = self.tree_list
+        tree = tree_list.tree
+        for fuel in data:
+            tree.insert('', 'end', text=fuel.name, values=(fuel.strength,
+                                                           fuel.k,
+                                                           fuel.mass,
+                                                           fuel.length,
+                                                           fuel.outer_diameter,
+                                                           fuel.inner_diameter))
