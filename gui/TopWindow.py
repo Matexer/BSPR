@@ -15,7 +15,6 @@ class TopWindow(tk.Frame):
         top_menu_frame.pack(side="top", fill="x")
 
         self.selected_frame = 0
-        self.previous_frame = 0
         self.frames = self.__load_frames()
         self.frames[self.selected_frame].pack(fill="both", expand=1)
 
@@ -30,5 +29,4 @@ class TopWindow(tk.Frame):
     def change_frame(self, frame_id):
         self.frames[self.selected_frame].pack_forget()
         self.frames[frame_id].pack(fill="both", expand=1)
-        self.previous_frame = self.selected_frame
         self.selected_frame = frame_id

@@ -1,3 +1,5 @@
+import datetime
+
 class Fuel:
     def __init__(self):
         self.name = ""
@@ -9,8 +11,9 @@ class Fuel:
         self.k = 1.25
         self.comment = ""
 
-        self.save_time = 0
-        self.save_date = 0
+        time = datetime.datetime.today()
+        self.save_time = time.strftime('%H:%M:%S')
+        self.save_date = time.strftime('%d.%m.%Y')
 
     def export(self):
         return self.__dict__
@@ -24,4 +27,6 @@ class Fuel:
                 self.__setattr__(feature, value)
 
     def save_timedata(self):
-        pass
+        time = datetime.datetime.today()
+        self.save_time = time.strftime('%H:%M:%S')
+        self.save_date = time.strftime('%d.%m.%Y')
