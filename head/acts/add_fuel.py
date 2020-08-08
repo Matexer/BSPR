@@ -6,14 +6,11 @@ from head.objects import Fuel
 class AddFuelAct:
     def __init__(self, top):
         self.frame = top.frames[1]
-        self.set_buttons(self.frame)
+        self.set_button(self.frame)
 
-    def set_buttons(self, frame):
+    def set_button(self, frame):
         save_btn = frame.buttons[0]
-        cancel_btn = frame.buttons[2]
-
         save_btn.configure(command=lambda: self.save_fuel())
-        cancel_btn.configure(command=lambda: self.cancel())
 
     def save_fuel(self):
         values = self.frame.get_inserted_values()
@@ -22,9 +19,6 @@ class AddFuelAct:
             self.add_fuel_to_database(values)
         else:
             self.frame.point_entries(report)
-
-    def cancel(self):
-        print("hi")
 
     def validate_values(self, values):
         report = [1] * len(values)
@@ -90,6 +84,6 @@ class AddFuelAct:
         try:
             db.save_fuel(new_fuel)
         except Exception:
-            self.frame.show_message("Nie udało się zapisać paliwa")
+            self.frame.show_message("Nie udało się zapisać paliwa.")
         finally:
-            self.frame.show_message("Zapisano pomyślnie", "green")
+            self.frame.show_message("Zapisano pomyślnie.", "green")

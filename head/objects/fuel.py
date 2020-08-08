@@ -1,5 +1,6 @@
 import datetime
 
+
 class Fuel:
     def __init__(self):
         self.name = ""

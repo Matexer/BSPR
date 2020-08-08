@@ -4,10 +4,9 @@ from .acts import *
 
 class Application:
     def __init__(self):
-        self.gui, self.top = self.start()
-        self.frames = self.top.frames
-        self.acts = self.load_acts()
-        self.gui.run_loop()
+        gui, top = self.start()
+        self.acts = self.load_acts(top)
+        gui.run_loop()
 
     @staticmethod
     def start():
@@ -15,6 +14,8 @@ class Application:
         top = gui.start()
         return gui, top
 
-    def load_acts(self):
-        acts = [AddFuelAct(self.top)]
+    @staticmethod
+    def load_acts(top):
+        acts = [AddFuelAct(top),
+                FuelsListAct(top)]
         return acts

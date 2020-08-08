@@ -13,7 +13,6 @@ class TreeList(tk.Frame):
         scroll.config(command=tree.yview)
         scroll.pack(side='right', fill='y')
         tree.pack(fill='both', expand=True)
-        tree.bind('<<TreeviewSelect>>', self.__select)
         tree.config(yscrollcommand=scroll.set)
 
         self.tree = tree
@@ -37,5 +36,7 @@ class TreeList(tk.Frame):
                              minwidth=width//2,
                              stretch=1)
 
-    def __select(self):
-        pass
+
+class FuelsTreeList(TreeList):
+    def __init__(self, top):
+        super().__init__(top)

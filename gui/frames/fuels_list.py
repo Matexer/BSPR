@@ -15,8 +15,6 @@ class FuelsListFrame(TemplateFrame):
         self.buttons = self.create_btns(btn_container)
         tree_list = self.create_list(list_container)
 
-        self.buttons[0].configure(command=lambda: top.change_frame(1))
-
         title.pack(side="top", fill="x", anchor="w")
         btn_container.pack(side="top", pady=5)
         list_container.pack(fill="both", expand=1)
@@ -25,10 +23,10 @@ class FuelsListFrame(TemplateFrame):
         self.set_list()
         self.fill_list()
 
-    @staticmethod
-    def create_btns(top):
+    def create_btns(self, top):
         add_btn = AddButton(top)
         add_btn.pack(side="left")
+        add_btn.configure(command=lambda: self.top.change_frame(1))
         edit_btn = EditButton(top)
         edit_btn.pack(side="left", padx=10)
         delete_btn = DeleteButton(top)
