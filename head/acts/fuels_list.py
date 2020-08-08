@@ -6,6 +6,7 @@ class FuelsListAct:
     def __init__(self, top):
         self.frame = top.frames[0]
         self.set_buttons(self.frame)
+        self.top = top
 
     def set_buttons(self, frame):
         edit_btn = frame.buttons[1]
@@ -15,7 +16,12 @@ class FuelsListAct:
         delete_btn.configure(command=lambda: self.delete_fuels())
 
     def edit_fuel(self):
-        pass
+        names, ids = self.get_selected_fuels()
+        edit_frame = self.top.frames[4]
+        fuel = db.load_fuel(names[0])
+        values = list(fuel.export().values())[:8]
+        edit_frame.set_values(values)
+        self.top.change_frame(4)
 
     def delete_fuels(self):
         tree = self.frame.tree_list.tree

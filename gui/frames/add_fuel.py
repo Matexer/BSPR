@@ -6,24 +6,29 @@ from gui.configure import TL_BG
 class AddFuelFrame(tk.Frame):
     def __init__(self, top):
         tk.Frame.__init__(self, top)
+        self.create_head_section()
+        self.create_body_section()
+        self.top = top
 
+    def create_head_section(self):
         title = self.create_title("DODAWANIE NOWEGO PALIWA")
         name_container, self.name_entry = self.create_name_container()
+
+        title.pack(side="top", fill="x")
+        name_container.pack(side="top", anchor="w", padx=5, pady=20)
+
+    def create_body_section(self):
         inputs_subtitle = self.create_subtitle("DANE OD PRODUCENTA")
         inputs_container, self.inputs_table = self.create_inputs_container()
         comment_subtitle = self.create_subtitle("KOMENTARZ")
         comment_container, self.comment = self.create_comment_container()
         btns_container, self.buttons, self.message = self.create_buttons_container()
 
-        title.pack(side="top", fill="x")
-        name_container.pack(side="top", anchor="w", padx=5, pady=20)
         inputs_subtitle.pack(side="top", fill="x")
         inputs_container.pack(side="top", anchor="w", padx=5)
         comment_subtitle.pack(side="top", fill="x")
         comment_container.pack(side="top", anchor="w", padx=5)
         btns_container.pack(side="bottom", fill="x")
-
-        self.top = top
 
     def create_title(self, text):
         title = TitleLabel(self)

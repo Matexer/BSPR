@@ -24,7 +24,7 @@ class Fuel:
             for feature, value in data.items():
                 self.__setattr__(feature, value)
         elif isinstance(data, (list, tuple)):
-            for feature, value in zip(list(self.__dict__.keys())[:7], data):
+            for feature, value in zip(list(self.__dict__.keys())[:8], data):
                 self.__setattr__(feature, value)
 
     def save_timedata(self):

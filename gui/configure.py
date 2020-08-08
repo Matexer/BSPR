@@ -27,6 +27,7 @@ AF_BG = BRIGHT_GREY
 #TitleLabel
 TL_BG = "black"
 TL_FG = "white"
+TL_FG2 = "yellow"
 
 #SubtitleLabel
 STL_BG = "#2B2828"

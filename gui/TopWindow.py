@@ -22,7 +22,8 @@ class TopWindow(tk.Frame):
         frames = [FuelsListFrame(self),
                   AddFuelFrame(self),
                   SurveysListFrame(self),
-                  AddSurveyFrame(self)
+                  AddSurveyFrame(self),
+                  EditFuelFrame(self)
                   ]
         return frames
 
