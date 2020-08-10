@@ -7,6 +7,7 @@ class AddFuelAct:
     def __init__(self, top):
         self.frame = top.frames[1]
         self.set_button(self.frame)
+        self.top = top
 
     def set_button(self, frame):
         save_btn = frame.buttons[0]
@@ -86,4 +87,6 @@ class AddFuelAct:
         except Exception:
             self.frame.show_message("Nie udało się zapisać paliwa.")
         finally:
+            list_frame = self.top.frames[0]
+            list_frame.reload_list()
             self.frame.show_message("Zapisano pomyślnie.", "green")

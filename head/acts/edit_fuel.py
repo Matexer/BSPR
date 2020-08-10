@@ -7,6 +7,7 @@ class EditFuelAct(AddFuelAct):
     def __init__(self, top):
         self.frame = top.frames[4]
         self.set_button(self.frame)
+        self.top = top
 
     def validate_values(self, values):
         report, values = super().validate_values(values)
@@ -25,4 +26,8 @@ class EditFuelAct(AddFuelAct):
         except Exception:
             self.frame.show_message("Nie udało się zedytować paliwa.")
         finally:
+            list_frame = self.top.frames[0]
+            list_frame.reload_list()
+            f_id = list_frame.get_id_by_name(new_fuel.name)
+            list_frame.tree_list.tree.selection_set(f_id)
             self.frame.show_message("Zedytowano pomyślnie.", "green")

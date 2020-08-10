@@ -25,6 +25,7 @@ class FuelsListFrame(TemplateFrame):
 
         self.tree_list = tree_list
         self.set_list()
+        self.data = self.load_data()
         self.fill_list()
 
     def create_btns(self, top):
@@ -49,19 +50,22 @@ class FuelsListFrame(TemplateFrame):
         tk.Label(left_cont,
                  text="Data dodania:",
                  font="bold").pack(anchor="w")
-        adding_fuel_date = tk.Label(left_cont).pack(anchor="w")
+        adding_fuel_date = tk.Label(left_cont)
+        adding_fuel_date.pack(anchor="w")
         tk.Label(left_cont,
                  text="Ostatnia modyfikacja:",
                  font="bold").pack(anchor="w")
-        modify_fuel_date = tk.Label(left_cont).pack(anchor="w")
+        modify_fuel_date = tk.Label(left_cont)
+        modify_fuel_date.pack(anchor="w")
 
         right_cont = tk.Frame(top)
         tk.Label(right_cont,
                  text="Komentarz:",
                  font="bold").pack()
         comment = tk.Label(right_cont)
+        comment.pack()
 
-        left_cont.pack(side="left")
+        left_cont.pack(side="left", anchor="n")
         right_cont.pack(side="left", anchor="n", padx=15)
         return adding_fuel_date, modify_fuel_date, comment
 
@@ -89,9 +93,8 @@ class FuelsListFrame(TemplateFrame):
         return data
 
     def fill_list(self):
-        data = self.load_data()
-        tree_list = self.tree_list
-        tree = tree_list.tree
+        data = self.data
+        tree = self.tree_list.tree
         for fuel in data:
             tree.insert('', 'end', text=fuel.name, values=(fuel.strength,
                                                            fuel.k,
@@ -100,9 +103,17 @@ class FuelsListFrame(TemplateFrame):
                                                            fuel.outer_diameter,
                                                            fuel.inner_diameter))
 
-    def fill_comment_section(self, add_date, edit_date, comment):
-        adding_fuel_date, modify_fuel_date, comment_label =\
-            self.comment_elements
-        adding_fuel_date.config(text=add_date)
-        modify_fuel_date.config(text=edit_date)
-        comment_label.config(text=comment)
+    def reload_list(self):
+        tree = self.tree_list.tree
+        fuels = tree.get_children()
+        for fuel in fuels:
+            tree.delete(fuel)
+        self.data = self.load_data()
+        self.fill_list()
+
+    def get_id_by_name(self, name):
+        tree = self.tree_list.tree
+        fuels = tree.get_children()
+        for fuel in fuels:
+            if tree.item(fuel)['text'] == name:
+                return fuel
