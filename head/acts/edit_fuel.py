@@ -19,6 +19,7 @@ class EditFuelAct(AddFuelAct):
     def add_fuel_to_database(self, values):
         new_fuel = Fuel()
         new_fuel.update(values)
+        new_fuel.update_timedata()
         try:
             db.edit_fuel(new_fuel)
         except Exception:

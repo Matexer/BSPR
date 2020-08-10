@@ -52,3 +52,5 @@ class FuelsListAct:
             f_names.append(tree.item(fuel)['text'])
 
         return f_names, fuels
+
+    def load_comment_section

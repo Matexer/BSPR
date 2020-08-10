@@ -47,6 +47,9 @@ def edit_fuel(fuel):
     """
     name = fuel.name
     if is_fuel(name):
+        old_fuel = load_fuel(name)
+        fuel.save_date = old_fuel.save_date
+        fuel.save_time = old_fuel.save_time
         path = '%s/%s/%s' % (FUELS_FOLDER, name, name)
         os.remove(path)
     save_fuel(fuel)
