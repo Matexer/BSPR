@@ -99,14 +99,18 @@ class AddFuelFrame(tk.Frame):
         comment = [self.comment.get('1.0', 'end')]
         return name + inputs + comment
 
-    def point_entries(self, numbers):
-        name_num = numbers[0]
-        inputs_num = numbers[1:-1]
-        if name_num == 0:
+    def point_entries(self, reports):
+        name_report = reports[0]
+        inputs_reports = reports[1:-1]
+        if name_report == 0:
             self.name_entry.configure(background="white")
         else:
             self.name_entry.configure(background="red")
-        self.inputs_table.point_entries(inputs_num)
+        self.inputs_table.point_entries(inputs_reports)
+        for report in reports:
+            if report:
+                self.show_message(report)
+                return
 
     def clear_entries(self):
         self.name_entry.delete('0', 'end')

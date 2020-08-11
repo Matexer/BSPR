@@ -41,6 +41,8 @@ class AddFuelAct:
                     report[0] = 0
             else:
                 report[0] = "Niedozwolone znaki %s w nazwie paliwa." % FORBIDDEN_NAME_SIGNS
+        else:
+            report[0] = "Wymagana jest nazwa paliwa."
 
         for i, val in enumerate(values[1:7]):
             try:
@@ -62,8 +64,8 @@ class AddFuelAct:
                 report[2] = 0
 
         if isinstance(outer_d, (float, int)) and isinstance(inner_d, (int, float)):
-            if inner_d > outer_d:
-                report[2] = "Średnica wewnętrzna nie może być większa od zewnętrznej."
+            if inner_d >= outer_d:
+                report[2] = "Średnica wewnętrzna musi być mniejsza od zewnętrznej."
 
         sum_up = set(report)
         if sum_up == {0}:
