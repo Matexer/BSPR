@@ -89,4 +89,6 @@ class AddFuelAct:
         finally:
             list_frame = self.top.frames[0]
             list_frame.reload_list()
+            f_id = list_frame.get_id_by_name(new_fuel.name)
+            list_frame.tree_list.tree.selection_set(f_id)
             self.frame.show_message("Zapisano pomyślnie.", "green")

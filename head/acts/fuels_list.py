@@ -8,19 +8,21 @@ class FuelsListAct:
 
         self.tree_list = self.frame.tree_list
         self.comment_elements = self.frame.comment_elements
-        print(self.comment_elements)
 
-        self.tree_list.tree.bind("<<TreeviewSelect>>", lambda event: self.load_comment(event))
+        self.tree_list.tree.bind("<<TreeviewSelect>>", self.load_comment)
         self.set_buttons(self.frame)
         self.top = top
 
     def load_comment(self, event):
-        fuel = event.widget.selection()[0]
-        fuel_id = self.tree_list.tree.index(fuel)
-        f_data = self.frame.data[fuel_id]
-        add_datetime = f_data.save_date + " " + f_data.save_time
-        edit_datetime = f_data.edit_date + " " + f_data.edit_time
-        self.fill_comment_section(add_datetime, edit_datetime, f_data.comment)
+        if event.widget.selection():
+            fuel = event.widget.selection()[0]
+            fuel_id = self.tree_list.tree.index(fuel)
+            f_data = self.frame.data[fuel_id]
+            add_datetime = f_data.save_date + " " + f_data.save_time
+            edit_datetime = f_data.edit_date + " " + f_data.edit_time
+            self.fill_comment_section(add_datetime, edit_datetime, f_data.comment)
+        else:
+            self.fill_comment_section('', '', '')
 
     def fill_comment_section(self, add_date, edit_date, comment):
         adding_fuel_date, modify_fuel_date, comment_label =\
@@ -62,6 +64,7 @@ class FuelsListAct:
         reply = mb.askyesno(title, message)
         if reply:
             for name, f_id in zip(names, ids):
+                tree.selection_remove(f_id)
                 db.remove_fuel(name)
                 tree.delete(f_id)
                 self.frame.data = self.frame.load_data()
@@ -69,8 +72,5 @@ class FuelsListAct:
     def get_selected_fuels(self):
         tree = self.tree_list.tree
         fuels = tree.selection()
-        f_names = []
-        for fuel in fuels:
-            f_names.append(tree.item(fuel)['text'])
-
+        f_names = [tree.item(fuel)['text'] for fuel in fuels]
         return f_names, fuels
