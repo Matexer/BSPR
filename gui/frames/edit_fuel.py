@@ -10,6 +10,7 @@ class EditFuelFrame(AddFuelFrame):
         self.fuel_name = self.create_head_section()
         self.name_entry = tk.Entry(self)
         self.create_body_section()
+        self.buttons[2].configure(text="POWRÓT")
         self.top = top
 
     def create_head_section(self):

@@ -2,6 +2,7 @@ import tkinter as tk
 import os
 import platform
 import subprocess
+import time
 from gui.configure import *
 from gui.elements import TopMenuButton
 from globals import FUELS_FOLDER
@@ -10,6 +11,8 @@ from globals import FUELS_FOLDER
 class TopMenuFrame(tk.Frame):
     def __init__(self, top):
         tk.Frame.__init__(self, top)
+        self.folder_img = tk.PhotoImage(file=FOLDER_IMG).subsample(3, 3)
+        self.wrench_img = tk.PhotoImage(file=WRENCH_IMG).subsample(1, 1)
         self.configure(background=TMF_BG)
 
         self.fuel_list_btn = TopMenuButton(self)
@@ -23,13 +26,17 @@ class TopMenuFrame(tk.Frame):
                                        command=lambda: top.change_frame(2))
 
         self.configure_btn = TopMenuButton(self)
-        self.configure_btn.pack(side="right")
+        self.configure_btn.pack(side="right", ipadx=50)
         self.configure_btn.configure(text='Konfiguracja',
+                                     image=self.wrench_img,
+                                     compound="left",
                                      command=lambda: top.change_frame(4))
 
         self.configure_btn = TopMenuButton(self)
-        self.configure_btn.pack(side="right")
+        self.configure_btn.pack(side="right", ipadx=45)
         self.configure_btn.configure(text='Baza danych',
+                                     image=self.folder_img,
+                                     compound="left",
                                      command=lambda: self.open_database_folder())
 
     @staticmethod
@@ -41,3 +48,4 @@ class TopMenuFrame(tk.Frame):
             subprocess.Popen(["open", path])
         else:
             subprocess.Popen(["xdg-open", path])
+        time.sleep(1)
