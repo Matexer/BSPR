@@ -14,8 +14,9 @@ class FuelsListAct:
         self.top = top
 
     def load_comment(self, event):
-        if event.widget.selection():
-            fuel = event.widget.selection()[0]
+        selected = event.widget.selection()
+        if selected:
+            fuel = selected[0]
             fuel_id = self.tree_list.tree.index(fuel)
             f_data = self.frame.data[fuel_id]
             add_datetime = f_data.save_date + " " + f_data.save_time
@@ -40,34 +41,36 @@ class FuelsListAct:
 
     def edit_fuel(self):
         names, ids = self.get_selected_fuels()
-        edit_frame = self.top.frames[4]
-        fuel = db.load_fuel(names[0])
-        values = list(fuel.export().values())[:8]
-        edit_frame.set_values(values)
-        self.top.change_frame(4)
+        if names:
+            edit_frame = self.top.frames[4]
+            fuel = db.load_fuel(names[0])
+            values = list(fuel.export().values())[:8]
+            edit_frame.set_values(values)
+            self.top.change_frame(4)
 
     def delete_fuels(self):
         tree = self.frame.tree_list.tree
         names, ids = self.get_selected_fuels()
-        chosen_f_number = len(names)
-        title = "Usunięcie paliw"
-        message = "Czy chcesz usunąć %i " % chosen_f_number
-        if chosen_f_number > 1:
-            if chosen_f_number < 5:
-                message += "wybrane paliwa z bazy danych?"
+        if names:
+            chosen_f_number = len(names)
+            title = "Usunięcie paliw"
+            message = "Czy chcesz usunąć %i " % chosen_f_number
+            if chosen_f_number > 1:
+                if chosen_f_number < 5:
+                    message += "wybrane paliwa z bazy danych?"
+                else:
+                    message += "wybranych paliw z bazy danych?"
             else:
-                message += "wybranych paliw z bazy danych?"
-        else:
-            title = "Usunięcie paliwa"
-            message = "Czy chcesz usunąć paliwo %s z bazy danych?" % names[0]
+                title = "Usunięcie paliwa"
+                message = "Czy chcesz usunąć paliwo %s z bazy danych?" % names[0]
 
-        reply = mb.askyesno(title, message)
-        if reply:
-            for name, f_id in zip(names, ids):
-                tree.selection_remove(f_id)
-                db.remove_fuel(name)
-                tree.delete(f_id)
-                self.frame.data = self.frame.load_data()
+            reply = mb.askyesno(title, message)
+            if reply:
+                for name, f_id in zip(names, ids):
+                    tree.selection_remove(f_id)
+                    db.remove_fuel(name)
+                    tree.delete(f_id)
+                    self.frame.data = self.frame.load_data()
 
     def get_selected_fuels(self):
         tree = self.tree_list.tree

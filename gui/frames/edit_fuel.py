@@ -33,7 +33,7 @@ class EditFuelFrame(AddFuelFrame):
 
     def set_values(self, values):
         f_name = values[0]
-        comment = values[7]
+        comment = values[7].rstrip()
         values = values[1:7]
         self.fuel_name.configure(text=f_name)
         self.clear_entries()

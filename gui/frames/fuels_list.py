@@ -61,9 +61,9 @@ class FuelsListFrame(TemplateFrame):
         right_cont = tk.Frame(top)
         tk.Label(right_cont,
                  text="Komentarz:",
-                 font="bold").pack()
-        comment = tk.Label(right_cont)
-        comment.pack()
+                 font="bold").pack(anchor="w")
+        comment = tk.Label(right_cont, anchor='w', justify="left")
+        comment.pack(anchor="w")
 
         left_cont.pack(side="left", anchor="n")
         right_cont.pack(side="left", anchor="n", padx=15)

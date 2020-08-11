@@ -1,6 +1,10 @@
 import tkinter as tk
+import os
+import platform
+import subprocess
 from gui.configure import *
 from gui.elements import TopMenuButton
+from globals import FUELS_FOLDER
 
 
 class TopMenuFrame(tk.Frame):
@@ -22,3 +26,18 @@ class TopMenuFrame(tk.Frame):
         self.configure_btn.pack(side="right")
         self.configure_btn.configure(text='Konfiguracja',
                                      command=lambda: top.change_frame(4))
+
+        self.configure_btn = TopMenuButton(self)
+        self.configure_btn.pack(side="right")
+        self.configure_btn.configure(text='Baza danych',
+                                     command=lambda: self.open_database_folder())
+
+    @staticmethod
+    def open_database_folder():
+        path = os.getcwd() + "/" + FUELS_FOLDER
+        if platform.system() == "Windows":
+            os.startfile(path)
+        elif platform.system() == "Darwin":
+            subprocess.Popen(["open", path])
+        else:
+            subprocess.Popen(["xdg-open", path])
