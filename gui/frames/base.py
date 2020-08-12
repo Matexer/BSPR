@@ -58,4 +58,8 @@ class BaseFrame(tk.Frame):
             self.messages[num].pack(side="right", expand=1)
 
     def hide_message(self, num=0):
-        self.messages[num].pack_forget()
+        if num >= 0:
+            self.messages[num].pack_forget()
+        else:
+            for message in self.messages:
+                message.pack_forget()

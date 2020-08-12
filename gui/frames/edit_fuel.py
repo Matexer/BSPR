@@ -6,17 +6,15 @@ from gui.configure import TL_FG2, TL_BG
 
 class EditFuelFrame(AddFuelFrame):
     def __init__(self, top):
-        tk.Frame.__init__(self, top)
-        self.fuel_name = self.create_head_section()
-        self.name_entry = tk.Entry(self)
-        self.create_body_section()
-        self.buttons[2].configure(text="POWRÓT")
-        self.top = top
+        super().__init__(top)
+        cancel_btn = self.buttons[2]
+        cancel_btn.configure(text="POWRÓT")
 
     def create_head_section(self):
         title_cont, name_part = self.create_title(f_name='')
         title_cont.pack(side="top", fill="x")
-        return name_part
+        self.name_entry = tk.Entry(self)
+        self.fuel_name = name_part
 
     def create_title(self, f_name):
         container = tk.Frame(self)
