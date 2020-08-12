@@ -8,21 +8,27 @@ from gui.configure import STL_BG
 class AddSurveyFrame(AddFuelFrame):
     def __init__(self, top):
         tk.Frame.__init__(self, top)
+        self.create_head_section()
+        self.create_body_section()
 
+    def create_head_section(self):
         title = self.create_title("DODAWANIE NOWEGO POMIARU")
         name_container, self.name_cbox = self.create_name_container()
         init_container, self.init_widgets = self.create_init_survey_container()
+
+        title.pack(side="top", fill="x")
+        name_container.pack(side="top", anchor="w", padx=5, pady=10)
+        init_container.pack(side="top", anchor="w", fill="x", padx=5)
+
+    def create_body_section(self):
         survey_subtitle = self.create_subtitle("DANE POMIARU")
         survey_container, survey_table = self.create_survey_container()
         fuel_subtitle, fill_btn = self.create_fuel_subtitle("DANE PALIWA")
         fuel_container, fuel_table = self.create_fuel_container()
         comment_subtitle = self.create_subtitle("KOMENTARZ")
         comment_container, comment = self.create_comment_container(100, 6)
-        btns_container, self.buttons, self.message = self.create_buttons_container()
+        btns_container, self.buttons, self.message = self.create_down_nav_container()
 
-        title.pack(side="top", fill="x")
-        name_container.pack(side="top", anchor="w", padx=5, pady=10)
-        init_container.pack(side="top", anchor="w", fill="x", padx=5)
         survey_subtitle.pack(side="top", fill="x")
         survey_container.pack(side="top", anchor="w", padx=5)
         fuel_subtitle.pack(side="top", fill="x")
@@ -104,3 +110,6 @@ class AddSurveyFrame(AddFuelFrame):
         return fuel_container, table
 
 
+class AddSurveyValuesFrame(tk.Frame):
+    def __init__(self, top):
+        super().__init__(top)

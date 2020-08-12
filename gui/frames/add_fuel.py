@@ -22,7 +22,7 @@ class AddFuelFrame(tk.Frame):
         inputs_container, self.inputs_table = self.create_inputs_container()
         comment_subtitle = self.create_subtitle("KOMENTARZ")
         comment_container, self.comment = self.create_comment_container()
-        btns_container, self.buttons, self.message = self.create_buttons_container()
+        btns_container, self.buttons, self.message = self.create_down_nav_container()
 
         inputs_subtitle.pack(side="top", fill="x")
         inputs_container.pack(side="top", anchor="w", padx=5)
@@ -73,7 +73,7 @@ class AddFuelFrame(tk.Frame):
         comment.pack(pady=5)
         return comment_container, comment
 
-    def create_buttons_container(self):
+    def create_down_nav_container(self):
         btns_container = tk.Frame(self)
         btns_container.configure(bg=TL_BG)
 
