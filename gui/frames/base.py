@@ -51,6 +51,9 @@ class BaseFrame(tk.Frame):
         clear_btn.pack(side="left", **config)
         return btns_container, (save_btn, clear_btn, cancel_btn)
 
+    def create_scrolled_frame(self):
+
+
     def show_message(self, text, color="red", num=0):
         if self.messages:
             self.messages[num].set_text(text)
