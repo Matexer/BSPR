@@ -10,6 +10,7 @@ class AddSurveyValuesBaseFrame(BaseFrame):
     def __init__(self, top):
         super().__init__(top)
         self.raw_values = None
+        self.survey_plots = []
         self.create_head_section()
         self.create_body_section()
         self.adjust_plot()
@@ -19,36 +20,21 @@ class AddSurveyValuesBaseFrame(BaseFrame):
         self.title.pack(side="top", fill="x")
 
     def create_body_section(self):
-        canvas_container, canvas, scroll = self.create_scrolled_section(self)
-        self.create_plot_section(canvas, scroll)
+        scrolled_container, interior = self.create_scrolled_container(self)
         btns_container, self.down_nav_widgets = self.create_down_nav_container()
+        self.create_plot_section(interior)
 
-        canvas_container.pack(side="top", fill="both", expand=1)
-        btns_container.pack(side="top", fill="x")
+        scrolled_container.pack(side="top", fill="both", expand=1)
+        btns_container.pack(side="bottom", fill="x")
+        self.top.update_idletasks()
+
+    def create_plot_section(self, top):
+        plot_container, survey_plot = self.create_plot(top)
+        self.survey_plots.append(survey_plot)
+        plot_container.pack()
 
     @staticmethod
-    def create_scrolled_section(top):
-        canvas_container = tk.Frame(top, background="yellow")
-        scroll = tk.Scrollbar(canvas_container, orient=tk.VERTICAL)
-        scroll.pack(side='right', fill='y')
-        canvas = tk.Canvas(canvas_container)
-        # canvas['yscrollcommand'] = scroll.set
-        scroll['command'] = canvas.yview
-        canvas_container.bind(
-            "<Configure>",
-            lambda e: canvas.configure(
-                scrollregion=canvas.bbox("all")
-            )
-        )
-        canvas.pack(side="left", fill="both", expand=1)
-        return canvas_container, canvas, scroll
-
-    def create_plot_section(self, top, scroll):
-        plot_container, self.survey_plot = self.create_plot_container(top)
-        top.create_window((0, 0), window=plot_container, anchor="nw")
-        top.configure(yscrollcommand=scroll.set)
-
-    def create_plot_container(self, top, size=(10, 4)):
+    def create_plot(top, size=(10, 4)):
         plot_container = tk.Frame(top)
         fig = Figure(figsize=size, dpi=100)
 
@@ -71,7 +57,8 @@ class AddSurveyValuesBaseFrame(BaseFrame):
         self.raw_values = values
 
     def adjust_plot(self):
-        pass
+        for plot in self.survey_plots:
+            plot.set_xlabel("Czas [ms]")
 
 
 class AddSurveyPressureValuesFrame(AddSurveyValuesBaseFrame):
@@ -81,8 +68,7 @@ class AddSurveyPressureValuesFrame(AddSurveyValuesBaseFrame):
 
     def adjust_plot(self):
         super().adjust_plot()
-        self.survey_plot.set_xlabel("Czas [ms]")
-        self.survey_plot.set_ylabel("Ciśnienie [MPa]")
+        self.survey_plots[0].set_ylabel("Ciśnienie [MPa]")
 
 
 class AddSurveyThrustValuesFrame(AddSurveyValuesBaseFrame):
@@ -92,8 +78,7 @@ class AddSurveyThrustValuesFrame(AddSurveyValuesBaseFrame):
 
     def adjust_plot(self):
         super().adjust_plot()
-        self.survey_plot.set_xlabel("Czas [ms]")
-        self.survey_plot.set_ylabel("Siła ciągu [kN]")
+        self.survey_plots[0].set_ylabel("Siła ciągu [kN]")
 
 
 class AddSurveyDoubleValuesFrame(AddSurveyValuesBaseFrame):
@@ -103,8 +88,8 @@ class AddSurveyDoubleValuesFrame(AddSurveyValuesBaseFrame):
         self.title.set_text("IMPORTOWANIE WARTOŚCI UZYSKANYCH Z POMIARU CiśNIENIA I CIĄGU")
 
     def create_plot_section(self, top):
-        plot_container1, survey_plot1 = self.create_plot_container(top)
-        plot_container2, survey_plot2 = self.create_plot_container(top)
+        plot_container1, survey_plot1 = self.create_plot(top)
+        plot_container2, survey_plot2 = self.create_plot(top)
 
         self.survey_plots.append(survey_plot1)
         self.survey_plots.append(survey_plot2)
@@ -113,8 +98,6 @@ class AddSurveyDoubleValuesFrame(AddSurveyValuesBaseFrame):
         plot_container2.pack(side="top", anchor="n")
 
     def adjust_plot(self):
-        self.survey_plots[0].set_xlabel("Czas [ms]")
+        super().adjust_plot()
         self.survey_plots[0].set_ylabel("Ciśnienie [MPa]")
-
-        self.survey_plots[1].set_xlabel("Czas [ms]")
         self.survey_plots[1].set_ylabel("Siła ciągu [kN]")

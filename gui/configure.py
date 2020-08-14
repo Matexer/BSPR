@@ -1,9 +1,11 @@
+import os
 DARK_GREY = "#424242"
 GREY = "#808080"
 BRIGHT_GREY = "#cccccc"
 
-FOLDER_IMG = "graphic/folder.gif"
-WRENCH_IMG = "graphic/wrench.gif"
+
+FOLDER_IMG = __file__ + "/graphic/folder.gif"
+WRENCH_IMG = __file__ + "/graphic/wrench.gif"
 
 #TopWindow
 TW_BG = "black"

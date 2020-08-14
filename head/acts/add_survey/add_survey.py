@@ -18,12 +18,14 @@ class AddSurveyAct:
         self.set_comboboxes()
         self.set_buttons()
 
-        val = [1, 2, 3, 4, 3, 1, 0]
-        self.import_frame = self.top.frames[5]
+
+        FRAME = 7
+        val = [[1, 2, 3, 4, 3, 1, 0], [1, 2, 3, 4, 3, 1, 0]]
+        self.import_frame = self.top.frames[FRAME]
         self.import_frame.set_raw_values(val)
         add_val_act = AddSurveyValuesAct(self.top, self.import_frame,
                                          val, 0.5)
-        self.top.change_frame(5)
+        self.top.change_frame(FRAME)
 
     def set_comboboxes(self):
         f_name = self.frame.name_cbox
