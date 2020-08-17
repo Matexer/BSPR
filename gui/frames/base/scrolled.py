@@ -1,6 +1,7 @@
 """This code comes from: https://gist.github.com/bakineugene/76c8f9bcec5b390e45df
 and https://gist.github.com/novel-yet-trivial/3eddfce704db3082e38c84664fc1fdf8"""
 import tkinter as tk
+from gui.configure import EXTRA_SPACE_AFTER_SCROLL
 
 # http://tkinter.unpythonic.net/wiki/VerticalScrolledFrame
 
@@ -43,7 +44,8 @@ class VerticalScrolledFrame(tk.Frame):
         # also updating the scrollbar
         def _configure_interior(event):
             # update the scrollbars to match the size of the inner frame
-            size = (interior.winfo_reqwidth(), interior.winfo_reqheight())
+            size = (interior.winfo_reqwidth(), interior.winfo_reqheight() +\
+                    EXTRA_SPACE_AFTER_SCROLL)
             canvas.config(scrollregion="0 0 %s %s" % size)
             if interior.winfo_reqwidth() != canvas.winfo_width():
                 # update the canvas's width to fit the inner frame

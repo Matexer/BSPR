@@ -20,11 +20,11 @@ class AddFuelFrame(BaseFrame):
 
         variables = (("Średnica zewnętrzna\nładunku paliwa [mm]",
                       "Średnica wewnętrzna\nładunku paliwa [mm]"),
-
+                      
                       ("Długość ładunku\npaliwa [mm]",
                       "Masa paliwa [g]"),
-
-                     ("Siła paliwa [MJ/kg]",
+                      
+                      ("Siła paliwa [MJ/kg]",
                       "Wykładnik adiabaty gazowych\nproduktów spalania"))
 
         inputs_container, self.inputs_table = self.create_inputs_container(variables)

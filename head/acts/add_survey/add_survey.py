@@ -22,7 +22,6 @@ class AddSurveyAct:
         FRAME = 7
         val = [[1, 2, 3, 4, 3, 1, 0], [1, 2, 3, 4, 3, 1, 0]]
         self.import_frame = self.top.frames[FRAME]
-        self.import_frame.set_raw_values(val)
         add_val_act = AddSurveyValuesAct(self.top, self.import_frame,
                                          val, 0.5)
         self.top.change_frame(FRAME)
@@ -83,7 +82,7 @@ class AddSurveyAct:
             lines = file.readlines()
             file.close()
             if s_type == "pressthru":
-                data = [[], []]
+                data = []
                 for line in lines:
                     line = (line.strip())
                     line = line.split(SURVEY_VALUES_SEPARATOR)
@@ -98,7 +97,7 @@ class AddSurveyAct:
                 data = []
                 for line in lines:
                     line = (line.strip())
-                    data.append(line)
+                    data[0].append(line)
             data = self.validate_data(data)
             return data
 
