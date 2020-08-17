@@ -1,7 +1,4 @@
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
-from matplotlib.backend_bases import key_press_handler
-from matplotlib.figure import Figure
-import tkinter as tk
+from gui.elements import AddSurveyValuesPlotFrame
 from gui.frames.base import BaseFrame
 
 
@@ -28,46 +25,9 @@ class AddSurveyValuesBaseFrame(BaseFrame):
         self.top.update_idletasks()
 
     def create_plot_section(self, top):
-        plot_container, survey_plot = self.create_plot(top)
-        self.survey_plots.append(survey_plot)
-        plot_container.pack()
-
-    def create_plot(self, top, size=(10, 4)):
-        def create_correction_section():
-            container = tk.Frame(plot_container)
-            set_tk_btn = tk.Button(container, text="Ustaw tk")
-            fix_plot_btn = tk.Button(container, text="Napraw pomiar")
-            multiplier_label = tk.Label(container, text="Mnożnik wartości")
-            multiplier = tk.Entry(container, width=2)
-            message = tk.Label(container)
-
-            set_tk_btn.pack(side="left")
-            fix_plot_btn.pack(side="left", padx=5)
-            multiplier_label.pack(side="left", padx=5)
-            multiplier.pack(side="left")
-            return container, (set_tk_btn, fix_plot_btn, multiplier, message)
-
-        plot_container = tk.Frame(top)
-        fig = Figure(figsize=size, dpi=100)
-
-        canvas = FigureCanvasTkAgg(fig, master=plot_container)
-        canvas.draw()
-        canvas.get_tk_widget().pack(side="top", fill="both", expand=1, padx=10)
-
-        toolbar = NavigationToolbar2Tk(canvas, plot_container)
-        toolbar.update()
-        toolbar.pack(side="top", fill="both", expand=1, padx=10)
-
-        survey_plot = fig.add_subplot(111)
-        fig.subplots_adjust(left=0.08,
-                            bottom=0.12,
-                            right=0.99,
-                            top=0.99)
-
-        correction_container, widgets = create_correction_section()
-        correction_container.pack(side="bottom", fill="x", padx=10)
-        self.plots_widgets.append(widgets)
-        return plot_container, survey_plot
+        plot_frame = AddSurveyValuesPlotFrame(top)
+        self.survey_plots.append(plot_frame.plot)
+        plot_frame.pack()
 
     def adjust_plot(self):
         for plot in self.survey_plots:
@@ -101,14 +61,10 @@ class AddSurveyDoubleValuesFrame(AddSurveyValuesBaseFrame):
         self.title.set_text("IMPORTOWANIE WARTOŚCI UZYSKANYCH Z POMIARU CiśNIENIA I CIĄGU")
 
     def create_plot_section(self, top):
-        plot_container1, survey_plot1 = self.create_plot(top)
-        plot_container2, survey_plot2 = self.create_plot(top)
-
-        self.survey_plots.append(survey_plot1)
-        self.survey_plots.append(survey_plot2)
-
-        plot_container1.pack(side="top", anchor="n")
-        plot_container2.pack(side="top", anchor="n", pady=20)
+        for i in range(2):
+            plot_frame = AddSurveyValuesPlotFrame(top)
+            self.survey_plots.append(plot_frame.plot)
+            plot_frame.pack(side="top", anchor="n", pady=20)
 
     def adjust_plot(self):
         super().adjust_plot()

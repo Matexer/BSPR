@@ -1,19 +1,15 @@
 class AddSurveyValuesAct:
     def __init__(self, top, import_frame, raw_survey_values, sampling_time):
         self.top = top
-        self.frame = import_frame
+        plots = import_frame.survey_plots
+        plots_widgets = import_frame.plots_widgets
 
-        if isinstance(raw_survey_values[0], (tuple, list)):
-            for data, plot in zip(raw_survey_values, import_frame.survey_plots):
-                self.set_plot_data(plot, data, sampling_time)
-                tk = self.get_tk(data, sampling_time)
-                self.set_tk(plot, tk)
-                self.set_legend(plot, tk)
-        else:
-            self.set_plot_data(import_frame.survey_plot, raw_survey_values, sampling_time)
-            tk = self.get_tk(raw_survey_values, sampling_time)
-            self.set_tk(import_frame.survey_plot, tk)
-            self.set_legend(import_frame.survey_plot, tk)
+        for plot, data in zip(plots, raw_survey_values):
+            self.set_plot_data(plot, data, sampling_time)
+            tk = self.get_tk(data, sampling_time)
+            self.set_tk(plot, tk)
+            self.set_legend(plot, tk)
+
 
     @staticmethod
     def set_plot_data(plot, data, smp_time):

@@ -1,6 +1,5 @@
-from head.objects import Survey
-from .add_values import AddSurveyValuesAct
 from tkinter.filedialog import askopenfilename
+from .add_values import AddSurveyValuesAct
 from globals import SURVEY_TYPES, SURVEY_VALUES_SEPARATOR
 
 
