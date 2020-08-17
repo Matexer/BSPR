@@ -81,44 +81,28 @@ class AddSurveyAct:
         finally:
             lines = file.readlines()
             file.close()
-            if s_type == "pressthru":
-                data = []
-                for line in lines:
-                    line = (line.strip())
-                    line = line.split(SURVEY_VALUES_SEPARATOR)
-                    if len(line) == 2:
-                        data[0].append(line[0])
-                        data[1].append(line[1])
-                    else:
-                        self.frame.show_message("Nie można odczytać pomiaru ciśnienia"
-                                                " i ciągu. Sprawdź plik.")
-                        return False
-            else:
-                data = []
-                for line in lines:
-                    line = (line.strip())
-                    data[0].append(line)
+            line = lines[0].strip().split(SURVEY_VALUES_SEPARATOR)
+            data = []
+            for _ in range(len(line)):
+                data.append([])
+            for line in lines:
+                line = line.strip().split(SURVEY_VALUES_SEPARATOR)
+                for num, column in enumerate(line):
+                    data[num].append(column)
             data = self.validate_data(data)
             return data
 
     def validate_data(self, data):
         error_message = "Nie można importować danych ponieważ nie wszystkie\n" \
                         "wartości to liczby. Sprawdź plik pomiaru."
-        if isinstance(data[0], (tuple, list)):
-            valid_data = []
-            for container in data:
-                try:
-                    container = [float(value) for value in container]
-                except ValueError:
-                    self.frame.show_message(error_message)
-                    return False
-                valid_data.append(container)
-        else:
+        valid_data = []
+        for column in data:
             try:
-                valid_data = [float(value) for value in data]
+                valid_column = [float(value) for value in column]
             except ValueError:
                 self.frame.show_message(error_message)
                 return False
+            valid_data.append(valid_column)
 
         return valid_data
 
@@ -132,4 +116,4 @@ class AddSurveyAct:
         elif survey_type == "pressthru":
             self.top.change_frame(7)
             self.import_frame = self.top.frames[7]
-        self.import_frame.set_raw_values(raw_values)
+        # self.import_frame.set_raw_values(raw_values)
