@@ -37,3 +37,8 @@ TL_FG2 = "yellow"
 #SubtitleLabel
 STL_BG = "#2B2828"
 STL_FG = "white"
+
+#AddValPlot
+TK_COLOR = "violet"
+T0_COLOR = "green"
+TC_COLOR = "silver"

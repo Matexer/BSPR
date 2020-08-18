@@ -2,6 +2,7 @@ import tkinter as tk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.backend_bases import key_press_handler
 from matplotlib.figure import Figure
+from gui.configure import TK_COLOR, T0_COLOR, TC_COLOR
 
 
 class PlotFrame(tk.Frame):
@@ -50,14 +51,18 @@ class AddSurveyValuesPlotFrame(PlotFrame):
     @staticmethod
     def create_correction_section(top):
         container = tk.Frame(top)
-        set_tk_btn = tk.Button(container, text="Ustaw tk")
+        set_t0_btn = tk.Button(container, text="Ustaw t0", background=T0_COLOR)
+        set_tk_btn = tk.Button(container, text="Ustaw tk", background=TK_COLOR)
+        set_tc_btn = tk.Button(container, text="Ustaw tc", background=TC_COLOR)
         fix_plot_btn = tk.Button(container, text="Napraw pomiar")
         multiplier_label = tk.Label(container, text="Mnożnik wartości")
         multiplier = tk.Entry(container, width=2)
-        message = tk.Label(container)
 
+        set_t0_btn.pack(side="left")
         set_tk_btn.pack(side="left")
+        set_tc_btn.pack(side="left")
         fix_plot_btn.pack(side="left", padx=5)
         multiplier_label.pack(side="left", padx=5)
         multiplier.pack(side="left")
-        return container, (set_tk_btn, fix_plot_btn, multiplier, message)
+        return container, (set_t0_btn, set_tk_btn, set_tc_btn,
+                           fix_plot_btn, multiplier)

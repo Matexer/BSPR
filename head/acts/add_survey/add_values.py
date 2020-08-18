@@ -1,3 +1,6 @@
+from gui.configure import T0_COLOR, TK_COLOR, TC_COLOR
+
+
 class AddSurveyValuesAct:
     def __init__(self, top, import_frame, raw_survey_values, sampling_time):
         self.top = top
@@ -12,11 +15,11 @@ class AddSurveyValuesAct:
         plot = plot_frame.plot
         plot_frame.draw_plot(sampling_time, data)
         tk, t0, tc = self.get_times(data, sampling_time)
-        t0_line = self.draw_line(plot, t0, color="green")
-        tk_line = self.draw_line(plot, tk)
-        tc_line = self.draw_line(plot, tc, color="black")
-        plot.legend(["Wykes pomiaru", "t0 = %s ms" % t0, "tk = %s ms" % tk,
-                     "tc = %s ms" % tc])
+        t0_line = self.draw_line(plot, t0, color=T0_COLOR)
+        tk_line = self.draw_line(plot, tk, color=TK_COLOR)
+        tc_line = self.draw_line(plot, tc, color=TC_COLOR)
+        plot.legend(["Wykes pomiaru", "t0 = %s ms" % t0,
+                     "tk = %s ms" % tk, "tc = %s ms" % tc])
         _, xmax, _, ymax = plot.axis()
         plot.axis([0, xmax, 0, ymax])
         self.set_tk(plot_frame, tk_line)
@@ -47,12 +50,12 @@ class AddSurveyValuesAct:
             return length - 1
 
         tk = data.index(max(data)) * smp_time       #highest value
-        t0 = get_first_no_zero() * smp_time         #first  0 value from left
+        t0 = get_first_no_zero() * smp_time         #first 0 value from left
         tc = get_last_zero() * smp_time             #last 0 value form right
-
         return tk, t0, tc
 
-    def draw_line(self, plot, tk, color="red"):
+    @staticmethod
+    def draw_line(plot, tk, color="red"):
         return plot.axvline(x=tk, color=color, linestyle="--")
 
     def set_tk(self, plot_frame, tk_line):

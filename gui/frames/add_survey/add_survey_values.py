@@ -16,11 +16,11 @@ class AddSurveyValuesBaseFrame(BaseFrame):
 
     def create_body_section(self):
         self.scrolled_container, interior = self.create_scrolled_container(self)
-        btns_container, self.down_nav_widgets = self.create_down_nav_container()
+        nav_container, self.down_nav_widgets = self.create_down_nav_container()
         self.create_plot_section(interior)
 
         self.scrolled_container.pack(side="top", fill="both", expand=1)
-        btns_container.pack(side="bottom", fill="x")
+        nav_container.pack(side="bottom", fill="x")
         self.top.update_idletasks()
         self.scrolled_container.update()
 
