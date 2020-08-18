@@ -1,36 +1,20 @@
-import datetime
+from .template import Template
 
 
-class Fuel:
+class Fuel(Template):
+    ARGS_NUM = 8
+
     def __init__(self):
-        self.name = ""
-        self.outer_diameter = ""
-        self.inner_diameter = ""
-        self.length = ""
-        self.mass = ""
-        self.strength = ""
+        self.name = None
+
+        self.outer_diameter = None
+        self.inner_diameter = None
+        self.length = None
+        self.mass = None
+
+        self.strength = None
         self.k = 1.25
-        self.comment = ""
 
-        time = datetime.datetime.today()
-        self.save_time = time.strftime('%H:%M:%S')
-        self.save_date = time.strftime('%d.%m.%Y')
+        self.comment = None
 
-        self.edit_time = self.save_time
-        self.edit_date = self.save_date
-
-    def export(self):
-        return self.__dict__
-
-    def update(self, data):
-        if isinstance(data, dict):
-            for feature, value in data.items():
-                self.__setattr__(feature, value)
-        elif isinstance(data, (list, tuple)):
-            for feature, value in zip(list(self.__dict__.keys())[:8], data):
-                self.__setattr__(feature, value)
-
-    def update_timedata(self):
-        time = datetime.datetime.today()
-        self.edit_time = time.strftime('%H:%M:%S')
-        self.edit_date = time.strftime('%d.%m.%Y')
+        super().__init__()

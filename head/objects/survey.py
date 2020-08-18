@@ -1,30 +1,30 @@
-class Survey:
+from .template import Template
+
+
+class Survey(Template):
+    ARGS_NUM = 12
+
     def __init__(self):
-        self.fuel_name = ""
-        self.survey_type = ""
-        self.survey_data_path = ""
-        self.sampling_time = ''
+        self.survey_type = None
+        self.sampling_time = None
 
-        self.jet_diameter = ''
-        self.chamber_length = ''
-        self.chamber_diameter = ''
-        self.expense_lose_factor = 0.95
-        self.heat_lose_factor = 1
+        self.jet_diameter = None
+        self.chamber_length = None
+        self.chamber_diameter = None
+        self.expense_lose_factor = None
+        self.heat_lose_factor = None
 
-        self.fuel_outer_diameter = ''
-        self.fuel_inner_diameter = ''
-        self.fuel_length = ''
-        self.fuel_mass = ''
+        self.fuel_outer_diameter = None
+        self.fuel_inner_diameter = None
+        self.fuel_length = None
+        self.fuel_mass = None
 
-        self.survey_comment = ""
-        self.save_time = ''
-        self.save_date = ''
+        self.survey_comment = None
 
-        self.raw_values = []
+        self.raw_values = None
+        self.multiplier = None
+        self.t0 = None
+        self.tk = None
+        self.tc = None
 
-    def export(self):
-        return self.__dict__
-
-    def update(self, data):
-        for feature, value in data.items():
-            self.__setattr__(feature, value)
+        super().__init__()

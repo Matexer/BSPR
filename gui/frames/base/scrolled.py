@@ -15,6 +15,7 @@ class VerticalScrolledFrame(tk.Frame):
 
     def __init__(self, parent, *args, **kw):
         tk.Frame.__init__(self, parent, *args, **kw)
+        self.status=0
 
         # create a canvas object and a vertical scrollbar for scrolling it
         vscrollbar = tk.Scrollbar(self, orient=tk.VERTICAL)
@@ -37,7 +38,7 @@ class VerticalScrolledFrame(tk.Frame):
 
         # create a frame inside the canvas which will be scrolled with it
         self.interior = interior = tk.Frame(canvas)
-        interior_id = canvas.create_window(0, 0, window=interior,
+        self.interior_id = interior_id = canvas.create_window(0, 0, window=interior,
                                            anchor=tk.NW)
 
         # track changes to the canvas and frame width and sync them,
@@ -57,6 +58,13 @@ class VerticalScrolledFrame(tk.Frame):
                 # update the inner frame's width to fill the canvas
                 canvas.itemconfigure(interior_id, width=canvas.winfo_width())
         canvas.bind('<Configure>', _configure_canvas)
+
+    def update(self):
+        if self.status:
+            self.status = 0
+        else:
+            self.status = 1
+        self.canvas.itemconfigure(self.interior_id, width=self.canvas.winfo_width()+self.status)
 
     def _bind_mouse(self, event=None):
         self.canvas.bind_all("<4>", self._on_mousewheel)

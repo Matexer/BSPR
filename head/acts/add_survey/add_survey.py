@@ -19,7 +19,7 @@ class AddSurveyAct:
 
 
         FRAME = 7
-        val = [[1, 2, 3, 4, 3, 1, 0], [1, 2, 3, 4, 3, 1, 0]]
+        val = [[0, 1, 0, 1, 2, 3, 4, 3, 1, 0, 1 ,2 ,1 , 0], [1, 2, 3, 4, 3, 1, 0]]
         self.import_frame = self.top.frames[FRAME]
         add_val_act = AddSurveyValuesAct(self.top, self.import_frame,
                                          val, 0.5)

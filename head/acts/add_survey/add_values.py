@@ -1,38 +1,69 @@
 class AddSurveyValuesAct:
     def __init__(self, top, import_frame, raw_survey_values, sampling_time):
         self.top = top
-        plots = import_frame.survey_plots
-        plots_widgets = import_frame.plots_widgets
+        plot_frames = import_frame.plot_frames
+        self.import_frame = import_frame
+        plots_widgets = [plot.widgets for plot in plot_frames]
 
-        for plot, data in zip(plots, raw_survey_values):
-            self.set_plot_data(plot, data, sampling_time)
-            tk = self.get_tk(data, sampling_time)
-            self.set_tk(plot, tk)
-            self.set_legend(plot, tk)
+        for plot_frame, data in zip(plot_frames, raw_survey_values):
+            self.prepare_plot(plot_frame, sampling_time, data)
 
-
-    @staticmethod
-    def set_plot_data(plot, data, smp_time):
-        t = [smp_time * i for i in range(len(data))]
-        plot.plot(t, data)
-
-    @staticmethod
-    def get_tk(data, smp_time):
-        i = data.index(max(data))
-        time = i * smp_time
-        return time
-
-    @staticmethod
-    def set_tk(plot, tk):
-        plot.axvline(x=tk, color="red")
+    def prepare_plot(self, plot_frame, sampling_time, data):
+        plot = plot_frame.plot
+        plot_frame.draw_plot(sampling_time, data)
+        tk, t0, tc = self.get_times(data, sampling_time)
+        t0_line = self.draw_line(plot, t0, color="green")
+        tk_line = self.draw_line(plot, tk)
+        tc_line = self.draw_line(plot, tc, color="black")
+        plot.legend(["Wykes pomiaru", "t0 = %s ms" % t0, "tk = %s ms" % tk,
+                     "tc = %s ms" % tc])
+        _, xmax, _, ymax = plot.axis()
+        plot.axis([0, xmax, 0, ymax])
+        self.set_tk(plot_frame, tk_line)
 
     @staticmethod
-    def set_legend(plot, tk):
-        plot.legend(["Wykes pomiaru", "tk = %s ms"%tk])
+    def get_times(data, smp_time):
+        def get_first_no_zero():
+            for i, value in enumerate(data):
+                if value:
+                    first_no_zero = i
+                    first_zero = first_no_zero - 1
+                    if first_zero > -1:
+                        return first_zero
+                    else:
+                        return first_no_zero
+            return 0
 
-    def set_buttons(self):
-        for plot, widgets in zip(self.frame.survey_plots, self.frame.plots_widgets):
-            set_tk_btn = widgets[0]
-            fix_plot_btn = widgets[1]
-            set_tk_btn.configure(command=lambda: 5)
-            fix_plot_btn.configure(command=lambda: 5)
+        def get_last_zero():
+            length = len(data)
+            for i in range(- 1, - length, -1):
+                if data[i]:
+                    first_no_zero = i + length
+                    last_zero = first_no_zero + 1
+                    if last_zero < length:
+                        return last_zero
+                    else:
+                        return first_no_zero
+            return length - 1
+
+        tk = data.index(max(data)) * smp_time       #highest value
+        t0 = get_first_no_zero() * smp_time         #first  0 value from left
+        tc = get_last_zero() * smp_time             #last 0 value form right
+
+        return tk, t0, tc
+
+    def draw_line(self, plot, tk, color="red"):
+        return plot.axvline(x=tk, color=color, linestyle="--")
+
+    def set_tk(self, plot_frame, tk_line):
+        pass
+        plot_frame.plot.figure.canvas.mpl_connect("button_press_event",
+                                                  lambda event: self.update_tk(event, plot_frame, tk_line))
+
+        # plot.figure.canvas.mpl_connect("motion_notify_event", None)
+
+    def update_tk(self, event, plot_frame, tk_line):
+        new_x = event.xdata
+        if new_x:
+            tk_line.set_xdata(new_x)
+            self.import_frame.scrolled_container.update()
