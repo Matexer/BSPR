@@ -5,16 +5,15 @@ class Fuel(Template):
     ARGS_NUM = 8
 
     def __init__(self):
-        self.name = None
+        self.name: str = ""
 
-        self.outer_diameter = None
-        self.inner_diameter = None
-        self.length = None
-        self.mass = None
+        self.outer_diameter: float = 0
+        self.inner_diameter: float = 0
+        self.length: float = 0
+        self.mass: float = 0
 
-        self.strength = None
+        self.strength: float = 0
         self.k = 1.25
 
-        self.comment = None
-
+        self.comment: str = ""
         super().__init__()

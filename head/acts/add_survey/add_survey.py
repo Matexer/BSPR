@@ -1,6 +1,8 @@
 from tkinter.filedialog import askopenfilename
 from .add_values import AddSurveyValuesAct
-from globals import SURVEY_TYPES, SURVEY_VALUES_SEPARATOR
+from head.objects import Survey
+from globals import SURVEY_TYPES, SURVEY_VALUES_SEPARATOR, PRESS,\
+                    THRUST, PRESSTHRU
 
 
 class AddSurveyAct:
@@ -8,6 +10,7 @@ class AddSurveyAct:
         self.top = top
         self.frame = top.frames[3]
         self.import_frame = None
+        self.survey = Survey()
 
         self.fuels_data = self.get_fuels_data()
         self.add_frame_btns = self.frame.get_buttons()
@@ -18,11 +21,15 @@ class AddSurveyAct:
         self.set_buttons()
 
 
+        val = [[0,0,0,0, 1, 0, 1, 2, 3, 4, 3, 1, 0, 1 ,2 ,1 , 0],
+               [1, 2, 3, 4, 3, 1, 0]]
+        self.survey.update({"type": PRESSTHRU,
+                            "sampling_time": 0.5,
+                            "values": val,
+                            "multipliers": [1 for _ in val]})
         FRAME = 7
-        val = [[0, 1, 0, 1, 2, 3, 4, 3, 1, 0, 1 ,2 ,1 , 0], [1, 2, 3, 4, 3, 1, 0]]
         self.import_frame = self.top.frames[FRAME]
-        add_val_act = AddSurveyValuesAct(self.top, self.import_frame,
-                                         val, 0.5)
+        add_val_act = AddSurveyValuesAct(self.top, self.import_frame, self.survey)
         self.top.change_frame(FRAME)
 
     def set_comboboxes(self):
@@ -56,9 +63,13 @@ class AddSurveyAct:
             if path_to_file:
                 raw_survey_values = self.get_data_from_file(path_to_file, survey_type)
                 if raw_survey_values:
-                    self.change_frame(survey_type, raw_survey_values)
-                    add_val_act = AddSurveyValuesAct(self.top, self.import_frame,
-                                                     raw_survey_values, sampling_time)
+                    self.survey.update({"type": survey_type,
+                                        "sampling_time": sampling_time,
+                                        "raw_values": raw_survey_values,
+                                        "values": raw_survey_values,
+                                        "multipliers": [1 for _ in raw_survey_values]})
+                    self.change_frame(survey_type)
+                    add_val_act = AddSurveyValuesAct(self.top, self.import_frame, self.survey)
             else:
                 self.frame.show_message("Należy wybrać plik z wynikami pomiaru.")
         else:
@@ -105,14 +116,12 @@ class AddSurveyAct:
 
         return valid_data
 
-    def change_frame(self, survey_type, raw_values):
-        if survey_type == "press":
-            self.top.change_frame(5)
-            self.import_frame = self.top.frames[5]
-        elif survey_type == "thrust":
-            self.top.change_frame(6)
-            self.import_frame = self.top.frames[6]
-        elif survey_type == "pressthru":
-            self.top.change_frame(7)
-            self.import_frame = self.top.frames[7]
-        # self.import_frame.set_raw_values(raw_values)
+    def change_frame(self, survey_type):
+        if survey_type == PRESS:
+            frame_num = 5
+        elif survey_type == THRUST:
+            frame_num = 6
+        else:
+            frame_num = 7
+        self.top.change_frame(frame_num)
+        self.import_frame = self.top.frames[frame_num]

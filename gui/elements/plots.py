@@ -12,7 +12,7 @@ class PlotFrame(tk.Frame):
 
     def create_plot(self, size=(10, 4)):
         fig = Figure(figsize=size, dpi=100)
-        canvas = FigureCanvasTkAgg(fig, master=self)
+        self.canvas = canvas = FigureCanvasTkAgg(fig, master=self)
         canvas.draw()
         canvas.get_tk_widget().pack(side="top", fill="both", expand=1, padx=10)
 
@@ -24,11 +24,6 @@ class PlotFrame(tk.Frame):
         fig.subplots_adjust(left=0.08, bottom=0.12,
                             right=0.99, top=0.99)
         return plot, toolbar
-
-    def draw_plot(self, x, y):
-        if not isinstance(x, (tuple, list)):
-            x = [x * i for i in range(len(y))]
-        self.plot.plot(x, y)
 
     def show_toolbar(self):
         self.toolbar.pack(side="top", fill="both", expand=1, padx=10)
@@ -45,7 +40,7 @@ class AddSurveyValuesPlotFrame(PlotFrame):
         plot, toolbar = super().create_plot()
         correction_container, widgets = self.create_correction_section(self)
         correction_container.pack(side="bottom", fill="x", padx=10)
-        self.__setattr__("widgets", widgets)
+        self.widgets = widgets
         return plot, toolbar
 
     @staticmethod
