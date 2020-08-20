@@ -7,11 +7,29 @@ class AddSurveyValuesAct:
         self.top = top
         self.import_frame = import_frame
         self.survey = survey
-        plot_frames = import_frame.plot_frames
-        plots_widgets = [plot.widgets for plot in plot_frames]
+        self.set_down_menu_btns(top, import_frame, survey)
+        self.load_plots(import_frame.plot_frames, survey)
 
+    def set_down_menu_btns(self, top, import_frame, survey):
+        save_btn, clear_btn, cancel_btn = import_frame.down_nav_widgets
+
+        save_btn.configure(command=lambda: self.back())
+        clear_btn.configure(command=lambda: 1)
+        cancel_btn.configure(command=lambda: 1)
+
+    def back(self):
+        self.top.change_frame(3)
+        imp_val_btn = self.top.frames[3].get_buttons()[0]
+        imp_val_btn.config(text="Importuj inny plik", background="violet")
+        self.top.frames[3].show_message("Zaimportowano plik pomyślnie.", "green")
+
+    def load_plots(self, plot_frames, survey, raw=False):
         index = 0
-        for plot_frame, data in zip(plot_frames, survey.values):
+        if raw:
+            values = survey.raw_values
+        else:
+            values = survey.values
+        for plot_frame, data in zip(plot_frames, values):
             plot_frame.plot.clear()
             self.prepare_plot(index, plot_frame, survey.sampling_time, data)
             plot_frame.canvas.draw()
@@ -21,20 +39,22 @@ class AddSurveyValuesAct:
         plot = plot_frame.plot
         plot_data = self.draw_plot(plot, sampling_time, data)[0]
 
-        tk, t0, tc = self.get_times(data, sampling_time)
-        self.survey.update({"t0": t0, "tk": tk, "tc": tc})
-        t0_line = self.draw_line(plot, t0, color=T0_COLOR)
-        tk_line = self.draw_line(plot, tk, color=TK_COLOR)
-        tc_line = self.draw_line(plot, tc, color=TC_COLOR)
+        if not (self.survey.tk or self.survey.t0 or self.survey.tc):
+            tk, t0, tc = self.get_times(data, sampling_time)
+            self.survey.update({"t0": t0, "tk": tk, "tc": tc})
 
-        plot.legend(["Wykes pomiaru", "t0 = %s ms" % t0,
-                     "tk = %s ms" % tk, "tc = %s ms" % tc])
+        plot_frame.lines = {"t0": self.draw_line(plot, self.survey.t0, color=T0_COLOR),
+                            "tk": self.draw_line(plot, self.survey.tk, color=TK_COLOR),
+                            "tc": self.draw_line(plot, self.survey.tc, color=TC_COLOR)}
+
+        plot.legend(["Wykes pomiaru", "t0 = %s ms" % self.survey.t0,
+                     "tk = %s ms" % self.survey.tk, "tc = %s ms" % self.survey.tc])
 
         _, xmax, _, ymax = plot.axis()
         plot.axis([0, xmax, 0, ymax])
 
         self.set_widgets(index, plot_frame, plot_data,
-                         (t0_line, tk_line, tc_line))
+                         plot_frame.lines)
 
     @staticmethod
     def draw_plot(plot, x, y):
@@ -47,11 +67,11 @@ class AddSurveyValuesAct:
             = plot_frame.widgets
 
         set_t0_btn.configure(
-            command=lambda: self.update_time(plot_frame, lines[0], "t0"))
+            command=lambda: self.update_time(plot_frame, "t0"))
         set_tk_btn.configure(
-            command=lambda: self.update_time(plot_frame, lines[1], "tk"))
+            command=lambda: self.update_time(plot_frame, "tk"))
         set_tc_btn.configure(
-            command=lambda: self.update_time(plot_frame, lines[2], "tc"))
+            command=lambda: self.update_time(plot_frame, "tc"))
         fix_plot_btn.configure(
             command=lambda: self.start_fix_survey(i, plot_frame, plot_data))
 
@@ -60,14 +80,13 @@ class AddSurveyValuesAct:
         value.trace(
             "w", lambda name, mode, index, value=value:
             self.change_multiplier_value(i, value, plot_frame, plot_data))
-
         multiplier.configure(textvariable=value)
 
     def change_multiplier_value(self, index, m_value, plot_frame, plot_data,):
         try:
             m_value = float(m_value.get())
         except ValueError:
-            pass
+            self.import_frame.show_message("Wartość mnożnika musi być liczbą.")
         else:
             if 0 < m_value < 101:
                 new_y = [val * m_value for val in self.survey.values[index]]
@@ -76,6 +95,8 @@ class AddSurveyValuesAct:
                 y_max = max(new_y) * 1.05
                 plot_frame.plot.axis([0, xmax, 0, y_max])
                 plot_frame.canvas.draw()
+                self.survey.multipliers[index] = m_value
+                self.import_frame.hide_message()
 
     @staticmethod
     def get_times(data, smp_time):
@@ -111,16 +132,17 @@ class AddSurveyValuesAct:
     def draw_line(plot, tk, color="red"):
         return plot.axvline(x=tk, color=color, linestyle="--")
 
-    def update_time(self, plot_frame, time_line, time_name):
+    def update_time(self, plot_frame, time_name):
         plot_canvas = plot_frame.plot.figure.canvas
 
         def update_line(event):
             new_x = event.xdata
             if new_x:
-                time_line.set_xdata(new_x)
-                plot_frame.canvas.draw()
+                for plot_frame in self.import_frame.plot_frames:
+                    plot_frame.lines[time_name].set_xdata(new_x)
+                    self.refresh_legend(plot_frame.plot)
+                    plot_frame.canvas.draw()
                 self.survey.update({time_name: round(new_x, 2)})
-                self.refresh_legend(plot_frame.plot)
 
         def start_updating():
             return plot_canvas.mpl_connect("motion_notify_event",
@@ -147,6 +169,7 @@ class AddSurveyValuesAct:
         def try_fix(event):
             nonlocal first_line
             if first_line == None:
+                self.import_frame.show_message("Zaznacz kliknięciem drugą granicę.", "yellow")
                 first_line = set_line(event)
                 plot_frame.canvas.draw()
             else:
@@ -156,9 +179,11 @@ class AddSurveyValuesAct:
                 plot_frame.canvas.draw()
                 plot_canvas.mpl_disconnect(connection_id)
                 first_line = None
+                self.import_frame.show_message("Poprawiono zaznaczony obszar.", "green")
 
         connection_id = plot_canvas.mpl_connect("button_press_event",
                                                 lambda event: try_fix(event))
+        self.import_frame.show_message("Zaznacz kliknięciem pierwszą granicę.", "yellow")
 
     def fix_survey(self, i, x1, x2, plot_frame, plot_data):
         y_data = plot_data.get_ydata()
@@ -185,3 +210,6 @@ class AddSurveyValuesAct:
         plot_data.set_ydata(y_data)
         plot_frame.canvas.draw()
         self.survey.values[i] = y_data
+
+    def reset(self):
+        pass

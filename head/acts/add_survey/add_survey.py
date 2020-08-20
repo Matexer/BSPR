@@ -10,7 +10,6 @@ class AddSurveyAct:
         self.top = top
         self.frame = top.frames[3]
         self.import_frame = None
-        self.survey = Survey()
 
         self.fuels_data = self.get_fuels_data()
         self.add_frame_btns = self.frame.get_buttons()
@@ -20,17 +19,17 @@ class AddSurveyAct:
         self.set_comboboxes()
         self.set_buttons()
 
-
-        val = [[0,0,0,0, 1, 0, 1, 2, 3, 4, 3, 1, 0, 1 ,2 ,1 , 0],
-               [1, 2, 3, 4, 3, 1, 0]]
-        self.survey.update({"type": PRESSTHRU,
-                            "sampling_time": 0.5,
-                            "values": val,
-                            "multipliers": [1 for _ in val]})
-        FRAME = 7
-        self.import_frame = self.top.frames[FRAME]
-        add_val_act = AddSurveyValuesAct(self.top, self.import_frame, self.survey)
-        self.top.change_frame(FRAME)
+        # self.survey = Survey()
+        # val = [[0,0,0,0, 1, 0, 1, 2, 3, 4, 3, 1, 0, 1 ,2 ,1 , 0],
+        #        [1, 2, 3, 4, 3, 1, 0]]
+        # self.survey.update({"type": PRESSTHRU,
+        #                     "sampling_time": 0.5,
+        #                     "values": val,
+        #                     "multipliers": [1 for _ in val]})
+        # FRAME = 7
+        # self.import_frame = self.top.frames[FRAME]
+        # add_val_act = AddSurveyValuesAct(self.top, self.import_frame, self.survey)
+        # self.top.change_frame(FRAME)
 
     def set_comboboxes(self):
         f_name = self.frame.name_cbox
@@ -52,6 +51,7 @@ class AddSurveyAct:
         save_btn = self.add_frame_btns[2]
 
     def import_survey_values(self):
+        self.survey = Survey()
         survey_type = self.get_survey_type()
         sampling_time = self.sampling_t_entry.get()
         try:

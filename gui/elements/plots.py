@@ -35,6 +35,7 @@ class PlotFrame(tk.Frame):
 class AddSurveyValuesPlotFrame(PlotFrame):
     def __init__(self, top):
         super().__init__(top)
+        self.lines = {}
 
     def create_plot(self):
         plot, toolbar = super().create_plot()
