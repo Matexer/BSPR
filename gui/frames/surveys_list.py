@@ -1,6 +1,5 @@
 import tkinter as tk
 import tkinter.ttk as ttk
-from gui.elements import *
 from .fuels_list import FuelsListFrame
 from .template import TemplateFrame
 
@@ -23,7 +22,11 @@ class SurveysListFrame(FuelsListFrame):
 
         top.update()
         tree_width = top.winfo_width()
-        tree.set_columns(("Lp.", "Śr. kryt. dyszy [mm]", "Czas próbkowania [ms]", "Masa paliwa [g]", "Data"))
+        tree.set_columns(("Lp.",
+                          "Śr. kryt. dyszy [mm]",
+                          "Czas próbkowania [ms]",
+                          "Masa paliwa [g]",
+                          "Data"))
         tree.set_columns_width(tree_width, (0.01, 0.225, 0.225, 0.225, 0.225))
 
     def create_options(self, top):
