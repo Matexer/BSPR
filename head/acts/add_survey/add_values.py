@@ -169,12 +169,14 @@ class AddSurveyValuesAct:
         first_line = None
 
         def set_line(event, color="red"):
-             return plot_frame.plot.axvline(x=event.xdata, color=color, linestyle=":")
+             return plot_frame.plot.axvline(
+                 x=event.xdata, color=color, linestyle=":")
 
         def try_fix(event):
             nonlocal first_line
             if first_line == None:
-                self.import_frame.show_message("Zaznacz kliknięciem drugą granicę.", "yellow")
+                self.import_frame.show_message(
+                    "Zaznacz kliknięciem drugą granicę.", "yellow")
                 first_line = set_line(event)
                 plot_frame.canvas.draw()
             else:
@@ -184,11 +186,13 @@ class AddSurveyValuesAct:
                 plot_frame.canvas.draw()
                 plot_canvas.mpl_disconnect(connection_id)
                 first_line = None
-                self.import_frame.show_message("Poprawiono zaznaczony obszar.", "green")
+                self.import_frame.show_message(
+                    "Poprawiono zaznaczony obszar.", "green")
 
-        connection_id = plot_canvas.mpl_connect("button_press_event",
-                                                lambda event: try_fix(event))
-        self.import_frame.show_message("Zaznacz kliknięciem pierwszą granicę.", "yellow")
+        connection_id = plot_canvas.mpl_connect(
+            "button_press_event", lambda event: try_fix(event))
+        self.import_frame.show_message(
+            "Zaznacz kliknięciem pierwszą granicę.", "yellow")
 
     def fix_survey(self, i, x1, x2, plot_frame, plot_data):
         y_data = plot_data.get_ydata()[:]

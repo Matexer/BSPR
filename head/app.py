@@ -4,12 +4,11 @@ from .acts import load_acts
 
 class Application:
     def __init__(self):
-        gui, top = self.start_gui()
-        self.acts = load_acts(top)
+        gui, top_window = self.start_gui()
+        self.acts = load_acts(top_window)
         gui.run_loop()
 
     @staticmethod
     def start_gui():
         gui = GUI()
-        top = gui.start()
-        return gui, top
+        return gui, gui.start()

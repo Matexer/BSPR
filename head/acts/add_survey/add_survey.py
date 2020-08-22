@@ -145,27 +145,33 @@ class AddSurveyAct:
         self.survey.__init__()
         survey_type = self.get_survey_type()
         sampling_time = self.sampling_t_entry.get()
+
         try:
             sampling_time = float(sampling_time)
         except ValueError:
-            sampling_time = False
-        if survey_type and sampling_time:
+            self.frame.show_message("Czas próbkowania musi być liczbą.")
+            return
+
+        if survey_type:
             path_to_file = askopenfilename()
-            if path_to_file:
-                raw_survey_values = self.get_data_from_file(path_to_file)
-                if raw_survey_values:
-                    self.survey.update({"type": survey_type,
-                                        "sampling_time": sampling_time,
-                                        "raw_values": raw_survey_values[:],
-                                        "values": raw_survey_values[:],
-                                        "multipliers": [1 for _ in raw_survey_values]})
-                    self.change_frame(survey_type)
-                    AddSurveyValuesAct(self.top, self.import_frame, self.survey)
-            else:
-                self.frame.show_message("Należy wybrać plik z wynikami pomiaru.")
         else:
-            self.frame.show_message("Należy wybrać rodzaj pomiaru i\n"
-                                    "podać okres próbkowania.")
+            self.frame.show_message("Należy wybrać rodzaj pomiaru.")
+            return
+
+        if path_to_file:
+            raw_survey_values = self.get_data_from_file(path_to_file)
+        else:
+            self.frame.show_message("Należy wybrać plik z wynikami pomiaru.")
+            return
+
+        if raw_survey_values:
+            self.survey.update({"type": survey_type,
+                                "sampling_time": sampling_time,
+                                "raw_values": raw_survey_values[:],
+                                "values": raw_survey_values[:],
+                                "multipliers": [1 for _ in raw_survey_values]})
+            self.change_frame(survey_type)
+            AddSurveyValuesAct(self.top, self.import_frame, self.survey)
 
     def get_survey_type(self):
         survey_type_cbox = self.add_frame_cboxes[1]
