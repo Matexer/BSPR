@@ -19,6 +19,10 @@ class AddSurveyValuesBaseFrame(BaseFrame):
         nav_container, self.down_nav_widgets = self.create_down_nav_container()
         self.create_plot_section(interior)
 
+        clear_btn, cancel_btn = self.down_nav_widgets[1:3]
+        clear_btn.config(text="RESET")
+        cancel_btn.pack_forget()
+
         self.scrolled_container.pack(side="top", fill="both", expand=1)
         nav_container.pack(side="bottom", fill="x")
         self.top.update_idletasks()

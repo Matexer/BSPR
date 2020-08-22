@@ -109,15 +109,13 @@ def save_survey(f_name, survey):
             - dodaje pomiar do listy
         Zapisuje listę pomiarów jako plik < .bin>
     """
-    path = '%s/%s/%s' % (FUELS_FOLDER, f_name, survey.survey_type)
+    path = '%s/%s/%s' % (FUELS_FOLDER, f_name, survey.type)
     survey.save_time = datetime.datetime.today().strftime('%H:%M:%S')
     survey.save_date = datetime.datetime.today().strftime('%d.%m.%Y')
     if not os.path.exists(path):
-        survey.id = 0
         surveys = [survey]
     else:
-        surveys = load_surveys(f_name, survey.survey_type)
-        survey.id = __give_id(surveys)
+        surveys = load_surveys(f_name, survey.type)
         surveys.append(survey)
     with open(path, 'wb') as file:
         pickle.dump(surveys, file)

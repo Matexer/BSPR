@@ -9,8 +9,8 @@ class Survey(Template):
         self.sampling_time: float = 0
 
         self.jet_diameter: float = 0
-        self.chamber_length: float = 0
         self.chamber_diameter: float = 0
+        self.chamber_length: float = 0
         self.expense_lose_factor: float = 0
         self.heat_lose_factor: float = 0
 

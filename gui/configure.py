@@ -1,4 +1,3 @@
-import os
 DARK_GREY = "#424242"
 GREY = "#808080"
 BRIGHT_GREY = "#cccccc"
@@ -37,6 +36,12 @@ TL_FG2 = "yellow"
 #SubtitleLabel
 STL_BG = "#2B2828"
 STL_FG = "white"
+
+#AddSurveyFrame
+IMP_VALUES_BTN_COLOR_1 = "orange"
+IMP_VALUES_BTN_COLOR_2 = "violet"
+CHANGE_IMP_VALUES_BTN_COLOR = "pink"
+FILL_FUEL_BTN_COLOR = "azure3"
 
 #AddValPlot
 TK_COLOR = "violet"

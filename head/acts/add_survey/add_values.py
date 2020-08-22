@@ -1,5 +1,7 @@
 from gui.configure import T0_COLOR, TK_COLOR, TC_COLOR
 import tkinter as tk
+import copy
+from gui.configure import IMP_VALUES_BTN_COLOR_2
 
 
 class AddSurveyValuesAct:
@@ -7,29 +9,34 @@ class AddSurveyValuesAct:
         self.top = top
         self.import_frame = import_frame
         self.survey = survey
-        self.set_down_menu_btns(top, import_frame, survey)
+        self.set_down_menu_btns(import_frame)
         self.load_plots(import_frame.plot_frames, survey)
 
-    def set_down_menu_btns(self, top, import_frame, survey):
-        save_btn, clear_btn, cancel_btn = import_frame.down_nav_widgets
+    def set_down_menu_btns(self, import_frame):
+        save_btn, clear_btn, _ = import_frame.down_nav_widgets
 
         save_btn.configure(command=lambda: self.back())
-        clear_btn.configure(command=lambda: 1)
-        cancel_btn.configure(command=lambda: 1)
+        clear_btn.configure(command=lambda: self.reset_plot())
 
     def back(self):
         self.top.change_frame(3)
         imp_val_btn = self.top.frames[3].get_buttons()[0]
-        imp_val_btn.config(text="Importuj inny plik", background="violet")
+        imp_val_btn.config(
+            text="Importuj inny plik",
+            background=IMP_VALUES_BTN_COLOR_2)
         self.top.frames[3].show_message("Zaimportowano plik pomyślnie.", "green")
 
-    def load_plots(self, plot_frames, survey, raw=False):
+    def reset_plot(self):
+        self.survey.update({"values": copy.deepcopy(self.survey.raw_values),
+                            "multipliers": [1 for _ in self.survey.raw_values],
+                            "t0": None,
+                            "tk": None,
+                            "tc": None})
+        self.load_plots(self.import_frame.plot_frames, self.survey)
+
+    def load_plots(self, plot_frames, survey):
         index = 0
-        if raw:
-            values = survey.raw_values
-        else:
-            values = survey.values
-        for plot_frame, data in zip(plot_frames, values):
+        for plot_frame, data in zip(plot_frames, self.survey.values):
             plot_frame.plot.clear()
             self.prepare_plot(index, plot_frame, survey.sampling_time, data)
             plot_frame.canvas.draw()
@@ -52,9 +59,7 @@ class AddSurveyValuesAct:
 
         _, xmax, _, ymax = plot.axis()
         plot.axis([0, xmax, 0, ymax])
-
-        self.set_widgets(index, plot_frame, plot_data,
-                         plot_frame.lines)
+        self.set_widgets(index, plot_frame, plot_data)
 
     @staticmethod
     def draw_plot(plot, x, y):
@@ -62,7 +67,7 @@ class AddSurveyValuesAct:
             x = [x * i for i in range(len(y))]
         return plot.plot(x, y)
 
-    def set_widgets(self, i, plot_frame, plot_data, lines):
+    def set_widgets(self, i, plot_frame, plot_data):
         set_t0_btn, set_tk_btn, set_tc_btn, fix_plot_btn, multiplier\
             = plot_frame.widgets
 
@@ -186,7 +191,7 @@ class AddSurveyValuesAct:
         self.import_frame.show_message("Zaznacz kliknięciem pierwszą granicę.", "yellow")
 
     def fix_survey(self, i, x1, x2, plot_frame, plot_data):
-        y_data = plot_data.get_ydata()
+        y_data = plot_data.get_ydata()[:]
 
         x = [x1, x2]
         t1 = min(x)
@@ -209,7 +214,4 @@ class AddSurveyValuesAct:
 
         plot_data.set_ydata(y_data)
         plot_frame.canvas.draw()
-        self.survey.values[i] = y_data
-
-    def reset(self):
-        pass
+        self.survey.values[i] = list(y_data)

@@ -2,7 +2,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 from gui.frames.base import BaseFrame
 from gui.elements import Button, SubtitleLabel
-from gui.configure import STL_BG
+from gui.configure import STL_BG, IMP_VALUES_BTN_COLOR_1, FILL_FUEL_BTN_COLOR
 
 
 class AddSurveyFrame(BaseFrame):
@@ -41,16 +41,16 @@ class AddSurveyFrame(BaseFrame):
 
                      ("Współczynnik strat\nwydatku",
                       "Współczynnik strat\ncieplnych"))
-        survey_container, survey_table = self.create_inputs_container(variables)
+        survey_container, self.survey_table = self.create_inputs_container(variables)
         fuel_subtitle, self.fill_btn = self.create_fuel_subtitle("DANE PALIWA")
         variables = (("Średnica zewnętrzna\nładunku paliwa [mm]",
                       "Średnica wewnętrzna\nładunku paliwa [mm]"),
 
                      ("Długość ładunku\npaliwa [mm]",
                       "Masa paliwa [g]"))
-        fuel_container, fuel_table = self.create_inputs_container(variables)
+        fuel_container, self.fuel_table = self.create_inputs_container(variables)
         comment_subtitle = self.create_subtitle("KOMENTARZ")
-        comment_container, comment = self.create_comment_container(100, 6)
+        comment_container, self.comment = self.create_comment_container(100, 6)
         btns_container, self.buttons = self.create_down_nav_container()
 
         survey_subtitle.pack(side="top", fill="x")
@@ -92,7 +92,7 @@ class AddSurveyFrame(BaseFrame):
 
         btn = Button(init_survey_container)
         btn.configure(text="Importuj plik",
-                      background="orange")
+                      background=IMP_VALUES_BTN_COLOR_1)
         btn.pack(side="left", padx=10, pady=5)
         return init_survey_container, (cbox, entry, btn)
 
@@ -103,8 +103,40 @@ class AddSurveyFrame(BaseFrame):
         subtitle.configure(text=text)
         btn = Button(container)
         btn.configure(text="Wypełnij",
-                      background="azure3",
+                      background=FILL_FUEL_BTN_COLOR,
                       borderwidth=0)
         subtitle.pack(side="left")
         btn.pack(side="left", padx=5)
         return container, btn
+
+    def get_inserted_values(self):
+        fuel_name = [self.name_cbox.get()]
+        survey_inputs = self.survey_table.get_inserted_values()
+        fuel_inputs = self.fuel_table.get_inserted_values()
+        comment = [self.comment.get('1.0', 'end')]
+        return fuel_name + survey_inputs + fuel_inputs + comment
+
+    def point_entries(self, reports):
+        name_report = reports[0]
+        survey_table_reports = reports[1:6]
+        fuel_table_reports = reports[6:10]
+        if name_report == 0:
+            self.name_cbox.configure(background="white")
+        else:
+            self.name_cbox.configure(background="red")
+        self.survey_table.point_entries(survey_table_reports)
+        self.fuel_table.point_entries(fuel_table_reports)
+        for report in reports:
+            if report:
+                self.show_message(report)
+                return
+
+    def clear_entries(self):
+        self.name_cbox.set('')
+        self.init_widgets[0].set('')
+        self.init_widgets[1].delete('0', "end")
+        self.name_cbox.configure(background="white")
+        self.survey_table.clear_entries()
+        self.fuel_table.clear_entries()
+        self.comment.delete("1.0", 'end')
+        self.hide_message(num=-1)
