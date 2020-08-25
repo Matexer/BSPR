@@ -14,7 +14,7 @@ class TopWindow(tk.Frame):
         top_menu_frame = TopMenuFrame(self)
         top_menu_frame.pack(side="top", fill="x")
 
-        self.selected_frame = 5
+        self.selected_frame = 0
         self.frames = load_frames(self)
         self.frames[self.selected_frame].pack(fill="both", expand=1)
 

@@ -4,12 +4,12 @@ from gui.elements import TitleLabel, SubtitleLabel, InputTable
 
 class TemplateFrame(tk.Frame):
     def __init__(self, top):
-        tk.Frame.__init__(self, top)
+        super().__init__(top)
 
     def create_title(self, text):
-	    title = TitleLabel(self)
-	    title.configure(text=text)
-	    return title
+        title = TitleLabel(self)
+        title.configure(text=text)
+        return title
 
     def create_subtitle(self, text):
         subtitle = SubtitleLabel(self)

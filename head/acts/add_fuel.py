@@ -24,13 +24,6 @@ class AddFuelAct:
     def validate_values(self, values):
         report = [1] * len(values)
         name = values[0]
-        # outer_d = values[1]
-        # inner_d = values[2]
-        # length = values[3]
-        # mass = values[4]
-        # strength = values[5]
-        # k = values[6]
-        # comment = values[7]
         report[7] = 0
 
         if name != "":

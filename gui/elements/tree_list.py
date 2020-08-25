@@ -35,8 +35,3 @@ class TreeList(tk.Frame):
             self.tree.column(num, width=width,
                              minwidth=width//2,
                              stretch=1)
-
-
-class FuelsTreeList(TreeList):
-    def __init__(self, top):
-        super().__init__(top)
