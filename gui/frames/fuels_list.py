@@ -17,7 +17,7 @@ class FuelsListFrame(ListFrameTemplate):
     def create_head_section(self, top):
         title = self.create_title("LISTA PALIW")
         btns_container, self.buttons =\
-            self.create_btns_container(top)
+            self.create_btns_container(self)
         self.buttons[0].config(
             command=lambda: self.top.change_frame(1))
 
@@ -25,9 +25,9 @@ class FuelsListFrame(ListFrameTemplate):
         btns_container.pack(side="top")
 
     def create_body_section(self, top):
-        self.tree_list = TreeList(top)
+        self.tree_list = TreeList(self)
         comment_container, self.comment_elements =\
-            self.create_comment_container(top)
+            self.create_comment_container(self)
 
         self.tree_list.pack(fill="both", expand=1)
         comment_container.pack(side="bottom", fill="x")
@@ -53,7 +53,8 @@ class FuelsListFrame(ListFrameTemplate):
             data.append(fuel)
         return data
 
-    def fill_list(self, tree, data):
+    @staticmethod
+    def fill_list(tree, data):
         for fuel in data:
             tree.insert(
                 '', 'end',

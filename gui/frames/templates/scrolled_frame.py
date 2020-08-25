@@ -6,7 +6,7 @@ from gui.configure import EXTRA_SPACE_AFTER_SCROLL
 # http://tkinter.unpythonic.net/wiki/VerticalScrolledFrame
 
 
-class VerticalScrolledFrame(tk.Frame):
+class ScrolledFrameTemplate(tk.Frame):
     """A pure Tkinter scrollable frame that actually works!
     * Use the 'interior' attribute to place widgets inside the scrollable frame
     * Construct and pack/place/grid normally

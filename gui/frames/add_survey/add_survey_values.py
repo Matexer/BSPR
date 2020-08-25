@@ -1,8 +1,8 @@
 from gui.elements import AddSurveyValuesPlotFrame
-from gui.frames.base import BaseFrame
+from ..templates import TemplateFrame
 
 
-class AddSurveyValuesBaseFrame(BaseFrame):
+class AddSurveyValuesBaseFrame(TemplateFrame):
     def __init__(self, top):
         super().__init__(top)
         self.plot_frames = []

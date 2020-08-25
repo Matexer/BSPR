@@ -1,36 +1,11 @@
 from tkinter import messagebox as mb
 import head.database as db
+from .template import ListActTemplate
 
 
-class FuelsListAct:
+class FuelsListAct(ListActTemplate):
     def __init__(self, top):
-        self.frame = top.frames[0]
-
-        self.tree_list = self.frame.tree_list
-        self.comment_elements = self.frame.comment_elements
-
-        self.tree_list.tree.bind("<<TreeviewSelect>>", self.load_comment)
-        self.set_buttons(self.frame)
-        self.top = top
-
-    def load_comment(self, event):
-        selected = event.widget.selection()
-        if selected:
-            fuel = selected[0]
-            fuel_id = self.tree_list.tree.index(fuel)
-            f_data = self.frame.data[fuel_id]
-            add_datetime = f_data.save_date + " " + f_data.save_time
-            edit_datetime = f_data.edit_date + " " + f_data.edit_time
-            self.fill_comment_section(add_datetime, edit_datetime, f_data.comment)
-        else:
-            self.fill_comment_section('', '', '')
-
-    def fill_comment_section(self, add_date, edit_date, comment):
-        adding_fuel_date, modify_fuel_date, comment_label =\
-            self.comment_elements
-        adding_fuel_date.config(text=add_date)
-        modify_fuel_date.config(text=edit_date)
-        comment_label.config(text=comment)
+        super().__init__(top, top.frames[0])
 
     def set_buttons(self, frame):
         edit_btn = frame.buttons[1]

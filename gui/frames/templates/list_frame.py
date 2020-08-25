@@ -1,15 +1,14 @@
 import tkinter as tk
 from abc import ABCMeta, abstractmethod
-from .frame import TemplateFrame
+from gui.frames.templates import TemplateFrame
 from gui.elements import AddButton, EditButton, DeleteButton
 
 
 class ListFrameTemplate(TemplateFrame, metaclass=ABCMeta):
     def __init__(self, top):
         super().__init__(top)
-        self.top = top
-        self.create_head_section(self)
-        self.create_body_section(self)
+        self.create_head_section(top)
+        self.create_body_section(top)
 
     @abstractmethod
     def create_head_section(self, top):

@@ -1,8 +1,8 @@
 import tkinter as tk
-from .base import BaseFrame
+from .templates import TemplateFrame
 
 
-class AddFuelFrame(BaseFrame):
+class AddFuelFrame(TemplateFrame):
     def __init__(self, top):
         super().__init__(top)
         self.create_head_section()

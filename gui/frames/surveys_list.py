@@ -1,52 +1,92 @@
 import tkinter as tk
 import tkinter.ttk as ttk
-from .fuels_list import FuelsListFrame
-from .templates import TemplateFrame
+from gui.elements import TreeList
+import head.database as db
+from globals import SURVEY_TYPES
+from .templates import ListFrameTemplate
 
 
-class SurveysListFrame(FuelsListFrame):
+class SurveysListFrame(ListFrameTemplate):
     def __init__(self, top):
-        pass
-        # TemplateFrame.__init__(self, top)
-        #
-        # title = self.create_title("LISTA POMIARÓW")
-        # options_container = tk.Frame(self)
-        # self.cboxs, self.buttons = self.create_options(options_container)
-        # list_container = tk.Frame(self)
-        # tree = self.create_list(list_container)
-        #
-        # self.buttons[0].configure(command=lambda: top.change_frame(3))
-        #
-        # title.pack(side="top", fill="x")
-        # options_container.pack(side="top", fill="x", pady=5)
-        # list_container.pack(side="top", fill="both", expand=1)
-        #
-        # top.update()
-        # tree_width = top.winfo_width()
-        # tree.set_columns(("Lp.",
-        #                   "Śr. kryt. dyszy [mm]",
-        #                   "Czas próbkowania [ms]",
-        #                   "Masa paliwa [g]",
-        #                   "Data"))
-        # tree.set_columns_width(tree_width, (0.01, 0.225, 0.225, 0.225, 0.225))
+        super().__init__(top)
+        self.data = []
+        self.fuel_name = ""
+        self.survey_type = ""
 
-    def create_options(self, top):
-        cbox_container = tk.Frame(top)
-        cboxs = self.create_cboxs(cbox_container)
-        buttons_container = tk.Frame(top)
-        buttons = self.create_btns(buttons_container)
-        cbox_container.pack(side="left")
-        buttons_container.pack(side="right")
-        return cboxs, buttons
+    def create_head_section(self, top):
+        title = self.create_title("LISTA POMIARÓW")
+        option_container = tk.Frame(self)
+        cboxs_container, self.cboxes =\
+            self.create_cboxes_container(option_container)
+        btns_container, self.buttons =\
+            self.create_btns_container(option_container)
+        cboxs_container.pack(side="left")
+        btns_container.pack(side="right", padx=15)
+
+        self.buttons[0].configure(command=lambda: top.change_frame(3))
+        self.cboxes[0].configure(values=db.get_fuels_list())
+        self.cboxes[1].configure(values=tuple(SURVEY_TYPES.keys()))
+        for cbox in self.cboxes:
+            cbox.configure(state='readonly')
+            cbox.bind("<<ComboboxSelected>>", self.refresh_list)
+
+        title.pack(side="top", fill="x")
+        option_container.pack(side="top", fill="both")
+
+    def create_body_section(self, top):
+        self.tree_list = TreeList(self)
+        comment_container, self.comment_elements =\
+            self.create_comment_container(self)
+
+        self.tree_list.pack(fill="both", expand=1)
+        comment_container.pack(side="bottom", fill="x")
+
+        columns = {"Lp.": 0,
+                   "Śr. kryt. dyszy [mm]": 0.25,
+                   "Czas próbkowania [ms]": 0.25,
+                   "Masa paliwa [g]": 0.25,
+                   "Data": 0.25}
+
+        self.set_list(top, self.tree_list, columns)
+
+    def refresh_list(self, event):
+        self.fuel_name = self.cboxes[0].get()
+        self.survey_type = self.cboxes[1].get()
+        if self.survey_type and self.fuel_name:
+            self.data = self.load_data()
+        self.reload_list()
+
+    def load_data(self):
+        return db.load_surveys(
+            self.fuel_name, SURVEY_TYPES[self.survey_type])
 
     @staticmethod
-    def create_cboxs(top):
-        left = tk.Frame(top)
+    def fill_list(tree, data):
+        for number, survey in enumerate(data):
+            tree.insert(
+                '', 'end',
+                text=number+1, values=(survey.jet_diameter,
+                                       survey.sampling_time,
+                                       survey.fuel_mass,
+                                       survey.save_date))
+
+    def reload_list(self):
+        tree = self.tree_list.tree
+        items = tree.get_children()
+        for item in items:
+            tree.delete(item)
+        if self.data:
+            self.fill_list(tree, self.data)
+
+    @staticmethod
+    def create_cboxes_container(top):
+        container = tk.Frame(top)
+        left = tk.Frame(container)
         fuel_label = tk.Label(left)
         fuel_label.configure(text="Paliwo")
         fuel_cbox = ttk.Combobox(left)
 
-        right = tk.Frame(top)
+        right = tk.Frame(container)
         type_label = tk.Label(right)
         type_label.configure(text="Rodzaj pomiaru")
         type_cbox = ttk.Combobox(right)
@@ -58,4 +98,4 @@ class SurveysListFrame(FuelsListFrame):
 
         left.pack(side="left")
         right.pack(side="left", padx=10)
-        return fuel_cbox, type_cbox
+        return container, (fuel_cbox, type_cbox)
