@@ -10,16 +10,19 @@ import head.database as db
 class AddSurveyAct:
     def __init__(self, top):
         self.top = top
-        self.frame = top.frames[3]
+        self.set_frame(top)
+
         self.import_frame = None
         self.survey = Survey()
-
         self.fuels_data = self.get_fuels_data()
         self.add_frame_cboxes = self.frame.get_comboboxes()
         self.sampling_t_entry = self.frame.init_widgets[1]
 
         self.set_comboboxes()
         self.set_buttons()
+
+    def set_frame(self, top):
+        self.frame = top.frames[3]
 
     def set_comboboxes(self):
         f_name = self.frame.name_cbox
@@ -35,10 +38,12 @@ class AddSurveyAct:
 
     def set_buttons(self):
         import_values_btn, fill_fuel_data_btn,\
-        save_btn, clear_btn, cancel_btn = self.frame.get_buttons()
+        save_btn, clear_btn, cancel_btn, modify_val_btn = self.frame.get_buttons()
 
         import_values_btn.configure(
             command=lambda: self.import_survey_values())
+        modify_val_btn.configure(
+            command=lambda: self.change_frame(self.survey.type))
         fill_fuel_data_btn.configure(
             command=lambda: self.fill_fuel_data())
 
@@ -72,13 +77,14 @@ class AddSurveyAct:
         self.frame.hide_message()
         self.frame.init_widgets[2].config(
             text="Importuj plik", background=IMP_VALUES_BTN_COLOR_1)
+        self.frame.init_widgets[3].pack_forget()
+        self.top.frames[2].refresh_list(event=1)
 
     def add_survey_to_database(self, values):
         f_name = values[0]
         self.survey.update(
             [self.survey.type, self.survey.sampling_time] + values[1:])
         db.save_survey(f_name, self.survey)
-        print(self.survey.export())
 
     def fill_fuel_data(self):
         def fill_fuel_table(values):
@@ -170,8 +176,11 @@ class AddSurveyAct:
                                 "raw_values": raw_survey_values[:],
                                 "values": raw_survey_values[:],
                                 "multipliers": [1 for _ in raw_survey_values]})
-            self.change_frame(survey_type)
-            AddSurveyValuesAct(self.top, self.import_frame, self.survey)
+            self.start_adding_act()
+
+    def start_adding_act(self):
+        self.change_frame(self.survey.type)
+        AddSurveyValuesAct(self.top, self.import_frame, self.survey)
 
     def get_survey_type(self):
         survey_type_cbox = self.add_frame_cboxes[1]

@@ -2,6 +2,7 @@ from .add_fuel import AddFuelAct
 from .list import FuelsListAct, SurveysListAct
 from .edit_fuel import EditFuelAct
 from .add_survey import AddSurveyAct
+from .edit_survey import EditSurveyAct
 
 
 def load_acts(top):
@@ -9,6 +10,7 @@ def load_acts(top):
             FuelsListAct(top),
             EditFuelAct(top),
             AddSurveyAct(top),
-            SurveysListAct(top)
+            SurveysListAct(top),
+            EditSurveyAct(top)
             ]
     return acts

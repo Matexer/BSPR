@@ -6,6 +6,7 @@ from gui.configure import IMP_VALUES_BTN_COLOR_2
 
 class AddSurveyValuesAct:
     def __init__(self, top, import_frame, survey):
+        self.previous_frame_number = 3
         self.top = top
         self.import_frame = import_frame
         self.survey = survey
@@ -19,11 +20,13 @@ class AddSurveyValuesAct:
         clear_btn.configure(command=lambda: self.reset_plot())
 
     def back(self):
-        self.top.change_frame(3)
-        imp_val_btn = self.top.frames[3].get_buttons()[0]
+        self.top.change_frame(self.previous_frame_number)
+        imp_val_btn = self.top.frames[self.previous_frame_number].get_buttons()[0]
+        change_val_btn = self.top.frames[self.previous_frame_number].get_buttons()[5]
         imp_val_btn.config(
             text="Importuj inny plik",
             background=IMP_VALUES_BTN_COLOR_2)
+        change_val_btn.pack(side="left", padx=10, pady=5)
         self.top.frames[3].show_message("Zaimportowano plik pomyślnie.", "green")
 
     def reset_plot(self):

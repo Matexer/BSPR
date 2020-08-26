@@ -45,7 +45,7 @@ class SurveysListFrame(ListFrameTemplate):
                    "Śr. kryt. dyszy [mm]": 0.25,
                    "Czas próbkowania [ms]": 0.25,
                    "Masa paliwa [g]": 0.25,
-                   "Data": 0.25}
+                   "Data dodania": 0.25}
 
         self.set_list(top, self.tree_list, columns)
 

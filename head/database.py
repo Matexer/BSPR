@@ -130,14 +130,14 @@ def load_surveys(f_name, type):
         return False
 
 
-def remove_survey(f_name, survey, s_id):
-    surveys = load_surveys(f_name, survey.type)
+def remove_survey(f_name, s_type, s_id):
+    surveys = load_surveys(f_name, s_type)
     surveys.pop(s_id)
-    path = '%s/%s/%s' % (FUELS_FOLDER, f_name, survey.type)
+    path = '%s/%s/%s' % (FUELS_FOLDER, f_name, s_type)
     with open(path, 'wb') as file:
         pickle.dump(surveys, file)
 
 
-def edit_survey(f_name, old_survey, old_s_id, new_survey):
-    remove_survey(f_name, old_survey, old_s_id)
+def edit_survey(f_name, old_s_type, old_s_id, new_survey):
+    remove_survey(f_name, old_s_type, old_s_id)
     save_survey(f_name, new_survey)

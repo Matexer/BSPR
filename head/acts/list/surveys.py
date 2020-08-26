@@ -1,6 +1,7 @@
 from tkinter import messagebox as mb
 import head.database as db
 from .template import ListActTemplate
+from globals import SURVEY_TYPES
 
 
 class SurveysListAct(ListActTemplate):
@@ -11,17 +12,24 @@ class SurveysListAct(ListActTemplate):
         edit_btn = frame.buttons[1]
         delete_btn = frame.buttons[2]
 
-        edit_btn.configure(command=lambda: 2)
+        edit_btn.configure(command=lambda: self.edit_survey())
         delete_btn.configure(command=lambda: self.delete_surveys())
 
     def edit_survey(self):
         ids = self.get_selected_surveys()
         if ids:
-            edit_frame = self.top.frames[4]
-            fuel = db.load_fuel(ids[0])
-            values = list(fuel.export().values())[:8]
+            db_id = self.tree_list.tree.get_children().index(ids[0])
+            edit_frame = self.top.frames[8]
+            survey = self.frame.data[db_id]
+            values = list(survey.export().values())[:12]
+            reversed_survey_types =\
+                {val: key for key, val in SURVEY_TYPES.items()}
+            values[0] = reversed_survey_types[values[0]]
+            values = [self.frame.fuel_name] + values
+            edit_frame.survey = survey
+            edit_frame.survey_id = db_id
             edit_frame.set_values(values)
-            self.top.change_frame(4)
+            self.top.change_frame(8)
 
     def delete_surveys(self):
         tree = self.frame.tree_list.tree
@@ -45,7 +53,7 @@ class SurveysListAct(ListActTemplate):
                     s_db_id = tree.get_children().index(s_id)
                     tree.selection_remove(s_id)
                     db.remove_survey(
-                        self.frame.fuel_name, self.frame.data[s_db_id], s_db_id)
+                        self.frame.fuel_name, self.frame.data[s_db_id].type, s_db_id)
                     tree.delete(s_id)
                     self.frame.data = self.frame.load_data()
 

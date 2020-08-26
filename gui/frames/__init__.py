@@ -8,6 +8,7 @@ from gui.frames.add_survey import AddSurveyFrame,\
                                   AddSurveyDoubleValuesFrame,\
                                   AddSurveyThrustValuesFrame
 from gui.frames.edit_fuel import EditFuelFrame
+from gui.frames.edit_survey import EditSurveyFrame
 
 
 def load_frames(top):
@@ -18,6 +19,7 @@ def load_frames(top):
               EditFuelFrame(top),
               AddSurveyPressureValuesFrame(top),    #5
               AddSurveyThrustValuesFrame(top),
-              AddSurveyDoubleValuesFrame(top)
+              AddSurveyDoubleValuesFrame(top),
+              EditSurveyFrame(top)
               ]
     return frames

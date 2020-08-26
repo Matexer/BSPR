@@ -2,7 +2,8 @@ import tkinter as tk
 import tkinter.ttk as ttk
 from gui.frames.templates import TemplateFrame
 from gui.elements import Button, SubtitleLabel
-from gui.configure import STL_BG, IMP_VALUES_BTN_COLOR_1, FILL_FUEL_BTN_COLOR
+from gui.configure import STL_BG, IMP_VALUES_BTN_COLOR_1,\
+    FILL_FUEL_BTN_COLOR, CHANGE_IMP_VALUES_BTN_COLOR
 
 
 class AddSurveyFrame(TemplateFrame):
@@ -13,10 +14,11 @@ class AddSurveyFrame(TemplateFrame):
 
     def get_buttons(self):
         import_values_btn = self.init_widgets[2]
+        modify_values_btn = self.init_widgets[3]
         fill_fuel_data_btn = self.fill_btn
         save_btn, clear_btn, cancel_btn = self.buttons
         return import_values_btn, fill_fuel_data_btn,\
-               save_btn, clear_btn, cancel_btn
+               save_btn, clear_btn, cancel_btn, modify_values_btn
 
     def get_comboboxes(self):
         name_cbox = self.name_cbox
@@ -24,11 +26,11 @@ class AddSurveyFrame(TemplateFrame):
         return name_cbox, survey_type_cbox
 
     def create_head_section(self):
-        title = self.create_title("DODAWANIE NOWEGO POMIARU")
+        self.title = self.create_title("DODAWANIE NOWEGO POMIARU")
         name_container, self.name_cbox = self.create_name_container()
         init_container, self.init_widgets = self.create_init_survey_container()
 
-        title.pack(side="top", fill="x")
+        self.title.pack(side="top", fill="x")
         name_container.pack(side="top", anchor="w", padx=5, pady=10)
         init_container.pack(side="top", anchor="w", fill="x", padx=5)
 
@@ -90,11 +92,15 @@ class AddSurveyFrame(TemplateFrame):
         smp_label.pack(side="left")
         entry.pack(side="left", padx=5)
 
-        btn = Button(init_survey_container)
-        btn.configure(text="Importuj plik",
-                      background=IMP_VALUES_BTN_COLOR_1)
-        btn.pack(side="left", padx=10, pady=5)
-        return init_survey_container, (cbox, entry, btn)
+        import_btn = Button(init_survey_container)
+        import_btn.configure(text="Importuj plik",
+                             background=IMP_VALUES_BTN_COLOR_1)
+        import_btn.pack(side="left", padx=10, pady=5)
+
+        modify_btn = Button(init_survey_container)
+        modify_btn.configure(text="Modyfikuj pomiar",
+                             background=CHANGE_IMP_VALUES_BTN_COLOR)
+        return init_survey_container, (cbox, entry, import_btn, modify_btn)
 
     def create_fuel_subtitle(self, text):
         container = tk.Frame(self)
