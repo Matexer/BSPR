@@ -110,8 +110,6 @@ def save_survey(f_name, survey):
         Zapisuje listę pomiarów jako plik < .bin>
     """
     path = '%s/%s/%s' % (FUELS_FOLDER, f_name, survey.type)
-    survey.save_time = datetime.datetime.today().strftime('%H:%M:%S')
-    survey.save_date = datetime.datetime.today().strftime('%d.%m.%Y')
     if not os.path.exists(path):
         surveys = [survey]
     else:

@@ -3,6 +3,7 @@ from .edit_values import EditSurveyValuesAct
 from gui.configure import IMP_VALUES_BTN_COLOR_2
 import head.database as db
 
+
 class EditSurveyAct(AddSurveyAct):
     def __init__(self, top):
         super().__init__(top)
@@ -36,5 +37,6 @@ class EditSurveyAct(AddSurveyAct):
         f_name = values[0]
         self.survey.update(
             [self.survey.type, self.survey.sampling_time] + values[1:])
+        self.survey.update_timedata()
         db.edit_survey(f_name, self.frame.survey.type,
                        self.frame.survey_id, self.survey)

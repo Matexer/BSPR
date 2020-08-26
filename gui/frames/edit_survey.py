@@ -5,6 +5,8 @@ class EditSurveyFrame(AddSurveyFrame):
     def __init__(self, top):
         super().__init__(top)
         self.title.configure(text="EDYTOWANIE POMIARU")
+        name_cbox, _ = self.get_comboboxes()
+        name_cbox.configure(state="disabled")
         self.survey = None
         self.survey_id = None
 
