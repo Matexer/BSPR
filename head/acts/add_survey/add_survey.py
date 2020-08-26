@@ -75,10 +75,15 @@ class AddSurveyAct:
     def end_adding_survey(self):
         self.survey.__init__()
         self.frame.hide_message()
+        self.change_buttons()
+        self.top.frames[2].refresh_list(event=1)
+        tree = self.top.frames[2].tree_list.tree
+        tree.selection_set(tree.get_children()[-1])
+
+    def change_buttons(self):
         self.frame.init_widgets[2].config(
             text="Importuj plik", background=IMP_VALUES_BTN_COLOR_1)
         self.frame.init_widgets[3].pack_forget()
-        self.top.frames[2].refresh_list(event=1)
 
     def add_survey_to_database(self, values):
         f_name = values[0]
@@ -97,7 +102,6 @@ class AddSurveyAct:
             fuels_data = self.get_fuels_data()
             for fuel in fuels_data:
                 if fuel.name == name:
-                    print(fuel.export())
                     return list(fuel.export().values())[1:5]
 
         name = self.frame.name_cbox.get()

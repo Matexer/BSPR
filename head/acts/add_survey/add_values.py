@@ -27,7 +27,8 @@ class AddSurveyValuesAct:
             text="Importuj inny plik",
             background=IMP_VALUES_BTN_COLOR_2)
         change_val_btn.pack(side="left", padx=10, pady=5)
-        self.top.frames[3].show_message("Zaimportowano plik pomyślnie.", "green")
+        self.top.frames[self.previous_frame_number].\
+            show_message("Zaimportowano plik pomyślnie.", "green")
 
     def reset_plot(self):
         self.survey.update({"values": copy.deepcopy(self.survey.raw_values),

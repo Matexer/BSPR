@@ -29,10 +29,8 @@ class EditSurveyAct(AddSurveyAct):
         super().save_survey()
         self.top.change_frame(2)
 
-    def end_adding_survey(self):
-        self.survey.__init__()
-        self.frame.hide_message()
-        self.top.frames[2].refresh_list(event=1)
+    def change_buttons(self):
+        pass
 
     def add_survey_to_database(self, values):
         f_name = values[0]
