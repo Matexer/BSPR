@@ -30,10 +30,8 @@ class InputTable(tk.Frame):
 
     @staticmethod
     def __is_nested(data):
-        if isinstance(data[0], list) or isinstance(data[0], tuple):
+        if isinstance(data[0], (list, tuple)):
             return True
-        else:
-            return False
 
     def __gen_column(self, col_n, column):
         col_n = col_n * 2
