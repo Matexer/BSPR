@@ -1,5 +1,4 @@
 import tkinter as tk
-from gui.frames.templates.scrolled_frame import ScrolledFrameTemplate
 from gui.elements import *
 from gui.configure import TL_BG
 
@@ -51,11 +50,6 @@ class FrameTemplate(tk.Frame):
         cancel_btn.pack(side="left", **config)
         clear_btn.pack(side="left", **config)
         return btns_container, (save_btn, clear_btn, cancel_btn)
-
-    def create_scrolled_container(self, top):
-        container = ScrolledFrameTemplate(top)
-        interior = container.interior
-        return container, interior
 
     def show_message(self, text, color="red", num=0):
         if self.messages:

@@ -1,5 +1,5 @@
 from gui.elements import AddSurveyValuesPlotFrame
-from ..templates import FrameTemplate
+from ..templates import FrameTemplate, ScrolledFrameTemplate
 
 
 class AddSurveyValuesBaseFrameTemplate(FrameTemplate):
@@ -27,6 +27,11 @@ class AddSurveyValuesBaseFrameTemplate(FrameTemplate):
         nav_container.pack(side="bottom", fill="x")
         self.top.update_idletasks()
         self.scrolled_container.update()
+
+    def create_scrolled_container(self, top):
+        container = ScrolledFrameTemplate(top)
+        interior = container.interior
+        return container, interior
 
     def create_plot_section(self, top):
         plot_frame = AddSurveyValuesPlotFrame(top)
