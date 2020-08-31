@@ -78,7 +78,10 @@ class AddSurveyAct:
         self.change_buttons()
         self.top.frames[2].refresh_list(event=1)
         tree = self.top.frames[2].tree_list.tree
-        tree.selection_set(tree.get_children()[-1])
+        try:
+            tree.selection_set(tree.get_children()[-1])
+        except IndexError:
+            pass
 
     def change_buttons(self):
         self.frame.init_widgets[2].config(

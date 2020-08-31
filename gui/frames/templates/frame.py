@@ -4,9 +4,9 @@ from gui.elements import *
 from gui.configure import TL_BG
 
 
-class TemplateFrame(tk.Frame):
-    def __init__(self, top):
-        super().__init__(top)
+class FrameTemplate(tk.Frame):
+    def __init__(self, top, *args, **kw):
+        super().__init__(top, *args, **kw)
         self.top = top
         self.messages = []
 

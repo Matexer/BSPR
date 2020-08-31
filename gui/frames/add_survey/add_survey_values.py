@@ -1,8 +1,8 @@
 from gui.elements import AddSurveyValuesPlotFrame
-from ..templates import TemplateFrame
+from ..templates import FrameTemplate
 
 
-class AddSurveyValuesBaseFrame(TemplateFrame):
+class AddSurveyValuesBaseFrameTemplate(FrameTemplate):
     def __init__(self, top):
         super().__init__(top)
         self.plot_frames = []
@@ -38,7 +38,7 @@ class AddSurveyValuesBaseFrame(TemplateFrame):
             frame.plot.set_xlabel("Czas [ms]")
 
 
-class AddSurveyPressureValuesFrame(AddSurveyValuesBaseFrame):
+class AddSurveyPressureValuesFrame(AddSurveyValuesBaseFrameTemplate):
     def __init__(self, top):
         super().__init__(top)
         self.title.set_text("IMPORTOWANIE WARTOŚCI UZYSKANYCH Z POMIARU CiśNIENIA")
@@ -48,7 +48,7 @@ class AddSurveyPressureValuesFrame(AddSurveyValuesBaseFrame):
         self.plot_frames[0].plot.set_ylabel("Ciśnienie [MPa]")
 
 
-class AddSurveyThrustValuesFrame(AddSurveyValuesBaseFrame):
+class AddSurveyThrustValuesFrame(AddSurveyValuesBaseFrameTemplate):
     def __init__(self, top):
         super().__init__(top)
         self.title.set_text("IMPORTOWANIE WARTOŚCI UZYSKANYCH Z POMIARU CIĄGU")
@@ -58,7 +58,7 @@ class AddSurveyThrustValuesFrame(AddSurveyValuesBaseFrame):
         self.plot_frames[0].plot.set_ylabel("Siła ciągu [kN]")
 
 
-class AddSurveyDoubleValuesFrame(AddSurveyValuesBaseFrame):
+class AddSurveyDoubleValuesFrame(AddSurveyValuesBaseFrameTemplate):
     def __init__(self, top):
         super().__init__(top)
         self.title.set_text("IMPORTOWANIE WARTOŚCI UZYSKANYCH Z POMIARU CiśNIENIA I CIĄGU")

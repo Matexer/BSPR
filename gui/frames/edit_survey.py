@@ -1,7 +1,7 @@
-from .add_survey import AddSurveyFrame
+from .add_survey import AddSurveyFrameTemplate
 
 
-class EditSurveyFrame(AddSurveyFrame):
+class EditSurveyFrame(AddSurveyFrameTemplate):
     def __init__(self, top):
         super().__init__(top)
         self.title.configure(text="EDYTOWANIE POMIARU")

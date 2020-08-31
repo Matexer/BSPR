@@ -2,11 +2,12 @@
 and https://gist.github.com/novel-yet-trivial/3eddfce704db3082e38c84664fc1fdf8"""
 import tkinter as tk
 from gui.configure import EXTRA_SPACE_AFTER_SCROLL
+from .frame import FrameTemplate
 
 # http://tkinter.unpythonic.net/wiki/VerticalScrolledFrame
 
 
-class ScrolledFrameTemplate(tk.Frame):
+class ScrolledFrameTemplate(FrameTemplate):
     """A pure Tkinter scrollable frame that actually works!
     * Use the 'interior' attribute to place widgets inside the scrollable frame
     * Construct and pack/place/grid normally
@@ -14,7 +15,7 @@ class ScrolledFrameTemplate(tk.Frame):
     """
 
     def __init__(self, parent, *args, **kw):
-        tk.Frame.__init__(self, parent, *args, **kw)
+        super().__init__(parent, *args, **kw)
 
         # create a canvas object and a vertical scrollbar for scrolling it
         vscrollbar = tk.Scrollbar(self, orient=tk.VERTICAL)

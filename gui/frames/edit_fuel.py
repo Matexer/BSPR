@@ -1,10 +1,10 @@
 import tkinter as tk
-from .add_fuel import AddFuelFrame
+from .add_fuel import AddFuelFrameTemplate
 from gui.elements import TitleLabel
 from gui.configure import TL_FG2, TL_BG
 
 
-class EditFuelFrame(AddFuelFrame):
+class EditFuelFrame(AddFuelFrameTemplate):
     def __init__(self, top):
         super().__init__(top)
         cancel_btn = self.buttons[2]
