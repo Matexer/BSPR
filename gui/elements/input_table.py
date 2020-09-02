@@ -1,7 +1,7 @@
 import tkinter as tk
 
 
-class Row:
+class Field:
     def __init__(self, label, row):
         self.label = label
         self.entry = row
@@ -47,7 +47,7 @@ class InputTable(tk.Frame):
         label = tk.Label(self, justify="left", anchor="w")
         label.configure(text=text_label)
         entry = tk.Entry(self, width=12)
-        row = Row(label, entry)
+        row = Field(label, entry)
         return row
 
     def get_inserted_values(self):

@@ -37,7 +37,7 @@ class EditFuelFrame(AddFuelFrameTemplate):
         self.fuel_name.configure(text=f_name)
         self.clear_entries()
         self.name_entry.insert(0, f_name)
-        fields = self.inputs_table.inputs
+        fields = self.inputs_table.fields
         for field, value in zip(fields, values):
             field.entry.insert(0, value)
 

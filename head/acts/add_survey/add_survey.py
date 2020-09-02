@@ -97,7 +97,7 @@ class AddSurveyAct:
     def fill_fuel_data(self):
         def fill_fuel_table(values):
             table = self.frame.fuel_table
-            for row, value in zip(table.inputs, values):
+            for row, value in zip(table.fields, values):
                 row.entry.delete("0", "end")
                 row.entry.insert("0", value)
 

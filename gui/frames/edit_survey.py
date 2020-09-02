@@ -19,7 +19,7 @@ class EditSurveyFrame(AddSurveyFrameTemplate):
         survey_type_cbox.set(values[1])
         sampling_time.insert('0', values[2])
 
-        fields = self.survey_table.inputs + self.fuel_table.inputs
+        fields = self.survey_table.fields + self.fuel_table.fields
         for field, value in zip(fields, values[3:-1]):
             field.entry.insert(0, value)
 
