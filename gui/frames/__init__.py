@@ -10,6 +10,8 @@ from gui.frames.add_survey import AddSurveyFrameTemplate,\
 from gui.frames.edit_fuel import EditFuelFrame
 from gui.frames.edit_survey import EditSurveyFrame
 
+from gui.frames.templates.config_frame import ConfigFrameTemplate
+
 
 def load_frames(top):
     frames = [FuelsListFrame(top),
@@ -20,6 +22,7 @@ def load_frames(top):
               AddSurveyPressureValuesFrame(top),  #5
               AddSurveyThrustValuesFrame(top),
               AddSurveyDoubleValuesFrame(top),
-              EditSurveyFrame(top)
+              EditSurveyFrame(top),
+              ConfigFrameTemplate(top) #testing
               ]
     return frames

@@ -30,7 +30,7 @@ class TopMenuFrame(tk.Frame):
         self.configure_btn.configure(text='Konfiguracja',
                                      image=self.wrench_img,
                                      compound="left",
-                                     command=lambda: top.change_frame(4))
+                                     command=lambda: top.change_frame(9))
 
         self.configure_btn = TopMenuButton(self)
         self.configure_btn.pack(side="right", ipadx=45)

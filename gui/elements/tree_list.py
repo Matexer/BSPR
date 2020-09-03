@@ -4,23 +4,18 @@ import tkinter.ttk as ttk
 
 class TreeList(tk.Frame):
     def __init__(self, top):
-        tk.Frame.__init__(self, top)
-        self.checked_img = tk.PhotoImage(file='graphic/checked.gif')
-        self.unchecked_img = tk.PhotoImage(file='graphic/unchecked.gif')
-
+        super().__init__(top)
         scroll = tk.Scrollbar(self)
         tree = ttk.Treeview(self)
         scroll.config(command=tree.yview)
         scroll.pack(side='right', fill='y')
         tree.pack(fill='both', expand=True)
         tree.config(yscrollcommand=scroll.set)
-
         self.tree = tree
         self.top = top
 
     def set_columns(self, columns):
         tree = self.tree
-
         tree['columns'] = columns[1:]
         tree['displaycolumns'] = columns[1:]
 

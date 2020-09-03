@@ -6,12 +6,14 @@ from gui.configure import TK_COLOR, T0_COLOR, TC_COLOR
 
 
 class PlotFrame(tk.Frame):
+    plot_fig_size = (10, 4)
+
     def __init__(self, top):
         super().__init__(top)
         self.plot, self.toolbar = self.create_plot()
 
-    def create_plot(self, size=(10, 4)):
-        fig = Figure(figsize=size, dpi=100)
+    def create_plot(self):
+        fig = Figure(figsize=self.plot_fig_size, dpi=100)
         self.canvas = canvas = FigureCanvasTkAgg(fig, master=self)
         canvas.draw()
         canvas.get_tk_widget().pack(side="top", fill="both", expand=1, padx=10)
