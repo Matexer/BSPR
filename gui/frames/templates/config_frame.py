@@ -13,14 +13,24 @@ class ConfigFrameTemplate(FrameTemplate):
         surveys_cont, self.surveys_list =\
             self.create_surveys_container(self, columns)
 
+        cboxes = {
+                 "Metoda całkowania": ("liniowa", "trapezów", "Simpsona"),
+                 "Dla wartości": ("średniej", "chwilowej")
+                 }
+
+        cboxes_frame = self.create_cbox_container(self, cboxes)
+
+        cboxes_frame.pack(fill="both")
         surveys_cont.pack(fill="both")
 
-    def create_cbox_container(self, top):
-        subtitle = self.create_subtitle(self, "KONFIGURACJA OBLICZEŃ")
+    def create_cbox_container(self, top, cboxes):
+        subtitle = self.create_subtitle(top, "KONFIGURACJA OBLICZEŃ")
+        cboxes_frame = CboxTable(top, cboxes)
+        return cboxes_frame
 
     def create_surveys_container(self, top, columns):
-        container = tk.Frame(self)
-        subtitle = self.create_subtitle(self, "LISTA DOSTĘPNYCH POMIARÓW")
+        container = tk.Frame(top)
+        subtitle = self.create_subtitle(top, "LISTA DOSTĘPNYCH POMIARÓW")
         ch_list = ChooseList(container)
         ch_list.tree_frame.set_columns(list(columns.keys()))
 
