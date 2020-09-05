@@ -1,6 +1,5 @@
 import tkinter as tk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
-from matplotlib.backend_bases import key_press_handler
 from matplotlib.figure import Figure
 from gui.configure import TK_COLOR, T0_COLOR, TC_COLOR
 

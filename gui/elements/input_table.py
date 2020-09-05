@@ -17,7 +17,7 @@ class InputTable(tk.Frame):
                       "sticky": "W"
                              }
         self.__properties.update(properties)
-        self.inputs = self.__gen_table(data)
+        self.fields = self.__gen_table(data)
 
     def __gen_table(self, data):
         inputs = []
@@ -55,7 +55,7 @@ class InputTable(tk.Frame):
         :return: list of values. From first column down (down, right)
         """
         values = []
-        for row in self.inputs:
+        for row in self.fields:
             value = row.entry.get()
             values.append(value)
         return values
@@ -67,14 +67,14 @@ class InputTable(tk.Frame):
         """
         for val_n, number in enumerate(numbers):
             if number == 0:
-                self.inputs[val_n].entry.configure(background="white")
+                self.fields[val_n].entry.configure(background="white")
             else:
-                self.inputs[val_n].entry.configure(background="red")
+                self.fields[val_n].entry.configure(background="red")
 
     def clear_entries(self):
-        for imp in self.inputs:
+        for imp in self.fields:
             imp.entry.delete('0', 'end')
-        numbers = [0] * (len(self.inputs))
+        numbers = [0] * (len(self.fields))
         self.point_entries(numbers)
 
 
@@ -89,8 +89,8 @@ if __name__ == "__main__":
     root = tk.Tk()
     input_table = InputTable(root, variables, ipadx=3)
     input_table.pack()
-    entries = input_table.inputs
-    entry_1 = input_table.inputs[0].entry
+    entries = input_table.fields
+    entry_1 = input_table.fields[0].entry
     entry_1.insert(0, "eeeg")
     print(input_table.get_inserted_values())
     input_table.point_entries([0, 1, 0])

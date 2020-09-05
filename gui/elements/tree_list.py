@@ -5,14 +5,15 @@ import tkinter.ttk as ttk
 class TreeList(tk.Frame):
     def __init__(self, top):
         super().__init__(top)
-        scroll = tk.Scrollbar(self)
-        tree = ttk.Treeview(self)
+        container = tk.Frame(self)
+        scroll = tk.Scrollbar(container)
+        tree = ttk.Treeview(container)
         scroll.config(command=tree.yview)
         scroll.pack(side='right', fill='y')
         tree.pack(fill='both', expand=True)
         tree.config(yscrollcommand=scroll.set)
+        container.pack(fill="both", expand=1)
         self.tree = tree
-        self.top = top
 
     def set_columns(self, columns):
         tree = self.tree
