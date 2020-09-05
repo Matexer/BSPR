@@ -14,6 +14,7 @@ class ConfigFrameTemplate(FrameTemplate):
 
     def create_surveys_container(self, top, surveys):
         container = tk.Frame(self)
+        subtitle = self.create_subtitle("Lista dostępnych pomiarów")
         ch_list = ChooseList(container)
         ch_list.tree_frame.set_columns(("Lp.", "ŚKD", "k"))
         ch_list.pack()

@@ -10,8 +10,8 @@ class ChooseList(tk.Frame):
         self.checked_img = tk.PhotoImage(file='graphic/checked.gif')
         self.unchecked_img = tk.PhotoImage(file='graphic/unchecked.gif')
 
-        self.tree_frame = self.create_tree_frame()
-        self.plot_frame = self.create_plot_frame()
+        self.tree_frame, self.mark_all_btn = self.create_tree_frame()
+        self.plot_frame, self.plot_buttons = self.create_plot_frame()
 
         self.tree_frame.pack(side="right", fill="both")
         self.plot_frame.pack(side="left", fill="both")
@@ -20,7 +20,7 @@ class ChooseList(tk.Frame):
         tree_frame = TreeList(self)
         mark_all_btn = Button(tree_frame, text="Wybierz wszystkie")
         mark_all_btn.pack(side="bottom", anchor="w")
-        return tree_frame
+        return tree_frame, mark_all_btn
 
     def create_plot_frame(self):
         plot_frame = PlotFrame(self)
@@ -32,4 +32,4 @@ class ChooseList(tk.Frame):
         edit_btn.pack(side="left")
         set_t_btn.pack(side="left", padx=10)
         btn_container.pack(side="bottom", fill="both")
-        return plot_frame
+        return plot_frame, (edit_btn, set_t_btn)
