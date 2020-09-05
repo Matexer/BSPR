@@ -11,7 +11,7 @@ class AddSurveyValuesBaseFrameTemplate(FrameTemplate):
         self.adjust_plot()
 
     def create_head_section(self):
-        self.title = self.create_title('')
+        self.title = self.create_title(self, '')
         self.title.pack(side="top", fill="x")
 
     def create_body_section(self):

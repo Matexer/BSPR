@@ -5,6 +5,8 @@ from .btns import Button
 
 
 class ChooseList(tk.Frame):
+    PLOT_FIG_SIZE = 20, 4
+
     def __init__(self, top, *args, **kwargs):
         super().__init__(top, *args, **kwargs)
         self.checked_img = tk.PhotoImage(file='graphic/checked.gif')
@@ -13,8 +15,8 @@ class ChooseList(tk.Frame):
         self.tree_frame, self.mark_all_btn = self.create_tree_frame()
         self.plot_frame, self.plot_buttons = self.create_plot_frame()
 
-        self.tree_frame.pack(side="right", fill="both")
-        self.plot_frame.pack(side="left", fill="both")
+        self.tree_frame.pack(side="left", fill="both")
+        self.plot_frame.pack(side="right", fill="both")
 
     def create_tree_frame(self):
         tree_frame = TreeList(self)
@@ -23,13 +25,15 @@ class ChooseList(tk.Frame):
         return tree_frame, mark_all_btn
 
     def create_plot_frame(self):
-        plot_frame = PlotFrame(self)
+        ExtendedPlotFrame = PlotFrame
+        ExtendedPlotFrame.plot_fig_size = self.PLOT_FIG_SIZE
+        plot_frame = ExtendedPlotFrame(self)
         plot_frame.hide_toolbar()
         plot_frame.canvas.get_tk_widget().pack_configure(padx=0)
         btn_container = tk.Frame(plot_frame)
         edit_btn = Button(btn_container, text="Edytuj wybrany", background="yellow")
         set_t_btn = Button(btn_container, text="Ustaw t chwilowe", background="orange")
-        edit_btn.pack(side="left")
-        set_t_btn.pack(side="left", padx=10)
-        btn_container.pack(side="bottom", fill="both")
+        edit_btn.pack(side="right")
+        set_t_btn.pack(side="right", padx=10)
+        btn_container.pack(side="bottom", fill="both", padx=10)
         return plot_frame, (edit_btn, set_t_btn)

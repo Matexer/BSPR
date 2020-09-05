@@ -15,7 +15,7 @@ class FuelsListFrame(ListFrameTemplate):
                 return item_id
 
     def create_head_section(self, top):
-        title = self.create_title("LISTA PALIW")
+        title = self.create_title(self, "LISTA PALIW")
         btns_container, self.buttons =\
             self.create_btns_container(self)
         self.buttons[0].config(

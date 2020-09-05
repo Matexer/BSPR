@@ -9,24 +9,28 @@ class FrameTemplate(tk.Frame):
         self.top = top
         self.messages = []
 
-    def create_title(self, text):
-        title = TitleLabel(self)
+    @staticmethod
+    def create_title(top, text):
+        title = TitleLabel(top)
         title.configure(text=text)
         return title
 
-    def create_subtitle(self, text):
-        subtitle = SubtitleLabel(self)
+    @staticmethod
+    def create_subtitle(top, text):
+        subtitle = SubtitleLabel(top)
         subtitle.configure(text=text)
         return subtitle
 
-    def create_inputs_container(self, variables):
-        inputs_container = tk.Frame(self)
+    @staticmethod
+    def create_inputs_container(top, variables):
+        inputs_container = tk.Frame(top)
         table = InputTable(inputs_container, variables)
         table.pack()
         return inputs_container, table
 
-    def create_comment_container(self, width=100, height=8):
-        comment_container = tk.Frame(self)
+    @staticmethod
+    def create_comment_container(top, width=100, height=8):
+        comment_container = tk.Frame(top)
         comment = tk.Text(comment_container)
         comment.configure(width=width,
                           height=height)

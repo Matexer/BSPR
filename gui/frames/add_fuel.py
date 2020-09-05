@@ -9,14 +9,14 @@ class AddFuelFrameTemplate(FrameTemplate):
         self.create_body_section()
 
     def create_head_section(self):
-        title = self.create_title("DODAWANIE NOWEGO PALIWA")
+        title = self.create_title(self, "DODAWANIE NOWEGO PALIWA")
         name_container, self.name_entry = self.create_name_container()
 
         title.pack(side="top", fill="x")
         name_container.pack(side="top", anchor="w", padx=5, pady=20)
 
     def create_body_section(self):
-        inputs_subtitle = self.create_subtitle("DANE OD PRODUCENTA")
+        inputs_subtitle = self.create_subtitle(self, "DANE OD PRODUCENTA")
 
         variables = (("Średnica zewnętrzna\nładunku paliwa [mm]",
                       "Średnica wewnętrzna\nładunku paliwa [mm]"),
@@ -27,9 +27,9 @@ class AddFuelFrameTemplate(FrameTemplate):
                       ("Siła paliwa [MJ/kg]",
                       "Wykładnik adiabaty gazowych\nproduktów spalania"))
 
-        inputs_container, self.inputs_table = self.create_inputs_container(variables)
-        comment_subtitle = self.create_subtitle("KOMENTARZ")
-        comment_container, self.comment = self.create_comment_container()
+        inputs_container, self.inputs_table = self.create_inputs_container(self, variables)
+        comment_subtitle = self.create_subtitle(self, "KOMENTARZ")
+        comment_container, self.comment = self.create_comment_container(self)
         btns_container, self.buttons = self.create_down_nav_container()
         self.set_buttons(self.buttons)
 

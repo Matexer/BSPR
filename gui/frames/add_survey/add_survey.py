@@ -26,7 +26,7 @@ class AddSurveyFrameTemplate(FrameTemplate):
         return name_cbox, survey_type_cbox
 
     def create_head_section(self):
-        self.title = self.create_title("DODAWANIE NOWEGO POMIARU")
+        self.title = self.create_title(self, "DODAWANIE NOWEGO POMIARU")
         name_container, self.name_cbox = self.create_name_container()
         init_container, self.init_widgets = self.create_init_survey_container()
 
@@ -35,7 +35,7 @@ class AddSurveyFrameTemplate(FrameTemplate):
         init_container.pack(side="top", anchor="w", fill="x", padx=5)
 
     def create_body_section(self):
-        survey_subtitle = self.create_subtitle("DANE POMIARU")
+        survey_subtitle = self.create_subtitle(self, "DANE POMIARU")
         variables = (("Średnica krytyczna\ndyszy [mm]",),
 
                      ("Średnica komory\nspalania [mm]",
@@ -43,16 +43,16 @@ class AddSurveyFrameTemplate(FrameTemplate):
 
                      ("Współczynnik strat\nwydatku",
                       "Współczynnik strat\ncieplnych"))
-        survey_container, self.survey_table = self.create_inputs_container(variables)
+        survey_container, self.survey_table = self.create_inputs_container(self, variables)
         fuel_subtitle, self.fill_btn = self.create_fuel_subtitle("DANE PALIWA")
         variables = (("Średnica zewnętrzna\nładunku paliwa [mm]",
                       "Średnica wewnętrzna\nładunku paliwa [mm]"),
 
                      ("Długość ładunku\npaliwa [mm]",
                       "Masa paliwa [g]"))
-        fuel_container, self.fuel_table = self.create_inputs_container(variables)
-        comment_subtitle = self.create_subtitle("KOMENTARZ")
-        comment_container, self.comment = self.create_comment_container(100, 6)
+        fuel_container, self.fuel_table = self.create_inputs_container(self, variables)
+        comment_subtitle = self.create_subtitle(self, "KOMENTARZ")
+        comment_container, self.comment = self.create_comment_container(self, 100, 6)
         btns_container, self.buttons = self.create_down_nav_container()
 
         survey_subtitle.pack(side="top", fill="x")

@@ -14,7 +14,7 @@ class SurveysListFrame(ListFrameTemplate):
         self.survey_type = ""
 
     def create_head_section(self, top):
-        title = self.create_title("LISTA POMIARÓW")
+        title = self.create_title(self, "LISTA POMIARÓW")
         option_container = tk.Frame(self)
         cboxs_container, self.cboxes =\
             self.create_cboxes_container(option_container)
