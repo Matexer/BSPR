@@ -18,19 +18,40 @@ class ConfigFrameTemplate(FrameTemplate):
                  "Dla wartości": ("średniej", "chwilowej")
                  }
 
-        cboxes_frame = self.create_cbox_container(self, cboxes)
+        cboxes_container, self.cboxes_frame =\
+            self.create_cbox_container(self, cboxes)
 
-        cboxes_frame.pack(fill="both")
+        inputs = (("K",),
+                  ("Impuls jednostkowy",))
+
+        inputs_container, self.inputs_frame =\
+            self.create_input_container(self, inputs)
+
+        cboxes_container.pack(fill="both")
+        inputs_container.pack(fill="both")
         surveys_cont.pack(fill="both")
 
     def create_cbox_container(self, top, cboxes):
-        subtitle = self.create_subtitle(top, "KONFIGURACJA OBLICZEŃ")
-        cboxes_frame = CboxTable(top, cboxes)
-        return cboxes_frame
+        container = tk.Frame(top)
+        subtitle = self.create_subtitle(container, "KONFIGURACJA OBLICZEŃ")
+        cboxes_frame = CboxTable(container, cboxes)
+
+        subtitle.pack(fill="x")
+        cboxes_frame.pack(fill="both")
+        return cboxes_frame, cboxes_frame
+
+    def create_input_container(self, top, inputs):
+        container = tk.Frame(top)
+        subtitle = self.create_subtitle(container, "KONFIGURACJA OBLICZEŃ")
+        inputs_table_frame = InputTable(container, inputs)
+
+        subtitle.pack(fill="x")
+        inputs_table_frame.pack(fill="both")
+        return container, inputs_table_frame
 
     def create_surveys_container(self, top, columns):
         container = tk.Frame(top)
-        subtitle = self.create_subtitle(top, "LISTA DOSTĘPNYCH POMIARÓW")
+        subtitle = self.create_subtitle(container, "LISTA DOSTĘPNYCH POMIARÓW")
         ch_list = ChooseList(container)
         ch_list.tree_frame.set_columns(list(columns.keys()))
 
