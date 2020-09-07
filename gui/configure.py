@@ -2,7 +2,7 @@ DARK_GREY = "#424242"
 GREY = "#808080"
 BRIGHT_GREY = "#cccccc"
 
-EXTRA_SPACE_AFTER_SCROLL = 200
+EXTRA_SPACE_AFTER_SCROLL = 100
 FOLDER_IMG = "graphic/folder.gif"
 WRENCH_IMG = "graphic/wrench.gif"
 
