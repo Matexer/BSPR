@@ -37,8 +37,8 @@ class FrameTemplate(tk.Frame):
         comment.pack(pady=5)
         return comment_container, comment
 
-    def create_down_nav_container(self):
-        btns_container = tk.Frame(self)
+    def create_down_nav_container(self, top):
+        btns_container = tk.Frame(top)
         btns_container.configure(bg=TL_BG)
 
         save_btn = SaveButton(btns_container)

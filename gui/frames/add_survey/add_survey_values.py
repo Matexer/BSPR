@@ -16,7 +16,7 @@ class AddSurveyValuesBaseFrameTemplate(FrameTemplate):
 
     def create_body_section(self):
         self.scrolled_container, interior = self.create_scrolled_container(self)
-        nav_container, self.down_nav_widgets = self.create_down_nav_container()
+        nav_container, self.down_nav_widgets = self.create_down_nav_container(self)
         self.create_plot_section(interior)
 
         clear_btn, cancel_btn = self.down_nav_widgets[1:3]

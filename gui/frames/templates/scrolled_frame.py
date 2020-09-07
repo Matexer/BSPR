@@ -16,7 +16,6 @@ class ScrolledFrameTemplate(FrameTemplate):
 
     def __init__(self, parent, *args, **kw):
         super().__init__(parent, *args, **kw)
-
         # create a canvas object and a vertical scrollbar for scrolling it
         vscrollbar = tk.Scrollbar(self, orient=tk.VERTICAL)
         vscrollbar.pack(fill=tk.Y, side=tk.RIGHT, expand=tk.FALSE)

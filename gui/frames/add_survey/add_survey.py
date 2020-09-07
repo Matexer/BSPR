@@ -53,7 +53,7 @@ class AddSurveyFrameTemplate(FrameTemplate):
         fuel_container, self.fuel_table = self.create_inputs_container(self, variables)
         comment_subtitle = self.create_subtitle(self, "KOMENTARZ")
         comment_container, self.comment = self.create_comment_container(self, 100, 6)
-        btns_container, self.buttons = self.create_down_nav_container()
+        btns_container, self.buttons = self.create_down_nav_container(self)
 
         survey_subtitle.pack(side="top", fill="x")
         survey_container.pack(side="top", anchor="w", padx=5)

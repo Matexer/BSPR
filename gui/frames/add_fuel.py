@@ -30,7 +30,7 @@ class AddFuelFrameTemplate(FrameTemplate):
         inputs_container, self.inputs_table = self.create_inputs_container(self, variables)
         comment_subtitle = self.create_subtitle(self, "KOMENTARZ")
         comment_container, self.comment = self.create_comment_container(self)
-        btns_container, self.buttons = self.create_down_nav_container()
+        btns_container, self.buttons = self.create_down_nav_container(self)
         self.set_buttons(self.buttons)
 
         inputs_subtitle.pack(side="top", fill="x")

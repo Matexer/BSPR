@@ -30,13 +30,13 @@ class ConfigFrameTemplate(ScrolledFrameTemplate):
         inputs_container, self.inputs_frame =\
             self.create_input_container(self.interior, inputs)
 
-        navi_container, buttons = self.create_down_nav_container(self.interior)
+        navi_container, buttons = self.create_down_nav_container(self)
 
         title.pack(fill="x")
         inputs_container.pack(fill="both")
         cboxes_container.pack(fill="both")
         surveys_cont.pack(fill="both")
-
+        navi_container.pack(side="bottom", fill="x", expand=1)
 
     def create_cbox_container(self, top, cboxes):
         container = tk.Frame(top)
