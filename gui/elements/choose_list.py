@@ -18,6 +18,8 @@ class ChooseList(tk.Frame):
         self.tree_frame.pack(side="left", fill="both")
         self.plot_frame.pack(side="right", fill="both")
 
+        self.chosen_items_ids = []
+
     def create_tree_frame(self):
         tree_frame = TreeList(self)
         mark_all_btn = Button(tree_frame, text="Wybierz wszystkie")
@@ -37,3 +39,9 @@ class ChooseList(tk.Frame):
         set_t_btn.pack(side="right", padx=10)
         btn_container.pack(side="bottom", fill="both", padx=10)
         return plot_frame, (edit_btn, set_t_btn)
+
+    def on_click(self, event):
+        item = self.tree_frame.tree.identify("item", event.x, event.y)
+        index = self.tree_frame.tree.index(item)
+        if index in self.chosen_items_ids:
+            self.chosen_items_ids.remove(index)

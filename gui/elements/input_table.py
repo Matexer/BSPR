@@ -2,20 +2,16 @@ import tkinter as tk
 
 
 class Field:
-    def __init__(self, label, row):
+    def __init__(self, label, entry):
         self.label = label
-        self.entry = row
+        self.entry = entry
 
 
 class InputTable(tk.Frame):
     def __init__(self, top, data, **properties):
         tk.Frame.__init__(self, top)
-        self.__properties = {"ipadx": 0,
-                      "ipady": 0,
-                      "padx": 5,
-                      "pady": 5,
-                      "sticky": "W"
-                             }
+        self.__properties = {"ipadx": 0, "ipady": 0, "padx": 5,
+                             "pady": 5, "sticky": "W"}
         self.__properties.update(properties)
         self.fields = self.__gen_table(data)
 
@@ -51,14 +47,7 @@ class InputTable(tk.Frame):
         return row
 
     def get_inserted_values(self):
-        """
-        :return: list of values. From first column down (down, right)
-        """
-        values = []
-        for row in self.fields:
-            value = row.entry.get()
-            values.append(value)
-        return values
+        return [field.entry.get() for field in self.fields]
 
     def point_entries(self, numbers):
         """

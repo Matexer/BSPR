@@ -17,13 +17,16 @@ class ScrolledFrameTemplate(FrameTemplate):
     def __init__(self, parent, *args, **kw):
         super().__init__(parent, *args, **kw)
         # create a canvas object and a vertical scrollbar for scrolling it
-        vscrollbar = tk.Scrollbar(self, orient=tk.VERTICAL)
+        canvas_container = tk.Frame(self)
+        canvas_container.pack(fill="both", expand=1, side="top")
+
+        vscrollbar = tk.Scrollbar(canvas_container, orient=tk.VERTICAL)
         vscrollbar.pack(fill=tk.Y, side=tk.RIGHT, expand=tk.FALSE)
-        canvas = tk.Canvas(self,
+        canvas = tk.Canvas(canvas_container,
                            bd=0,
                            highlightthickness=0,
                            yscrollcommand=vscrollbar.set)
-        canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=tk.TRUE)
+        canvas.pack(side=tk.TOP, fill=tk.BOTH, expand=tk.TRUE)
         vscrollbar.config(command=canvas.yview)
 
         canvas.bind("<Enter>", self._bind_mouse)
