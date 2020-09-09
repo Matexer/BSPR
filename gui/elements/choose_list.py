@@ -12,21 +12,21 @@ class ChooseList(tk.Frame):
         self.checked_img = tk.PhotoImage(file='graphic/checked.gif')
         self.unchecked_img = tk.PhotoImage(file='graphic/unchecked.gif')
 
-        self.tree_frame, self.mark_all_btn = self.create_tree_frame()
-        self.plot_frame, self.plot_buttons = self.create_plot_frame()
+        self.tree_frame, self.mark_all_btn = self.__create_tree_frame()
+        self.plot_frame, self.plot_buttons = self.__create_plot_frame()
 
         self.tree_frame.pack(side="left", fill="both")
         self.plot_frame.pack(side="right", fill="both")
 
         self.chosen_items_ids = []
 
-    def create_tree_frame(self):
+    def __create_tree_frame(self):
         tree_frame = TreeList(self)
         mark_all_btn = Button(tree_frame, text="Wybierz wszystkie")
         mark_all_btn.pack(side="bottom", anchor="w")
         return tree_frame, mark_all_btn
 
-    def create_plot_frame(self):
+    def __create_plot_frame(self):
         ExtendedPlotFrame = PlotFrame
         ExtendedPlotFrame.plot_fig_size = self.PLOT_FIG_SIZE
         plot_frame = ExtendedPlotFrame(self)
@@ -40,8 +40,12 @@ class ChooseList(tk.Frame):
         btn_container.pack(side="bottom", fill="both", padx=10)
         return plot_frame, (edit_btn, set_t_btn)
 
-    def on_click(self, event):
+    def __toggle_item(self, event):
         item = self.tree_frame.tree.identify("item", event.x, event.y)
         index = self.tree_frame.tree.index(item)
         if index in self.chosen_items_ids:
             self.chosen_items_ids.remove(index)
+            item["image"] = self.unchecked_img
+        else:
+            self.chosen_items_ids.append(index)
+            item["image"] = self.checked_img

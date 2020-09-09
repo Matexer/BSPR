@@ -61,22 +61,18 @@ class SurveysListFrame(ListFrameTemplate):
             self.fuel_name, SURVEY_TYPES[self.survey_type])
 
     @staticmethod
-    def fill_list(tree, data):
+    def fill_list(tree_frame, data):
+        if not data:
+            return
+        surveys_data = []
         for number, survey in enumerate(data):
-            tree.insert(
-                '', 'end',
-                text=number+1, values=(survey.jet_diameter,
-                                       survey.sampling_time,
-                                       survey.fuel_mass,
-                                       survey.save_date))
+            surveys_data.append((number+1, survey.jet_diameter, survey.sampling_time,
+                                 survey.fuel_mass, survey.save_date))
+        tree_frame.set_data(surveys_data)
 
     def reload_list(self):
-        tree = self.tree_list.tree
-        items = tree.get_children()
-        for item in items:
-            tree.delete(item)
-        if self.data:
-            self.fill_list(tree, self.data)
+        self.tree_list.clean_list()
+        self.fill_list(self.tree_list, self.data)
 
     @staticmethod
     def create_cboxes_container(top):

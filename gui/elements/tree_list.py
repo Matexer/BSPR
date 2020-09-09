@@ -15,6 +15,18 @@ class TreeList(tk.Frame):
         container.pack(fill="both", expand=1)
         self.tree = tree
 
+    def set_data(self, data):
+        self.clean_list()
+        self.add_to_list(data)
+
+    def add_to_list(self, data):
+        for row in data:
+            self.tree.insert('', "end", text=row[0], values=row[1:])
+
+    def clean_list(self):
+        for item in self.tree.get_children():
+            self.tree.delete(item)
+
     def set_columns(self, columns):
         tree = self.tree
         tree['columns'] = columns[1:]
