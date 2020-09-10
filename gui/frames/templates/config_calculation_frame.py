@@ -68,9 +68,11 @@ class ConfigCalculationFrameTemplate(ScrolledFrameTemplate):
         ch_fuel_container, self.ch_fuel_cbox =\
             self.create_choose_fuel_container(self.interior)
 
-        columns = {"Lp.": 0.3, "ŚKD": 0.3}
+        columns = {"Lp.": 0.5, "ŚKD": 0.5}
         surveys_cont, self.surveys_list =\
             self.create_surveys_container(self.interior, columns)
+
+        self.surveys_list.tree_frame.set_data(((1, 2), (3, 4)))
 
         cboxes = ({
                  "Metoda całkowania": ("liniowa", "trapezów", "Simpsona")},

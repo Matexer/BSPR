@@ -10,8 +10,8 @@ class SurveysListFrame(ListFrameTemplate):
     def __init__(self, top):
         super().__init__(top)
         self.data = []
-        self.fuel_name = ""
-        self.survey_type = ""
+        self.fuel_name: str
+        self.survey_type: str
 
     def create_head_section(self, top):
         title = self.create_title(self, "LISTA POMIARÓW")

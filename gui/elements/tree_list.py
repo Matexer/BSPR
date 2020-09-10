@@ -3,6 +3,8 @@ import tkinter.ttk as ttk
 
 
 class TreeList(tk.Frame):
+    CHECK_OPTION = False
+
     def __init__(self, top):
         super().__init__(top)
         container = tk.Frame(self)
@@ -14,6 +16,11 @@ class TreeList(tk.Frame):
         tree.config(yscrollcommand=scroll.set)
         container.pack(fill="both", expand=1)
         self.tree = tree
+        if self.CHECK_OPTION:
+            self.checked_img = tk.PhotoImage(file='graphic/checked.gif')
+            self.unchecked_img = tk.PhotoImage(file='graphic/unchecked.gif')
+            self.chosen_items_ids = []
+            tree.bind("<Button-1>", self.__toggle_item)
 
     def set_data(self, data):
         self.clean_list()
@@ -43,3 +50,30 @@ class TreeList(tk.Frame):
             self.tree.column(num, width=width,
                              minwidth=width//2,
                              stretch=1)
+
+    def toggle_all(self):
+        tree = self.tree
+        items = tree.get_children()
+
+        def set_checkout_img(img):
+            for item in items:
+                tree.item(item, image=img)
+
+        if len(tree.chosen_items_ids) != len(items):
+            set_checkout_img(self.checked_img)
+            tree.chosen_items_ids = [range(0, len(items))]
+        else:
+            set_checkout_img(self.unchecked_img)
+            tree.chosen_items_ids = []
+
+    def __toggle_item(self, event):
+        row_id = self.tree.identify("item", event.x, event.y)
+        if not row_id:
+            return
+        index = self.tree.index(row_id)
+        if index in self.chosen_items_ids:
+            self.chosen_items_ids.remove(index)
+            self.tree.item(row_id, image=self.unchecked_img)
+        else:
+            self.chosen_items_ids.append(index)
+            self.tree.item(row_id, image=self.checked_img)

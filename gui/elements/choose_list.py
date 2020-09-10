@@ -9,8 +9,6 @@ class ChooseList(tk.Frame):
 
     def __init__(self, top, *args, **kwargs):
         super().__init__(top, *args, **kwargs)
-        self.checked_img = tk.PhotoImage(file='graphic/checked.gif')
-        self.unchecked_img = tk.PhotoImage(file='graphic/unchecked.gif')
 
         self.tree_frame, self.mark_all_btn = self.__create_tree_frame()
         self.plot_frame, self.plot_buttons = self.__create_plot_frame()
@@ -18,10 +16,10 @@ class ChooseList(tk.Frame):
         self.tree_frame.pack(side="left", fill="both")
         self.plot_frame.pack(side="right", fill="both")
 
-        self.chosen_items_ids = []
-
     def __create_tree_frame(self):
-        tree_frame = TreeList(self)
+        CheckTreeList = TreeList
+        CheckTreeList.CHECK_OPTION = True
+        tree_frame = CheckTreeList(self)
         mark_all_btn = Button(tree_frame, text="Wybierz wszystkie")
         mark_all_btn.pack(side="bottom", anchor="w")
         return tree_frame, mark_all_btn
@@ -35,17 +33,8 @@ class ChooseList(tk.Frame):
         btn_container = tk.Frame(plot_frame)
         edit_btn = Button(btn_container, text="Edytuj wybrany", background="yellow")
         set_t_btn = Button(btn_container, text="Ustaw t chwilowe", background="orange")
+        
         edit_btn.pack(side="right")
         set_t_btn.pack(side="right", padx=10)
         btn_container.pack(side="bottom", fill="both", padx=10)
         return plot_frame, (edit_btn, set_t_btn)
-
-    def __toggle_item(self, event):
-        item = self.tree_frame.tree.identify("item", event.x, event.y)
-        index = self.tree_frame.tree.index(item)
-        if index in self.chosen_items_ids:
-            self.chosen_items_ids.remove(index)
-            item["image"] = self.unchecked_img
-        else:
-            self.chosen_items_ids.append(index)
-            item["image"] = self.checked_img
