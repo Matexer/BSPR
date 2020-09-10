@@ -13,7 +13,6 @@ class ConfigCalculationFrameTemplate(ScrolledFrameTemplate):
         self.inputs_frame: InputTable(tk.Frame, tuple)
         self.surveys_list: ChooseList(tk.Frame, *args, **kwargs)
         self.surveys: list
-        self.chosen_surveys_ids: list
         self.chosen_fuel = None #Fuel class instance
 
         self.test()

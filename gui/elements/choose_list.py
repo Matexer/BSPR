@@ -20,7 +20,8 @@ class ChooseList(tk.Frame):
         CheckTreeList = TreeList
         CheckTreeList.CHECK_OPTION = True
         tree_frame = CheckTreeList(self)
-        mark_all_btn = Button(tree_frame, text="Wybierz wszystkie")
+        mark_all_btn = Button(tree_frame, text="Wybierz wszystkie",
+                              command=lambda: tree_frame.toggle_all())
         mark_all_btn.pack(side="bottom", anchor="w")
         return tree_frame, mark_all_btn
 

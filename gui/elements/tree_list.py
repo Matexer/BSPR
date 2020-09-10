@@ -2,6 +2,14 @@ import tkinter as tk
 import tkinter.ttk as ttk
 
 
+def check_option(func):
+    def func_wrapper(self, *args, **kwargs):
+        if not self.CHECK_OPTION:
+            return
+        return func(self, *args, **kwargs)
+    return func_wrapper
+
+
 class TreeList(tk.Frame):
     CHECK_OPTION = False
 
@@ -51,6 +59,7 @@ class TreeList(tk.Frame):
                              minwidth=width//2,
                              stretch=1)
 
+    @check_option
     def toggle_all(self):
         tree = self.tree
         items = tree.get_children()
@@ -59,13 +68,14 @@ class TreeList(tk.Frame):
             for item in items:
                 tree.item(item, image=img)
 
-        if len(tree.chosen_items_ids) != len(items):
+        if len(self.chosen_items_ids) != len(items):
             set_checkout_img(self.checked_img)
-            tree.chosen_items_ids = [range(0, len(items))]
+            self.chosen_items_ids = [i for i in range(0, len(items))]
         else:
             set_checkout_img(self.unchecked_img)
-            tree.chosen_items_ids = []
+            self.chosen_items_ids = []
 
+    @check_option
     def __toggle_item(self, event):
         row_id = self.tree.identify("item", event.x, event.y)
         if not row_id:
