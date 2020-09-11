@@ -34,7 +34,7 @@ class ConfigCalculationFrameTemplate(ScrolledFrameTemplate):
         cboxes_frame.pack(fill="both")
         return container, cboxes_frame
 
-    def create_input_container(self, top, inputs):
+    def create_inputs_container(self, top, inputs):
         container = tk.Frame(top)
         subtitle = self.create_subtitle(container, "WARTOŚCI ZMIENNYCH")
         inputs_table_frame = InputTable(container, inputs)
@@ -86,7 +86,7 @@ class ConfigCalculationFrameTemplate(ScrolledFrameTemplate):
                   ("Impuls jednostkowy",))
 
         inputs_container, self.inputs_frame =\
-            self.create_input_container(self.interior, inputs)
+            self.create_inputs_container(self.interior, inputs)
 
         navi_container, buttons = self.create_down_nav_container(self)
 

@@ -16,10 +16,15 @@ class ChooseList(tk.Frame):
         self.tree_frame.pack(side="left", fill="both")
         self.plot_frame.pack(side="right", fill="both")
 
+        self.plots_data = []
+        self.drawn_plots = []
+
     def __create_tree_frame(self):
         CheckTreeList = TreeList
         CheckTreeList.CHECK_OPTION = True
         tree_frame = CheckTreeList(self)
+        tree_frame.tree.bind("<<TreeviewSelect>>",
+                             lambda: self.__draw_plots())
         mark_all_btn = Button(tree_frame, text="Wybierz wszystkie",
                               command=lambda: tree_frame.toggle_all())
         mark_all_btn.pack(side="bottom", anchor="w")
@@ -39,3 +44,20 @@ class ChooseList(tk.Frame):
         set_t_btn.pack(side="right", padx=10)
         btn_container.pack(side="bottom", fill="both", padx=10)
         return plot_frame, (edit_btn, set_t_btn)
+
+    def __draw_plots(self):
+        self.drawn_plots = []
+        if not self.plots_data:
+            raise Exception("Lack of data to plot")
+
+        plot = self.plot_frame.plot
+        selected_items = self.tree_frame.tree.selection()
+        if not selected_items:
+            return
+
+        for item in selected_items:
+            index = self.tree_frame.tree.index(item)
+            data = self.plots_data[index]
+            y_data = data[0]
+            x_data = [data[1] * len(data)]
+            self.drawn_plots.append(plot.plot(x_data, y_data))

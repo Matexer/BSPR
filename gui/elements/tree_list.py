@@ -5,7 +5,7 @@ import tkinter.ttk as ttk
 def check_option(func):
     def func_wrapper(self, *args, **kwargs):
         if not self.CHECK_OPTION:
-            return
+            raise Exception("Check option is disabled in this list.")
         return func(self, *args, **kwargs)
     return func_wrapper
 
@@ -51,7 +51,7 @@ class TreeList(tk.Frame):
         for num, column in enumerate(columns[1:]):
             tree.heading(num, text=column)
 
-    def set_columns_width(self, tree_width, widths):
+    def set_columns_width(self, tree_width: int, widths):
         widths = [int(width * tree_width) for width in widths]
         self.tree.column('#0', minwidth=widths[0]//2, width=widths[0])
         for num, width in enumerate(widths[1:]):

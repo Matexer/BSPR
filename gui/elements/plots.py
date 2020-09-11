@@ -10,6 +10,7 @@ class PlotFrame(tk.Frame):
     def __init__(self, top):
         super().__init__(top)
         self.plot, self.toolbar = self.create_plot()
+        self.canvas: FigureCanvasTkAgg
 
     def create_plot(self):
         fig = Figure(figsize=self.PLOT_FIG_SIZE, dpi=100)
