@@ -5,7 +5,7 @@ import tkinter.ttk as ttk
 def check_option(func):
     def func_wrapper(self, *args, **kwargs):
         if not self.CHECK_OPTION:
-            raise Exception("Check option is disabled in this list.")
+            raise AttributeError("Check option is disabled.")
         return func(self, *args, **kwargs)
     return func_wrapper
 
