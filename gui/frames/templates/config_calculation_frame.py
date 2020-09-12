@@ -72,7 +72,8 @@ class ConfigCalculationFrameTemplate(ScrolledFrameTemplate):
             self.create_surveys_container(self.interior, columns)
 
         self.surveys_list.tree_frame.set_data(((1, 2), (3, 4)))
-        self.surveys_list.plots_data = [((1, 2, 4), 5, "egg"), ((4, 5, 4), 2, "milk")]
+        plots_data = (((1, 2, 4), 5, "egg"), ((4, 5, 4), 2, "milk"))
+        self.surveys_list.set_plots_data(plots_data)
 
         cboxes = ({
                  "Metoda całkowania": ("liniowa", "trapezów", "Simpsona")},

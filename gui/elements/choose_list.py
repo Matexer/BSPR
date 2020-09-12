@@ -2,7 +2,7 @@ import tkinter as tk
 from .tree_list import TreeList
 from .plots import PlotFrame
 from .btns import Button
-from typing import Tuple, AnyStr
+from typing import Tuple, AnyStr, List
 
 
 class ChooseList(tk.Frame):
@@ -20,7 +20,12 @@ class ChooseList(tk.Frame):
         self.comment_frame.pack(side="bottom", fill="x")
 
         self.plots_data = Tuple[Tuple, int, AnyStr]
+        self.surveys_t_lines = []
         self.drawn_plots = []
+
+    def set_plots_data(self, data: Tuple[Tuple, int, AnyStr]):
+        self.plots_data = data
+        self.surveys_t_lines = [None] * len(data)
 
     def __create_tree_frame(self, top):
         CheckTreeList = TreeList
@@ -40,7 +45,8 @@ class ChooseList(tk.Frame):
         plot_frame.canvas.get_tk_widget().pack_configure(padx=0)
         btn_container = tk.Frame(plot_frame)
         edit_btn = Button(btn_container, text="Edytuj wybrany", background="yellow")
-        set_t_btn = Button(btn_container, text="Ustaw t chwilowe", background="orange")
+        set_t_btn = Button(btn_container, text="Ustaw t chwilowe", background="orange",
+                           command=lambda e: self.__set_t())
         
         edit_btn.pack(side="right")
         set_t_btn.pack(side="right", padx=10)
@@ -64,7 +70,7 @@ class ChooseList(tk.Frame):
         plot = self.plot_frame.plot
         selected_items = self.tree_frame.tree.selection()
 
-        ids = [self.tree_frame.tree.index(item) for item in selected_items]
+        ids = [self.tree_frame.tree.index(i) for i in selected_items]
 
         if not selected_items:
             return
@@ -89,3 +95,12 @@ class ChooseList(tk.Frame):
 
     def __show_comment(self, text):
         self.comment.configure(text=text)
+
+    def __set_t(self):
+        pass
+
+    def __move_line(self):
+        pass
+
+    def __draw_line(self, x):
+        return self.plot_frame.plot.axvline(x=x, linestyle="--")
