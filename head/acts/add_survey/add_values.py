@@ -146,12 +146,14 @@ class AddSurveyValuesAct:
 
         def update_line(event):
             new_x = event.xdata
-            if new_x:
-                for plot_frame in self.import_frame.plot_frames:
-                    plot_frame.lines[time_name].set_xdata(new_x)
-                    self.refresh_legend(plot_frame.plot)
-                    plot_frame.canvas.draw()
-                self.survey.update({time_name: round(new_x, 2)})
+            if not new_x:
+                return
+
+            for plot_f in self.import_frame.plot_frames:
+                plot_f.lines[time_name].set_xdata(new_x)
+                self.refresh_legend(plot_f.plot)
+                plot_f.canvas.draw()
+            self.survey.update({time_name: round(new_x, 2)})
 
         def start_updating():
             return plot_canvas.mpl_connect("motion_notify_event",
