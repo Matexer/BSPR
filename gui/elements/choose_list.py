@@ -25,7 +25,26 @@ class ChooseList(tk.Frame):
 
     def set_plots_data(self, data: Tuple[Tuple, int, AnyStr]):
         self.plots_data = data
-        self.surveys_t_lines = [None] * len(data)
+        max_val_time = \
+            lambda plot_data: plot_data[0].index(max(plot_data[0])) * plot_data[1]
+        self.surveys_t_lines = \
+            [self.draw_line(x) for x in (max_val_time(d) for d in data)]
+        self.hide_lines()
+
+    def draw_line(self, x):
+        line = self.plot_frame.plot.axvline(x=x, color="orange", linestyle="--")
+        self.plot_frame.plot.figure.canvas.draw()
+        return line
+
+    def hide_lines(self):
+        for line in self.surveys_t_lines:
+            if line:
+                line.set_alpha(0)
+
+    def show_line(self, index):
+        line = self.surveys_t_lines[index]
+        if line:
+            line.set_alpha(1)
 
     def __create_tree_frame(self, top):
         CheckTreeList = TreeList
@@ -87,6 +106,7 @@ class ChooseList(tk.Frame):
     def __draw_plots(self, plot, ids):
         self.hide_lines()
         self.show_line(ids[0])
+        print(self.surveys_t_lines)
         for index in ids:
             data = self.plots_data[index]
             y_data = data[0]
@@ -100,13 +120,12 @@ class ChooseList(tk.Frame):
 
     def __set_t(self):
         p_canvas = self.plot_frame.plot.figure.canvas
-        selected_item = self.tree_frame.tree.selection()
-        if selected_item and self.plots_data:
-            selected_item = selected_item[0]
-        else:
+        selected_items = self.tree_frame.tree.selection()
+        if not (selected_items and self.plots_data):
             return
 
-        index = self.tree_frame.tree.index(selected_item)
+        ids = [self.tree_frame.tree.index(i) for i in selected_items]
+        set_x = None
 
         def start_moving_line():
             return p_canvas.mpl_connect("motion_notify_event",
@@ -116,32 +135,20 @@ class ChooseList(tk.Frame):
             new_x = event.xdata
             if not new_x:
                 return
-            self.surveys_t_lines[index].set_xdata(new_x)
+            self.surveys_t_lines[ids[0]].set_xdata(new_x)
             p_canvas.draw()
+            nonlocal set_x
+            set_x = new_x
+
+        def set_rest_lines():
+            for index in ids[1:]:
+                if set_x:
+                    self.surveys_t_lines[index].set_xdata(set_x)
 
         def stop_moving_line():
             p_canvas.mpl_disconnect(event_id)
-
-        if not self.surveys_t_lines[index]:
-            x = self.plots_data[index][0].index(max(self.plots_data[index][0])) *\
-                self.plots_data[index][1]
-            self.surveys_t_lines[index] = self.draw_line(x)
+            set_rest_lines()
 
         event_id = start_moving_line()
         p_canvas.mpl_connect("button_press_event",
                              lambda event: stop_moving_line())
-
-    def draw_line(self, x):
-        line = self.plot_frame.plot.axvline(x=x, color="orange", linestyle="--")
-        self.plot_frame.plot.figure.canvas.draw()
-        return line
-
-    def hide_lines(self):
-        for line in self.surveys_t_lines:
-            if line:
-                line.set_alpha(0)
-
-    def show_line(self, index):
-        line = self.surveys_t_lines[index]
-        if line:
-            line.set_alpha(1)
