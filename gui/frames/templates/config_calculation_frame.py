@@ -48,7 +48,7 @@ class ConfigCalculationFrameTemplate(ScrolledFrameTemplate):
         container = tk.Frame(top)
         subtitle = self.create_subtitle(container, "LISTA DOSTĘPNYCH POMIARÓW")
         ch_list = ChooseList(container)
-        ch_list.tree_frame.set_columns(list(columns.keys()))
+        ch_list.tree_frame.set_columns(tuple(columns.keys()))
 
         subtitle.pack(fill="x")
         ch_list.pack(pady=10)
@@ -68,7 +68,7 @@ class ConfigCalculationFrameTemplate(ScrolledFrameTemplate):
         ch_fuel_container, self.ch_fuel_cbox =\
             self.create_choose_fuel_container(self.interior)
 
-        columns = {"Lp.": 0.5, "ŚKD": 0.5}
+        columns = {"ŚKD": 0.5}
         surveys_cont, self.surveys_list =\
             self.create_surveys_container(self.interior, columns)
 

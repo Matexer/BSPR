@@ -12,6 +12,7 @@ def check_option(func):
 
 class TreeList(tk.Frame):
     CHECK_OPTION = False
+    AUTO_NUMBERING = False
 
     def __init__(self, top):
         super().__init__(top)
@@ -35,14 +36,30 @@ class TreeList(tk.Frame):
         self.add_to_list(data)
 
     def add_to_list(self, data):
-        for n, row in enumerate(data):
-            self.tree.insert('', "end", text=n+1, values=row)
+        def add_with_auto_num():
+            for n, row in enumerate(data):
+                self.tree.insert('', "end", text=n+1, values=row)
+
+        def add_without_auto_num():
+            for row in data:
+                self.tree.insert('', "end", text=row[0], values=row[1:])
+
+        if self.AUTO_NUMBERING:
+            add_with_auto_num()
+        else:
+            add_without_auto_num()
 
     def clean_list(self):
         for item in self.tree.get_children():
             self.tree.delete(item)
 
     def set_columns(self, columns):
+        if self.AUTO_NUMBERING:
+            if not isinstance(columns, list):
+                columns = list(columns)
+            columns = ["Lp."] + columns
+
+        print(columns)
         tree = self.tree
         tree['columns'] = columns[1:]
         tree['displaycolumns'] = columns[1:]
@@ -52,6 +69,11 @@ class TreeList(tk.Frame):
             tree.heading(num, text=column)
 
     def set_columns_width(self, tree_width: int, widths):
+        if self.AUTO_NUMBERING:
+            if not isinstance(widths, list):
+                widths = list(widths)
+            widths = [0.1] + widths
+
         widths = [int(width * tree_width) for width in widths]
         self.tree.column('#0', minwidth=widths[0]//2, width=widths[0])
         for num, width in enumerate(widths[1:]):

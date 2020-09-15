@@ -49,6 +49,7 @@ class ChooseList(tk.Frame):
     def __create_tree_frame(self, top):
         CheckTreeList = TreeList
         CheckTreeList.CHECK_OPTION = True
+        CheckTreeList.AUTO_NUMBERING = True
         tree_frame = CheckTreeList(top)
         tree_frame.tree.bind("<<TreeviewSelect>>", lambda e: self.__show_surveys())
         mark_all_btn = Button(tree_frame, text="Wybierz wszystkie",
