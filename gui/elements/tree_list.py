@@ -35,8 +35,8 @@ class TreeList(tk.Frame):
         self.add_to_list(data)
 
     def add_to_list(self, data):
-        for row in data:
-            self.tree.insert('', "end", text=row[0], values=row[1:])
+        for n, row in enumerate(data):
+            self.tree.insert('', "end", text=n+1, values=row)
 
     def clean_list(self):
         for item in self.tree.get_children():

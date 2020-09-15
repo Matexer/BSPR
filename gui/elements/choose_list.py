@@ -117,8 +117,25 @@ class ChooseList(tk.Frame):
 
         if len(showed_plots_times) == 1:
             self.show_line(ids[0])
+            self.__refresh_legend(ids[0])
+        else:
+            self.__refresh_legend()
 
         self.plot_frame.canvas.draw()
+
+    def __refresh_legend(self, timeline_id=-1):
+        print(timeline_id)
+        plots = [p for p in self.drawn_plots]
+        numbers = list(range(1, len(self.drawn_plots) + 1))
+
+        if timeline_id >= 0:
+            line = self.surveys_t_lines[timeline_id]
+            x_val = line.get_xdata()
+            x_val = x_val[0] if isinstance(x_val, list) else x_val
+            plots.append(line)
+            numbers.append("t = {:.2f} ms".format(x_val))
+
+        self.plot_frame.plot.legend(plots, numbers)
 
     def __show_comment(self, text):
         self.comment.configure(text=text)
@@ -131,6 +148,7 @@ class ChooseList(tk.Frame):
 
         ids = [self.tree_frame.tree.index(i) for i in selected_items]
         set_x = None
+        LINES_SET = False
 
         def start_moving_line():
             self.show_line(ids[0])
@@ -145,15 +163,20 @@ class ChooseList(tk.Frame):
             p_canvas.draw()
             nonlocal set_x
             set_x = new_x
+            self.__refresh_legend(ids[0])
 
         def set_rest_lines():
             for index in ids[1:]:
                 if set_x:
                     self.surveys_t_lines[index].set_xdata(set_x)
+            p_canvas.draw()
 
         def stop_moving_line():
             p_canvas.mpl_disconnect(event_id)
-            set_rest_lines()
+            nonlocal LINES_SET
+            if not LINES_SET:
+                LINES_SET = True
+                set_rest_lines()
 
         event_id = start_moving_line()
         p_canvas.mpl_connect("button_press_event",
