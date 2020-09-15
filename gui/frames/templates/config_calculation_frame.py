@@ -2,6 +2,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 from .scrolled_frame import ScrolledFrameTemplate
 from gui.elements import ChooseList, CboxTable, InputTable
+from head.objects.fuel import Fuel
 
 
 class ConfigCalculationFrameTemplate(ScrolledFrameTemplate):
@@ -13,7 +14,7 @@ class ConfigCalculationFrameTemplate(ScrolledFrameTemplate):
         self.inputs_frame: InputTable(tk.Frame, tuple)
         self.surveys_list: ChooseList(tk.Frame, *args, **kwargs)
         self.surveys: list
-        self.chosen_fuel = None #Fuel class instance
+        self.chosen_fuel: Fuel
 
         self.test()
 
