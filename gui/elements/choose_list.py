@@ -105,13 +105,18 @@ class ChooseList(tk.Frame):
 
     def __draw_plots(self, plot, ids):
         self.hide_lines()
-        self.show_line(ids[0])
-        print(self.surveys_t_lines)
+        showed_plots_times = set()
         for index in ids:
             data = self.plots_data[index]
             y_data = data[0]
             x_data = [data[1] * i for i in range(len(y_data))]
             self.drawn_plots.append(*plot.plot(x_data, y_data))
+            time = self.surveys_t_lines[index].get_xdata()
+            time = time[0] if isinstance(time, list) else time
+            showed_plots_times.add(time)
+
+        if len(showed_plots_times) == 1:
+            self.show_line(ids[0])
 
         self.plot_frame.canvas.draw()
 
@@ -128,6 +133,7 @@ class ChooseList(tk.Frame):
         set_x = None
 
         def start_moving_line():
+            self.show_line(ids[0])
             return p_canvas.mpl_connect("motion_notify_event",
                                         lambda event: move_line(event))
 
