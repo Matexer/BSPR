@@ -34,6 +34,14 @@ class ConfigCalculationActTemplate:
         self.frame.ch_fuel_cbox.bind(
             "<<ComboboxSelected>>", lambda e: self.__load_surveys())
 
+        self.frame.navi_buttons[0].configure(command=lambda: self.parse_data())
+
+    def parse_data(self):
+        print(self.get_values_from_inputs())
+        print(self.get_values_from_cboxes())
+        print(self.get_chosen_surveys())
+        print(self.get_times())
+
     def get_values_from_inputs(self):
         return self.frame.inputs_frame.get_inserted_values()
 
@@ -41,13 +49,17 @@ class ConfigCalculationActTemplate:
         return self.frame.cboxes_frame.get_inserted_values()
 
     def get_chosen_surveys(self):
-        ids = tuple(self.frame.surveys_list.tree_frame.chosen_items_ids)
-        surveys_list = tuple(self.surveys.values())
-        return [surveys_list[i] for i in ids]
+        ids = tuple(self.frame.surveys_list.tree_frame.get_chosen_ids())
+        surveys_list = tuple(*filter(lambda x: x, self.surveys.values()))
+        return [surveys_list[i].jet_diameter for i in ids]
 
     def get_times(self):
-        return [line.get_xdata() for line in
-                self.frame.surveys_list.surveys_t_lines if line]
+        ids = tuple(self.frame.surveys_list.tree_frame.get_chosen_ids())
+        lines = self.frame.surveys_list.surveys_t_lines
+        selected_lines = (lines[i] for i in ids)
+        x_values = (line.get_xdata() for line in selected_lines)
+        parse_val = lambda x: x[0] if isinstance(x, (list, tuple)) else x
+        return list(map(parse_val, x_values))
 
     def __set_fuels_cbox(self):
         fuels = db.get_fuels_list()

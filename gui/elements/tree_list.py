@@ -32,13 +32,15 @@ class TreeList(tk.Frame):
             tree.bind("<Button-1>", self.__toggle_item)
 
     def set_data(self, data):
+        self.chosen_items_ids = []
         self.clean_list()
         self.add_to_list(data)
 
     def add_to_list(self, data):
         def add_with_auto_num():
             for n, row in enumerate(data):
-                self.tree.insert('', "end", text=n+1, values=row)
+                self.tree.insert(
+                    '', "end", image=self.unchecked_img, text=n+1, values=row)
 
         def add_without_auto_num():
             for row in data:
@@ -59,7 +61,6 @@ class TreeList(tk.Frame):
                 columns = list(columns)
             columns = ["Lp."] + columns
 
-        print(columns)
         tree = self.tree
         tree['columns'] = columns[1:]
         tree['displaycolumns'] = columns[1:]
@@ -80,6 +81,10 @@ class TreeList(tk.Frame):
             self.tree.column(num, width=width,
                              minwidth=width//2,
                              stretch=1)
+
+    @check_option
+    def get_chosen_ids(self):
+        return sorted(self.chosen_items_ids)
 
     @check_option
     def toggle_all(self):

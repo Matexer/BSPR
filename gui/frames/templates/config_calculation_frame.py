@@ -91,7 +91,7 @@ class ConfigCalculationFrameTemplate(ScrolledFrameTemplate):
         inputs_container, self.inputs_frame =\
             self.create_inputs_container(self.interior, inputs)
 
-        navi_container, buttons = self.create_down_nav_container(self)
+        navi_container, self.navi_buttons = self.create_down_nav_container(self)
 
         title.pack(fill="x")
         ch_fuel_container.pack(fill="both", pady=10)
