@@ -61,12 +61,20 @@ class ConfigCalculationActTemplate:
         parse_val = lambda x: x[0] if isinstance(x, (list, tuple)) else x
         return list(map(parse_val, x_values))
 
+    def clean_frame(self):
+        self.frame.ch_fuel_cbox.set('')
+        self.frame.inputs_frame.clean()
+        self.frame.cboxes_frame.clean()
+        self.frame.surveys_list.clean()
+
     def __set_fuels_cbox(self):
         fuels = db.get_fuels_list()
         self.frame.ch_fuel_cbox.config(values=fuels)
 
     def __load_surveys(self):
         fuel_name = self.frame.ch_fuel_cbox.get()
+        if not fuel_name:
+            return
         for survey_type in self.NEEDED_SURVEY_TYPES:
             self.surveys.update(
                 {survey_type: self.__load_surveys_from_db(

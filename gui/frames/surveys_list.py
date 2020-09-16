@@ -71,7 +71,7 @@ class SurveysListFrame(ListFrameTemplate):
         tree_frame.set_data(surveys_data)
 
     def reload_list(self):
-        self.tree_list.clean_list()
+        self.tree_list.clean()
         self.fill_list(self.tree_list, self.data)
 
     @staticmethod

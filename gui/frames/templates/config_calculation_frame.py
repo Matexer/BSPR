@@ -58,9 +58,11 @@ class ConfigCalculationFrameTemplate(ScrolledFrameTemplate):
         ch_list.tree_frame.set_columns_width(tree_width, tuple(columns.values()))
         return container, ch_list
 
-    def get_inputted_data(self):
-        cboxes_values = self.cboxes_frame.get_inserted_values()
-        inputs_values = self.inputs_frame.get_inserted_values()
+    def create_down_nav_container(self, top):
+        container, btns = super().create_down_nav_container(top)
+        btns[0].config(text="DALEJ")
+        btns[2].pack_forget()
+        return container, btns
 
     def test(self):
         title = self.create_title(self.interior, "WYZNACZANIE IMPULSU JEDNOSTKOWEGO")

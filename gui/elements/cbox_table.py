@@ -21,7 +21,7 @@ class CboxTable(tk.Frame):
     def get_inserted_values(self):
         return [field.cbox.get() for field in self.fields]
 
-    def clear_inserted_values(self):
+    def clean(self):
         for field in self.fields:
             field.cbox.set('')
 
@@ -64,7 +64,7 @@ if __name__ == "__main__":
     entries = cbox_table.fields
     entry_1 = cbox_table.fields[0].cbox
     entry_1.set(2)
-    cbox_table.clear_inserted_values()
+    cbox_table.clean()
     # print(input_table.get_inserted_values())
     # input_table.point_entries([0, 1, 0])
     # input_table.clear_entries()

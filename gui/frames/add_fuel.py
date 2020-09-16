@@ -78,7 +78,7 @@ class AddFuelFrameTemplate(FrameTemplate):
     def clear_entries(self):
         self.name_entry.delete('0', 'end')
         self.name_entry.configure(background="white")
-        self.inputs_table.clear_entries()
+        self.inputs_table.clean()
         self.comment.delete("1.0", 'end')
         self.hide_message(num=-1)
 

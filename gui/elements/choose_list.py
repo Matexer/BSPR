@@ -29,13 +29,8 @@ class ChooseList(tk.Frame):
         max_val_time = \
             lambda plot_data: plot_data[0].index(max(plot_data[0])) * plot_data[1]
         self.surveys_t_lines = \
-            [self.draw_line(x) for x in (max_val_time(d) for d in data)]
+            [self.__draw_line(x) for x in (max_val_time(d) for d in data)]
         self.hide_lines()
-
-    def draw_line(self, x):
-        line = self.plot_frame.plot.axvline(x=x, color="orange", linestyle="--")
-        self.plot_frame.plot.figure.canvas.draw()
-        return line
 
     def hide_lines(self):
         for line in self.surveys_t_lines:
@@ -43,7 +38,17 @@ class ChooseList(tk.Frame):
                 line.set_alpha(0)
         self.plot_frame.canvas.draw()
 
-    def show_line(self, index):
+    def clean(self):
+        self.tree_frame.clean()
+        self.plot_frame.plot.lines = []
+        self.plot_frame.canvas.draw()
+
+    def __draw_line(self, x):
+        line = self.plot_frame.plot.axvline(x=x, color="orange", linestyle="--")
+        self.plot_frame.plot.figure.canvas.draw()
+        return line
+
+    def __show_line(self, index):
         line = self.surveys_t_lines[index]
         if line:
             line.set_alpha(1)
@@ -126,7 +131,7 @@ class ChooseList(tk.Frame):
             showed_plots_times.add(time)
 
         if len(showed_plots_times) == 1:
-            self.show_line(ids[0])
+            self.__show_line(ids[0])
             self.__refresh_legend(ids[0])
         else:
             self.__refresh_legend()
@@ -161,7 +166,7 @@ class ChooseList(tk.Frame):
         LINES_SET = False
 
         def start_moving_line():
-            self.show_line(ids[0])
+            self.__show_line(ids[0])
             return p_canvas.mpl_connect("motion_notify_event",
                                         lambda event: move_line(event))
 

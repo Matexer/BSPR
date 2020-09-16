@@ -33,7 +33,7 @@ class TreeList(tk.Frame):
 
     def set_data(self, data):
         self.chosen_items_ids = []
-        self.clean_list()
+        self.clean()
         self.add_to_list(data)
 
     def add_to_list(self, data):
@@ -51,7 +51,7 @@ class TreeList(tk.Frame):
         else:
             add_without_auto_num()
 
-    def clean_list(self):
+    def clean(self):
         for item in self.tree.get_children():
             self.tree.delete(item)
 

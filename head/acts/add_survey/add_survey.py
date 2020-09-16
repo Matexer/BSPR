@@ -66,7 +66,7 @@ class AddSurveyAct:
 
     def clear(self):
         self.end_adding_survey()
-        self.frame.clear_entries()
+        self.frame.clean()
 
     def cancel(self):
         self.clear()
