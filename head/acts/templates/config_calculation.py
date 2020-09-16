@@ -29,12 +29,15 @@ class ConfigCalculationActTemplate:
 
         self.__set_fuels_cbox()
         self.activate_events()
+        self.set_buttons()
 
     def activate_events(self):
         self.frame.ch_fuel_cbox.bind(
             "<<ComboboxSelected>>", lambda e: self.__load_surveys())
 
+    def set_buttons(self):
         self.frame.navi_buttons[0].configure(command=lambda: self.parse_data())
+        self.frame.navi_buttons[1].configure(command=lambda: self.clean())
 
     def parse_data(self):
         print(self.get_values_from_inputs())
@@ -61,7 +64,7 @@ class ConfigCalculationActTemplate:
         parse_val = lambda x: x[0] if isinstance(x, (list, tuple)) else x
         return list(map(parse_val, x_values))
 
-    def clean_frame(self):
+    def clean(self):
         self.frame.ch_fuel_cbox.set('')
         self.frame.inputs_frame.clean()
         self.frame.cboxes_frame.clean()

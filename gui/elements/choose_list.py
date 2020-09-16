@@ -41,6 +41,8 @@ class ChooseList(tk.Frame):
     def clean(self):
         self.tree_frame.clean()
         self.plot_frame.plot.lines = []
+        self.plot_frame.plot.legend()
+        self.comment.configure(text="")
         self.plot_frame.canvas.draw()
 
     def __draw_line(self, x):

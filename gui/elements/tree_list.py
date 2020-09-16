@@ -55,6 +55,9 @@ class TreeList(tk.Frame):
         for item in self.tree.get_children():
             self.tree.delete(item)
 
+        if self.CHECK_OPTION:
+            self.chosen_items_ids = []
+
     def set_columns(self, columns):
         if self.AUTO_NUMBERING:
             if not isinstance(columns, list):
