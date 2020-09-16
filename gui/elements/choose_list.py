@@ -24,6 +24,7 @@ class ChooseList(tk.Frame):
         self.drawn_plots = []
 
     def set_plots_data(self, data: Tuple[Tuple, int, AnyStr]):
+        self.plot_frame.plot.lines = []
         self.plots_data = data
         max_val_time = \
             lambda plot_data: plot_data[0].index(max(plot_data[0])) * plot_data[1]
@@ -40,11 +41,13 @@ class ChooseList(tk.Frame):
         for line in self.surveys_t_lines:
             if line:
                 line.set_alpha(0)
+        self.plot_frame.canvas.draw()
 
     def show_line(self, index):
         line = self.surveys_t_lines[index]
         if line:
             line.set_alpha(1)
+        self.plot_frame.canvas.draw()
 
     def __create_tree_frame(self, top):
         CheckTreeList = TreeList
@@ -107,10 +110,16 @@ class ChooseList(tk.Frame):
     def __draw_plots(self, plot, ids):
         self.hide_lines()
         showed_plots_times = set()
+
+        max_x = 0
+        max_y = 0
+
         for index in ids:
             data = self.plots_data[index]
             y_data = data[0]
+            max_y = max(y_data) if max(y_data) > max_y else max_y
             x_data = [data[1] * i for i in range(len(y_data))]
+            max_x = x_data[-1] if x_data[-1] > max_x else max_x
             self.drawn_plots.append(*plot.plot(x_data, y_data))
             time = self.surveys_t_lines[index].get_xdata()
             time = time[0] if isinstance(time, list) else time
@@ -122,10 +131,10 @@ class ChooseList(tk.Frame):
         else:
             self.__refresh_legend()
 
+        self.plot_frame.plot.axis([0, max_x*1.05, 0, max_y*1.05])
         self.plot_frame.canvas.draw()
 
     def __refresh_legend(self, timeline_id=-1):
-        print(timeline_id)
         plots = [p for p in self.drawn_plots]
         numbers = list(range(1, len(self.drawn_plots) + 1))
 
