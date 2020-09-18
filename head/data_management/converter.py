@@ -1,8 +1,8 @@
 from typing import Generator
-from .messages import Messages
+from .messages import Messages as Msg
 
 
-class DataConverter(Messages):
+class DataConverter:
     """Container of methods which gets a variables and type to be converted.
     Returns list of converted values and report of conversion.
 
@@ -30,7 +30,7 @@ class DataConverter(Messages):
                     value = value if isinstance(value, float) else float(value)
                 except exceptions:
                     value = None
-                    report = self.must_be_number
+                    report = Msg.must_be_number
                 finally:
                     converted_data.append(value)
                     error_reports.append(report)
@@ -40,4 +40,4 @@ class DataConverter(Messages):
             try:
                 return float(data), False
             except exceptions:
-                return None, self.must_be_number
+                return None, Msg.must_be_number

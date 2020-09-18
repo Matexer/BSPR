@@ -1,11 +1,12 @@
 import unittest
 from head.data_management import DataConverter
+from head.data_management.messages import Messages as Msg
 
 
 class DataConverterTest(DataConverter, unittest.TestCase):
     def test_to_float(self):
         func = self.to_float
-        err_msg = self.must_be_number
+        err_msg = Msg.must_be_number
         cases = (
             ([1, 2, 3], ([1.0, 2.0, 3.0], False)),
             ((i for i in range(0, 4)), ([0.0, 1.0, 2.0, 3.0], False)),
