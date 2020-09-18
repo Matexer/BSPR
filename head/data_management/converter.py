@@ -1,4 +1,4 @@
-from typing import Sequence
+from typing import Generator
 from .messages import Messages
 
 
@@ -9,7 +9,8 @@ class DataConverter(Messages):
      Example1: to_float([2, 3, "egg"]) -> [2, 3, None], [0, 0, "Error msg"]
      Example2: to_float([2, 3, 4]) -> [2, 3, 4], False
      Example3: to_float(2) -> 2, False
-     Example4: to_float("Egg") -> None, "Error msg"
+     Example4: to_float(False) -> 0, False
+     Example5: to_float("Egg") -> None, "Error msg"
      """
     @staticmethod
     def sum_up_reports(error_reports):
@@ -19,14 +20,15 @@ class DataConverter(Messages):
             return False
 
     def to_float(self, data):
-        if isinstance(data, Sequence):
+        exceptions = (ValueError, TypeError)
+        if isinstance(data, (list, tuple, Generator)):
             converted_data = []
             error_reports = []
             for value in data:
                 report = 0
                 try:
-                    value = float(value)
-                except ValueError:
+                    value = value if isinstance(value, float) else float(value)
+                except exceptions:
                     value = None
                     report = self.must_be_number
                 finally:
@@ -37,5 +39,5 @@ class DataConverter(Messages):
         else:
             try:
                 return float(data), False
-            except ValueError:
+            except exceptions:
                 return None, self.must_be_number
