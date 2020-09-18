@@ -29,7 +29,7 @@ class ChooseList(tk.Frame):
         max_val_time = \
             lambda plot_data: plot_data[0].index(max(plot_data[0])) * plot_data[1]
         self.surveys_t_lines = \
-            [self.__draw_line(x) for x in (max_val_time(d) for d in data)]
+            [self.__draw_line(x, hidden=True) for x in (max_val_time(d) for d in data)]
         self.hide_lines()
 
     def hide_lines(self):
@@ -45,8 +45,9 @@ class ChooseList(tk.Frame):
         self.comment.configure(text="")
         self.plot_frame.canvas.draw()
 
-    def __draw_line(self, x):
-        line = self.plot_frame.plot.axvline(x=x, color="orange", linestyle="--")
+    def __draw_line(self, x, *, hidden=False):
+        a = 0 if hidden else 1
+        line = self.plot_frame.plot.axvline(x=x, color="orange", alpha=a, linestyle="--")
         self.plot_frame.plot.figure.canvas.draw()
         return line
 
