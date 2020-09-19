@@ -41,7 +41,7 @@ class AddSurveyValuesAct:
     def load_plots(self, plot_frames, survey):
         index = 0
         for plot_frame, data in zip(plot_frames, self.survey.values):
-            plot_frame.plot.clear()
+            plot_frame.plot.clean()
             self.prepare_plot(index, plot_frame, survey.sampling_time, data)
             plot_frame.canvas.draw()
             index += 1

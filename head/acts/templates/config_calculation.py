@@ -9,15 +9,6 @@ from head.objects.survey import Survey
 
 
 class ConfigCalculationActTemplate:
-    INPUT_VARIABLES = (("Var 1", "Var 2"),
-                       ("Var 3", "Var 4"))
-
-    CBOX_VARIABLES = (({"Set 1": ("op. 1", "op. 2", "op. 3")},
-                       {"Set 2": ("op. 1", "op. 2", "op. 3")}),
-
-                      ({"Set 3": ("op. 1", "op. 2", "op. 3")},
-                       {"Set 4": ("op. 1", "op. 2", "op. 3")}))
-
     LIST_COLUMNS = "ŚKD [mm]",
     SURVEY_ARGS = "jet_diameter",
 
@@ -69,14 +60,15 @@ class ConfigCalculationActTemplate:
         times = self.get_times()
 
         self.frame.hide_message()
-        # return fuel_name, cboxes, inputs, surveys, times
-        print(fuel_name, cboxes, inputs, surveys, times)
+        return fuel_name, cboxes, inputs, surveys, times
 
     def get_values_from_inputs(self):
-        return self.frame.inputs_frame.get_inserted_values()
+        if self.frame.inputs_frame:
+            return self.frame.inputs_frame.get_inserted_values()
 
     def get_valid_values_from_cboxes(self):
-        return self.frame.cboxes_frame.get_validated_values()
+        if self.frame.cboxes_frame:
+            return self.frame.cboxes_frame.get_validated_values()
 
     def get_chosen_surveys(self):
         ids = tuple(self.frame.surveys_list.tree_frame.get_chosen_ids())
@@ -112,8 +104,10 @@ class ConfigCalculationActTemplate:
 
     def clean(self):
         self.frame.ch_fuel_cbox.set('')
-        self.frame.inputs_frame.clean()
-        self.frame.cboxes_frame.clean()
+        if self.frame.inputs_frame:
+            self.frame.inputs_frame.clean()
+        if self.frame.cboxes_frame:
+            self.frame.cboxes_frame.clean()
         self.frame.surveys_list.clean()
         self.frame.hide_message()
 

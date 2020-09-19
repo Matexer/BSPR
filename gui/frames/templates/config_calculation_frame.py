@@ -8,6 +8,16 @@ from head.objects.fuel import Fuel
 class ConfigCalculationFrameTemplate(ScrolledFrameTemplate):
     SURVEY_PLOT_TO_LIST_PROPORTION = 3
 
+    INPUT_VARIABLES = (("Var 1", "Var 2"),
+                       ("Var 3", "Var 4"))
+
+    CBOX_VARIABLES = ({"Metoda całkowania": ("liniowa", "trapezów", "Simpsona")},
+                      {"Dla wartości": ("średnich", "chwilowych")})
+
+    SURVEY_LIST_COLUMNS = {"ŚKD": 0.5}
+
+    TITLE = "ConfigCalculationFrameTemplate"
+
     def __init__(self, top, *args, **kwargs):
         super().__init__(top, *args, **kwargs)
         self.cboxes_frame: CboxTable(tk.Frame, tuple)
@@ -16,7 +26,10 @@ class ConfigCalculationFrameTemplate(ScrolledFrameTemplate):
         self.surveys: list
         self.chosen_fuel: Fuel
 
-        self.test()
+        self.inputs_frame = None
+        self.cboxes_frame = None
+
+        self.generate_structure()
 
     @staticmethod
     def create_choose_fuel_container(top):
@@ -64,8 +77,9 @@ class ConfigCalculationFrameTemplate(ScrolledFrameTemplate):
         btns[2].pack_forget()
         return container, btns
 
-    def test(self):
-        title = self.create_title(self.interior, "WYZNACZANIE IMPULSU JEDNOSTKOWEGO")
+    def generate_structure(self):
+        title = self.create_title(
+            self.interior, self.TITLE)
 
         ch_fuel_container, self.ch_fuel_cbox =\
             self.create_choose_fuel_container(self.interior)
@@ -74,30 +88,22 @@ class ConfigCalculationFrameTemplate(ScrolledFrameTemplate):
         surveys_cont, self.surveys_list =\
             self.create_surveys_container(self.interior, columns)
 
-        self.surveys_list.tree_frame.set_data(((1, 2), (3, 4)))
-        plots_data = (((1, 2, 4), 5, "egg"), ((4, 5, 4), 2, "milk"))
-        self.surveys_list.set_plots_data(plots_data)
+        if self.CBOX_VARIABLES:
+            cboxes_container, self.cboxes_frame =\
+                self.create_cbox_container(self.interior, self.CBOX_VARIABLES)
 
-        cboxes = ({
-                 "Metoda całkowania": ("liniowa", "trapezów", "Simpsona")},
+        if self.INPUT_VARIABLES:
+            inputs_container, self.inputs_frame =\
+                self.create_inputs_container(self.interior, self.INPUT_VARIABLES)
 
-                  {"Dla wartości": ("średniej", "chwilowej")
-                  })
-
-        cboxes_container, self.cboxes_frame =\
-            self.create_cbox_container(self.interior, cboxes)
-
-        inputs = (("K",),
-                  ("Impuls jednostkowy",))
-
-        inputs_container, self.inputs_frame =\
-            self.create_inputs_container(self.interior, inputs)
-
-        navi_container, self.navi_buttons = self.create_down_nav_container(self)
+        navi_container, self.navi_buttons =\
+            self.create_down_nav_container(self)
 
         title.pack(fill="x")
         ch_fuel_container.pack(fill="both", pady=10)
-        inputs_container.pack(fill="both")
-        cboxes_container.pack(fill="both")
+        if self.INPUT_VARIABLES:
+            inputs_container.pack(fill="both")
+        if self.CBOX_VARIABLES:
+            cboxes_container.pack(fill="both")
         surveys_cont.pack(fill="both")
         navi_container.pack(side="bottom", fill="x")

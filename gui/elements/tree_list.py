@@ -37,14 +37,20 @@ class TreeList(tk.Frame):
         self.add_to_list(data)
 
     def add_to_list(self, data):
+        if self.CHECK_OPTION:
+            image = {"image": self.unchecked_img}
+        else:
+            image = {}
+
         def add_with_auto_num():
             for n, row in enumerate(data):
                 self.tree.insert(
-                    '', "end", image=self.unchecked_img, text=n+1, values=row)
+                    '', "end", text=n+1, values=row, **image)
 
         def add_without_auto_num():
             for row in data:
-                self.tree.insert('', "end", text=row[0], values=row[1:])
+                self.tree.insert(
+                    '', "end", text=row[0], values=row[1:], **image)
 
         if self.AUTO_NUMBERING:
             add_with_auto_num()

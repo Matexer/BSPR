@@ -48,7 +48,7 @@ class AddSurveyAct:
             command=lambda: self.fill_fuel_data())
 
         save_btn.configure(command=lambda: self.save_survey())
-        clear_btn.configure(command=lambda: self.clear())
+        clear_btn.configure(command=lambda: self.clean())
         cancel_btn.configure(command=lambda: self.cancel())
 
     def save_survey(self):
@@ -64,12 +64,12 @@ class AddSurveyAct:
         else:
             self.frame.point_entries(report)
 
-    def clear(self):
+    def clean(self):
         self.end_adding_survey()
         self.frame.clean()
 
     def cancel(self):
-        self.clear()
+        self.clean()
         self.top.change_frame(2)
 
     def end_adding_survey(self):

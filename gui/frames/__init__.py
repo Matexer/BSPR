@@ -9,20 +9,23 @@ from gui.frames.add_survey import AddSurveyFrameTemplate,\
                                   AddSurveyThrustValuesFrame
 from gui.frames.edit_fuel import EditFuelFrame
 from gui.frames.edit_survey import EditSurveyFrame
-
-from gui.frames.templates.config_calculation_frame import ConfigCalculationFrameTemplate
+from gui.frames.config_impulse import ConfigImpulseFrame
+from gui.frames.config_An import ConfigAnFrame
+from gui.frames.config_engine_para import ConfigEngineParametersFrame
 
 
 def load_frames(top):
-    frames = [FuelsListFrame(top),
+    frames = (FuelsListFrame(top),
               AddFuelFrameTemplate(top),
               SurveysListFrame(top),
               AddSurveyFrameTemplate(top),
               EditFuelFrame(top),
-              AddSurveyPressureValuesFrame(top),  #5
+              AddSurveyPressureValuesFrame(top),  # 5
               AddSurveyThrustValuesFrame(top),
               AddSurveyDoubleValuesFrame(top),
               EditSurveyFrame(top),
-              ConfigCalculationFrameTemplate(top) #testing
-              ]
+              ConfigImpulseFrame(top),
+              ConfigAnFrame(top), # 10
+              ConfigEngineParametersFrame(top)
+              )
     return frames

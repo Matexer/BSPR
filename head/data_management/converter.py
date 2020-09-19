@@ -15,6 +15,8 @@ class DataConverter:
 
     @classmethod
     def to_float(cls, data):
+        if data == None:
+            return None, False
         exceptions = (ValueError, TypeError)
         if isinstance(data, (list, tuple, Generator)):
             converted_data = []
