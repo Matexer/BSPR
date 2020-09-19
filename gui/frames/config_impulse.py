@@ -7,6 +7,3 @@ class ConfigImpulseFrame(ConfigCalculationFrameTemplate):
     SURVEY_LIST_COLUMNS = {"ŚKD": 0.34, "k": 0.34}
 
     TITLE = "WYZNACZANIE IMPULSU JEDNOSTKOWEGO"
-
-    def __init__(self, top):
-        super().__init__(top)

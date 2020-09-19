@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Iterable
 import head.database as db
 from globals import SURVEY_TYPES
 from head.data_management import DataManager as Dm
@@ -83,9 +83,15 @@ class ConfigCalculationActTemplate:
         parse_val = lambda x: x[0] if isinstance(x, (list, tuple)) else x
         return list(map(parse_val, x_values))
 
-    @staticmethod
-    def valid_inputs(inputs):
-        return Dm.to_float(inputs)
+    def valid_inputs(self, inputs):
+        values, report = Dm.to_float(inputs)
+        if report:
+            return values, report
+
+        if inputs:
+            names = self.flatten_nested_list(self.frame.INPUT_VARIABLES)
+            report = Dm.are_bigger_than_0(values, names)
+        return values, report
 
     @staticmethod
     def check_surveys(surveys):
@@ -102,6 +108,14 @@ class ConfigCalculationActTemplate:
         for point in report:
             if point:
                 return point
+
+    def flatten_nested_list(self, nested):
+        for item in nested:
+            if isinstance(item, Iterable) and not isinstance(item, str):
+                for val in self.flatten_nested_list(item):
+                    yield val
+            else:
+                yield item
 
     def clean(self):
         self.frame.ch_fuel_cbox.set('')
