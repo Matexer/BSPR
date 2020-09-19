@@ -50,8 +50,8 @@ class ConfigCalculationActTemplate:
             return
 
         inputs, report = self.valid_inputs(self.get_values_from_inputs())
+        self.point_mistakes(report)
         if report:
-            self.point_mistakes(report)
             message(self.get_msg_from_report(report))
             return
 
@@ -68,6 +68,7 @@ class ConfigCalculationActTemplate:
 
         times = self.get_times()
 
+        self.frame.hide_message()
         # return fuel_name, cboxes, inputs, surveys, times
         print(fuel_name, cboxes, inputs, surveys, times)
 

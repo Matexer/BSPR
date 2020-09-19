@@ -49,12 +49,17 @@ class InputTable(tk.Frame):
     def get_inserted_values(self):
         return [field.entry.get() for field in self.fields]
 
-    def point_entries(self, numbers):
+    def point_entries(self, report):
         """
-        :param numbers: list = [0 1 0 0]
+        :param report: list = [0 1 0 0] or False
         Second entry in self.insert get red bg. Rest white.
         """
-        for val_n, number in enumerate(numbers):
+        if not report:
+            for field in self.fields:
+                field.entry.configure(background="white")
+            return
+
+        for val_n, number in enumerate(report):
             if number == 0:
                 self.fields[val_n].entry.configure(background="white")
             else:

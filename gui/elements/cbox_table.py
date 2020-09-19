@@ -28,6 +28,7 @@ class CboxTable(tk.Frame):
             val = field.cbox.get()
             if not val:
                 invalid_fields.append(field.label.cget("text"))
+            values.append(val)
         return values, invalid_fields
 
     def clean(self):
