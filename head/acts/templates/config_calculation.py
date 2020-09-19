@@ -52,18 +52,30 @@ class ConfigCalculationActTemplate:
         inputs, report = self.valid_inputs(self.get_values_from_inputs())
         if report:
             self.point_mistakes(report)
-            message(self.get_error_msg_from_report(report))
+            message(self.get_msg_from_report(report))
             return
 
-        print(self.get_values_from_cboxes())
-        print(self.get_chosen_surveys())
-        print(self.get_times())
+        cboxes, invalid_fields = self.get_valid_values_from_cboxes()
+        if invalid_fields:
+            message(Msg.needs_to_fulfil_field(invalid_fields[0]))
+            return
+
+        surveys = self.get_chosen_surveys()
+        survey_issue = self.check_surveys(surveys)
+        if survey_issue:
+            message(survey_issue)
+            return
+
+        times = self.get_times()
+
+        # return fuel_name, cboxes, inputs, surveys, times
+        print(fuel_name, cboxes, inputs, surveys, times)
 
     def get_values_from_inputs(self):
         return self.frame.inputs_frame.get_inserted_values()
 
-    def get_values_from_cboxes(self):
-        return self.frame.cboxes_frame.get_inserted_values()
+    def get_valid_values_from_cboxes(self):
+        return self.frame.cboxes_frame.get_validated_values()
 
     def get_chosen_surveys(self):
         ids = tuple(self.frame.surveys_list.tree_frame.get_chosen_ids())
@@ -83,22 +95,16 @@ class ConfigCalculationActTemplate:
         return Dm.to_float(inputs)
 
     @staticmethod
-    def valid_cboxes(cboxes):
-        if all(cboxes):
-            return cboxes, False
-
-        report = []
-        for value in cboxes:
-            if value:
-
-
-
+    def check_surveys(surveys):
+        jets = set(s.jet_diameter for s in surveys)
+        if len(jets) < 2:
+            return Msg.needs_2_diff_jets_diam
 
     def point_mistakes(self, report):
         self.frame.inputs_frame.point_entries(report)
 
     @staticmethod
-    def get_error_msg_from_report(report):
+    def get_msg_from_report(report):
         for point in report:
             if point:
                 return point
@@ -108,6 +114,7 @@ class ConfigCalculationActTemplate:
         self.frame.inputs_frame.clean()
         self.frame.cboxes_frame.clean()
         self.frame.surveys_list.clean()
+        self.frame.hide_message()
 
     def __set_fuels_cbox(self):
         fuels = db.get_fuels_list()

@@ -21,6 +21,15 @@ class CboxTable(tk.Frame):
     def get_inserted_values(self):
         return [field.cbox.get() for field in self.fields]
 
+    def get_validated_values(self):
+        invalid_fields = []
+        values = []
+        for field in self.fields:
+            val = field.cbox.get()
+            if not val:
+                invalid_fields.append(field.label.cget("text"))
+        return values, invalid_fields
+
     def clean(self):
         for field in self.fields:
             field.cbox.set('')
