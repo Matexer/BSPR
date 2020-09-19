@@ -1,6 +1,8 @@
 from typing import List, Optional
 import head.database as db
 from globals import SURVEY_TYPES
+from head.data_management import DataManager as Dm
+from head.messages import Messages as Msg
 
 from gui.TopWindow import TopWindow
 from head.objects.survey import Survey
@@ -40,7 +42,19 @@ class ConfigCalculationActTemplate:
         self.frame.navi_buttons[1].configure(command=lambda: self.clean())
 
     def parse_data(self):
-        print(self.get_values_from_inputs())
+        message = self.frame.show_message
+
+        fuel_name = self.frame.ch_fuel_cbox.get()
+        if not fuel_name:
+            message(Msg.needs_to_choose_fuel)
+            return
+
+        inputs, report = self.valid_inputs(self.get_values_from_inputs())
+        if report:
+            self.point_mistakes(report)
+            message(self.get_error_msg_from_report(report))
+            return
+
         print(self.get_values_from_cboxes())
         print(self.get_chosen_surveys())
         print(self.get_times())
@@ -54,7 +68,7 @@ class ConfigCalculationActTemplate:
     def get_chosen_surveys(self):
         ids = tuple(self.frame.surveys_list.tree_frame.get_chosen_ids())
         surveys_list = tuple(*filter(lambda x: x, self.surveys.values()))
-        return [surveys_list[i].jet_diameter for i in ids]
+        return [surveys_list[i] for i in ids]
 
     def get_times(self):
         ids = tuple(self.frame.surveys_list.tree_frame.get_chosen_ids())
@@ -63,6 +77,31 @@ class ConfigCalculationActTemplate:
         x_values = (line.get_xdata() for line in selected_lines)
         parse_val = lambda x: x[0] if isinstance(x, (list, tuple)) else x
         return list(map(parse_val, x_values))
+
+    @staticmethod
+    def valid_inputs(inputs):
+        return Dm.to_float(inputs)
+
+    @staticmethod
+    def valid_cboxes(cboxes):
+        if all(cboxes):
+            return cboxes, False
+
+        report = []
+        for value in cboxes:
+            if value:
+
+
+
+
+    def point_mistakes(self, report):
+        self.frame.inputs_frame.point_entries(report)
+
+    @staticmethod
+    def get_error_msg_from_report(report):
+        for point in report:
+            if point:
+                return point
 
     def clean(self):
         self.frame.ch_fuel_cbox.set('')

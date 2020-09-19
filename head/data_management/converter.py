@@ -1,5 +1,5 @@
 from typing import Generator
-from .messages import Messages as Msg
+from head.messages import Messages as Msg
 
 
 class DataConverter:
@@ -13,7 +13,8 @@ class DataConverter:
      Example5: to_float("Egg") -> None, "Error msg"
      """
 
-    def to_float(self, data):
+    @classmethod
+    def to_float(cls, data):
         exceptions = (ValueError, TypeError)
         if isinstance(data, (list, tuple, Generator)):
             converted_data = []
@@ -28,7 +29,7 @@ class DataConverter:
                 finally:
                     converted_data.append(value)
                     error_reports.append(report)
-            error_reports = self.__sum_up_reports(error_reports)
+            error_reports = cls.__sum_up_reports(error_reports)
             return converted_data, error_reports
         else:
             try:

@@ -1,4 +1,4 @@
-from .messages import Messages as Msg
+from head.messages import Messages as Msg
 
 
 class DataValidator:
