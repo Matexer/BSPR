@@ -15,44 +15,46 @@ class DataValidator:
         if val1 < val2:
             return Msg.cannot_be_less_than(name1, name2)
 
+    @classmethod
     def is_bigger_than(
-            self, val1, val2, name1="Wartość", name2="inna"):
+            cls, val1, val2, name1="Wartość", name2="inna"):
         args = val1, val2, name1, name2
 
-        msg = self.is_not_equal(*args)
+        msg = cls.is_not_equal(*args)
         if msg:
             return msg
-        return self.is_equal_or_bigger_than(*args)
+        return cls.is_equal_or_bigger_than(*args)
 
-    def is_not_equal_0(self, val, name="Wartość"):
-        return self.is_not_equal(val, 0, name, "0")
+    @classmethod
+    def is_not_equal_0(cls, val, name="Wartość"):
+        return cls.is_not_equal(val, 0, name, "0")
 
-    def is_bigger_than_0(self, val, name="Wartość"):
-        return self.is_bigger_than(val, 0, name, "0")
+    @classmethod
+    def is_bigger_than_0(cls, val, name="Wartość"):
+        return cls.is_bigger_than(val, 0, name, "0")
 
-    def is_equal_or_bigger_than_0(self, val, name="Wartość"):
-        return self.is_equal_or_bigger_than(val, 0, name, "0")
+    @classmethod
+    def is_equal_or_bigger_than_0(cls, val, name="Wartość"):
+        return cls.is_equal_or_bigger_than(val, 0, name, "0")
 
-    def are_bigger_than_0(self, values, names=None):
-        if values == None:
-            return None
-
-        def make_reports():
+    @classmethod
+    def are_bigger_than_0(cls, values, names=None):
+        if isinstance(values, (list, tuple, Generator)):
             reports = []
             if names:
-                for value, name in values, names:
+                for value, name in zip(values, names):
                     val_name = f"Wartość \"{name}\""
-                    report = self.is_bigger_than_0(value, val_name)
+                    report = cls.is_bigger_than_0(value, val_name)
+                    if not report:
+                        report = 0
                     reports.append(report)
             else:
                 for value in values:
-                    report = self.is_bigger_than_0(value)
+                    report = cls.is_bigger_than_0(value)
+                    if not report:
+                        report = 0
                     reports.append(report)
-            return reports
-
-        if isinstance(values, (list, tuple, Generator)):
-            reports = make_reports()
-            reports = self.__sum_up_reports(reports)
+            reports = cls.__sum_up_reports(reports)
             return reports
 
     @staticmethod

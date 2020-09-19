@@ -89,7 +89,7 @@ class ConfigCalculationActTemplate:
             return values, report
 
         if inputs:
-            names = self.flatten_nested_list(self.frame.INPUT_VARIABLES)
+            names = tuple(self.flatten_nested_list(self.frame.INPUT_VARIABLES))
             report = Dm.are_bigger_than_0(values, names)
         return values, report
 
