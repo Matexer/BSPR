@@ -12,12 +12,6 @@ class DataConverter:
      Example4: to_float(False) -> 0, False
      Example5: to_float("Egg") -> None, "Error msg"
      """
-    @staticmethod
-    def sum_up_reports(error_reports):
-        if any(error_reports):
-            return error_reports
-        else:
-            return False
 
     def to_float(self, data):
         exceptions = (ValueError, TypeError)
@@ -34,10 +28,17 @@ class DataConverter:
                 finally:
                     converted_data.append(value)
                     error_reports.append(report)
-            error_reports = self.sum_up_reports(error_reports)
+            error_reports = self.__sum_up_reports(error_reports)
             return converted_data, error_reports
         else:
             try:
                 return float(data), False
             except exceptions:
                 return None, Msg.must_be_number
+
+    @staticmethod
+    def __sum_up_reports(error_reports):
+        if any(error_reports):
+            return error_reports
+        else:
+            return False
