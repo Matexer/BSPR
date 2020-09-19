@@ -11,8 +11,10 @@ class ConfigCalculationFrameTemplate(ScrolledFrameTemplate):
     INPUT_VARIABLES = (("Var 1", "Var 2"),
                        ("Var 3", "Var 4"))
 
-    CBOX_VARIABLES = ({"Metoda całkowania": ("liniowa", "trapezów", "Simpsona")},
-                      {"Dla wartości": ("średnich", "chwilowych")})
+    CBOX_VARIABLES = (
+        {"Dla wartości": ("średnich", "chwilowych")},
+        {"Metoda całkowania": ("liniowa", "trapezów", "Simpsona")}
+    )
 
     SURVEY_LIST_COLUMNS = {"ŚKD": 0.5}
 

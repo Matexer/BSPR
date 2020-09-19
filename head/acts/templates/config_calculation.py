@@ -94,7 +94,8 @@ class ConfigCalculationActTemplate:
             return Msg.needs_2_diff_jets_diam
 
     def point_mistakes(self, report):
-        self.frame.inputs_frame.point_entries(report)
+        if self.frame.inputs_frame:
+            self.frame.inputs_frame.point_entries(report)
 
     @staticmethod
     def get_msg_from_report(report):
