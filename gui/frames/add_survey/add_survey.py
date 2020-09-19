@@ -137,7 +137,7 @@ class AddSurveyFrameTemplate(FrameTemplate):
                 self.show_message(report)
                 return
 
-    def clear_entries(self):
+    def clean(self):
         self.name_cbox.set('')
         self.init_widgets[0].set('')
         self.init_widgets[1].delete('0', "end")

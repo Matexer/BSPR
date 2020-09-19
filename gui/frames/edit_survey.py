@@ -11,7 +11,7 @@ class EditSurveyFrame(AddSurveyFrameTemplate):
         self.survey_id = None
 
     def set_values(self, values):
-        self.clear_entries()
+        self.clean()
         name_cbox, survey_type_cbox = self.get_comboboxes()
         sampling_time = self.init_widgets[1]
 
