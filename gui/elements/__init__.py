@@ -4,6 +4,6 @@ from .btns import AddButton, EditButton, DeleteButton,\
 from .input_table import InputTable
 from .labels import TitleLabel, SubtitleLabel, MessageLabel
 from .tree_list import TreeList
-from .plots import AddSurveyValuesPlotFrame
+from .plots import AddSurveyValuesPlotFrame, PlotFigureFrame
 from .cbox_table import CboxTable
 from .choose_list import ChooseList

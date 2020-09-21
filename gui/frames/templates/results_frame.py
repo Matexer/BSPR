@@ -1,9 +1,6 @@
 from typing import Iterable, NewType, Tuple
-import tkinter as tk
-from matplotlib import pyplot
+from gui.elements import PlotFigureFrame
 from .scrolled_frame import ScrolledFrameTemplate
-
-Table = NewType("Table")
 
 
 class ResultsFrameTemplate(ScrolledFrameTemplate):
@@ -12,8 +9,8 @@ class ResultsFrameTemplate(ScrolledFrameTemplate):
 
     def create_table(
             self, columns: Iterable, content: Iterable) \
-            -> Table:
+            -> int:
         ...
 
-    def create_plot(self):
+    def create_plot(self, *args, **kwargs) -> PlotFigureFrame:
         ...

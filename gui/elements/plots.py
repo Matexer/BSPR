@@ -22,14 +22,12 @@ class PlotFigureFrame(tk.Frame):
         return self.figure.add_subplot(position)
 
     def __update_vars(self, kwargs: dict):
-        variables = (("figsize", self.FIGSIZE),
-                     ("dpi", self.DPI),
-                     ("toolbar", self.TOOLBAR),
-                     ("subplot_adjust", self.SUBPLOTS_ADJUST))
+        variables = ("figsize", "dpi",
+                     "toolbar", "subplot_adjust")
 
-        for key, var in variables:
+        for key in variables:
             if key in kwargs:
-                self.__setattr__(var, kwargs.pop(key))
+                self.__setattr__(key.upper(), kwargs.pop(key))
 
     def __create_figure(self) -> Tuple[FigureCanvasTkAgg, Figure]:
         fig = Figure(figsize=self.FIGSIZE, dpi=self.DPI)
