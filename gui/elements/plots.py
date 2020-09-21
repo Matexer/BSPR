@@ -1,7 +1,50 @@
 import tkinter as tk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
-from matplotlib.figure import Figure
+from matplotlib.figure import Figure, SubplotBase
 from gui.configure import TK_COLOR, T0_COLOR, TC_COLOR
+from typing import Tuple, BinaryIO, Any
+
+
+class PlotFigureFrame(tk.Frame):
+    FIGSIZE: Tuple[int] = (10, 4)
+    DPI: int = 100
+    TOOLBAR: BinaryIO = True
+    SUBPLOTS_ADJUST: dict = {"left": 0.08, "bottom": 0.12,
+                             "right": 0.99, "top": 0.99}
+
+    def __init__(self, *args, **kwargs):
+        self.__update_vars(kwargs)
+        super().__init__(*args, **kwargs)
+        self.canvas, self.figure = self.__create_figure()
+
+    def add_subplot(self, position: Any[int, Tuple[int]]) \
+            -> SubplotBase:
+        return self.figure.add_subplot(position)
+
+    def __update_vars(self, kwargs: dict):
+        variables = (("figsize", self.FIGSIZE),
+                     ("dpi", self.DPI),
+                     ("toolbar", self.TOOLBAR),
+                     ("subplot_adjust", self.SUBPLOTS_ADJUST))
+
+        for key, var in variables:
+            if key in kwargs:
+                self.__setattr__(var, kwargs.pop(key))
+
+    def __create_figure(self) -> Tuple[FigureCanvasTkAgg, Figure]:
+        fig = Figure(figsize=self.FIGSIZE, dpi=self.DPI)
+        fig.subplots_adjust(self.SUBPLOTS_ADJUST)
+        canvas = FigureCanvasTkAgg(fig, master=self)
+        canvas.get_tk_widget().pack(
+            side="top", fill="both", expand=1, padx=10)
+
+        if self.TOOLBAR:
+            toolbar = NavigationToolbar2Tk(canvas, self)
+            toolbar.update()
+            toolbar.pack(
+                side="top", fill="both", expand=1, padx=10)
+        canvas.draw()
+        return canvas, fig
 
 
 class PlotFrame(tk.Frame):
