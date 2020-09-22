@@ -1,11 +1,12 @@
 import tkinter as tk
 from itertools import cycle
-from typing import Iterable, Tuple, List, Union
+from typing import Tuple, List, Union
 
 
 class Element(tk.Label):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.configure(font=14)
 
 
 class Heading(Element):
@@ -19,19 +20,26 @@ Listing = Union[List, Tuple]
 
 
 class TableFrame(tk.Frame):
-    HEADING_COLORS = ("blue", "yellow")
-    ROW_COLORS = (("green", "red", "gray"),
-                  ("violet", "yellow", "blue")
+    HEADING_COLORS = ("SkyBlue3", "LightCyan4")
+    ROW_COLORS = (("LightSkyBlue3", "SlateGray3"),
+                  ("LightSkyBlue2", "SlateGray2")
                   )
+    HEADINGS = True
 
-    def __init__(self, headings: Listing,
-                 data: Iterable, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, master, data, *args, **kwargs):
+        self.__update_vars(kwargs)
+        super().__init__(master, *args, **kwargs)
         self.fields: Fields = []
-        table_width = len(headings)
+        table_width = len(data[0])
         self.heading_colors = self.__get_headings_colors(table_width)
         self.row_colors = self.__get_row_colors(table_width)
-        self.__create_table(headings, data)
+        self.__create_table(data)
+
+    def __update_vars(self, kwargs: dict):
+        variables = "heading_colors", "row_colors", "headings"
+        for key in variables:
+            if key in kwargs:
+                self.__setattr__(key.upper(), kwargs.pop(key))
 
     def __get_headings_colors(self, length: int)\
             -> Tuple[str]:
@@ -46,10 +54,13 @@ class TableFrame(tk.Frame):
             rows.append(tuple(next(row_colors) for _ in range(length)))
         return rows
 
-    def __create_table(
-            self, headings: Listing, rows):
-        self.fields.append(self.__create_headings(headings))
-        for row, row_color_num in zip(rows, cycle(i for i in range(len(self.ROW_COLORS)))):
+    def __create_table(self, data: List):
+        start = 0
+        if self.HEADINGS:
+            self.fields.append(self.__create_headings(data[0]))
+            start = 1
+        for row, row_color_num in zip(
+                data[start:], cycle(i for i in range(len(self.ROW_COLORS)))):
             self.fields.append(self.__create_row(row, self.row_colors[row_color_num]))
         self.__grid_table(self.fields)
 
@@ -74,10 +85,13 @@ if __name__ == "__main__":
     import tkinter as tk
 
     root = tk.Tk()
-    heading = "Head 1", "Head 2", "Head 3", "Head 4"
-    data = ((1, 2, 3, 5),
-            (4, 500000000000000000000000000, 6, 7),
-            (7, 8, 9, 9))
-    table = TableFrame(heading, data, master=root)
+    table_data = (("Head 1", "Head 2", "Head 3", "Head 4"),
+                    (1, 2, 3, 5),
+                    (4, "0000000000000000\n0\n0\n00000000", 6, 7),
+                    (7, 8, 9, 9),
+                    (7, 8, 9, 9),
+                    (7, 8, 9, 9)
+                    )
+    table = TableFrame(root, table_data)
     table.pack()
     root.mainloop()
