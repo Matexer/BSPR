@@ -12,6 +12,7 @@ from gui.frames.edit_survey import EditSurveyFrame
 from gui.frames.config_impulse import ConfigImpulseFrame
 from gui.frames.config_An import ConfigAnFrame
 from gui.frames.config_engine_para import ConfigEngineParametersFrame
+from gui.frames.templates.results_frame import ResultsFrameTemplate
 
 
 def load_frames(top):
@@ -26,6 +27,7 @@ def load_frames(top):
               EditSurveyFrame(top),
               ConfigImpulseFrame(top),
               ConfigAnFrame(top), # 10
-              ConfigEngineParametersFrame(top)
+              ConfigEngineParametersFrame(top),
+              ResultsFrameTemplate(top)
               )
     return frames

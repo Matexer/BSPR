@@ -7,3 +7,4 @@ from .tree_list import TreeList
 from .plots import AddSurveyValuesPlotFrame, PlotFigureFrame
 from .cbox_table import CboxTable
 from .choose_list import ChooseList
+from .table import TableFrame

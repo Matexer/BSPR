@@ -20,10 +20,10 @@ Listing = Union[List, Tuple]
 
 
 class TableFrame(tk.Frame):
-    HEADING_COLORS = ("SkyBlue3", "LightCyan4")
-    ROW_COLORS = (("LightSkyBlue3", "SlateGray3"),
-                  ("LightSkyBlue2", "SlateGray2")
-                  )
+    HEADINGS_COLORS = ("SkyBlue3", "LightCyan4")
+    ROWS_COLORS = (("LightSkyBlue3", "SlateGray3"),
+                   ("LightSkyBlue2", "SlateGray2")
+                   )
     HEADINGS = True
 
     def __init__(self, master, data, *args, **kwargs):
@@ -43,12 +43,12 @@ class TableFrame(tk.Frame):
 
     def __get_headings_colors(self, length: int)\
             -> Tuple[str]:
-        heading_colors = cycle(self.HEADING_COLORS)
+        heading_colors = cycle(self.HEADINGS_COLORS)
         return tuple(next(heading_colors)
                      for _ in range(length))
 
     def __get_row_colors(self, length: int):
-        rows_colors = (cycle(row) for row in self.ROW_COLORS)
+        rows_colors = (cycle(row) for row in self.ROWS_COLORS)
         rows = []
         for row_colors in rows_colors:
             rows.append(tuple(next(row_colors) for _ in range(length)))
@@ -60,7 +60,7 @@ class TableFrame(tk.Frame):
             self.fields.append(self.__create_headings(data[0]))
             start = 1
         for row, row_color_num in zip(
-                data[start:], cycle(i for i in range(len(self.ROW_COLORS)))):
+                data[start:], cycle(i for i in range(len(self.ROWS_COLORS)))):
             self.fields.append(self.__create_row(row, self.row_colors[row_color_num]))
         self.__grid_table(self.fields)
 

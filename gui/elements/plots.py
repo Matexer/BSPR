@@ -2,7 +2,7 @@ import tkinter as tk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure, SubplotBase
 from gui.configure import TK_COLOR, T0_COLOR, TC_COLOR
-from typing import Tuple, BinaryIO, Any
+from typing import Tuple, BinaryIO, Union
 
 
 class PlotFigureFrame(tk.Frame):
@@ -17,7 +17,7 @@ class PlotFigureFrame(tk.Frame):
         super().__init__(*args, **kwargs)
         self.canvas, self.figure = self.__create_figure()
 
-    def add_subplot(self, position: Any[int, Tuple[int]]) \
+    def add_subplot(self, position: Union[int, Tuple[int]]) \
             -> SubplotBase:
         return self.figure.add_subplot(position)
 
@@ -31,7 +31,7 @@ class PlotFigureFrame(tk.Frame):
 
     def __create_figure(self) -> Tuple[FigureCanvasTkAgg, Figure]:
         fig = Figure(figsize=self.FIGSIZE, dpi=self.DPI)
-        fig.subplots_adjust(self.SUBPLOTS_ADJUST)
+        fig.subplots_adjust(**self.SUBPLOTS_ADJUST)
         canvas = FigureCanvasTkAgg(fig, master=self)
         canvas.get_tk_widget().pack(
             side="top", fill="both", expand=1, padx=10)
