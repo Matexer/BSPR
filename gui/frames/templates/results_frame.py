@@ -28,6 +28,6 @@ class ResultsFrameTemplate(ScrolledFrameTemplate):
                       (7, 8, 9, 9),
                       (7, 8, 9, 9))
         table = self.create_table(self.interior, table_data)
-        table.pack()
+        table.pack(fill="both", expand=1, anchor="center")
         plot = self.create_plot(self.interior)
         plot.pack()
