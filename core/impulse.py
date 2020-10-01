@@ -1,10 +1,10 @@
-from typing import NamedTuple, Optional, Type, Generator, Tuple
+from typing import Optional, Type, Generator, Tuple
 import math
 from .template import InterfaceTemplate, Data, Config
 from head.objects import Survey, Fuel
 
 
-class ImpulseOutput(NamedTuple):
+class ImpulseOutput():
     total_impulse: float 
     unit_impulse: float
     smp_time: float #ms
@@ -12,11 +12,6 @@ class ImpulseOutput(NamedTuple):
     jet_field: float # mm
     fuel_mass: float # g
     a: Optional[float] = None # []
-
-    def __str__(self):
-        print(f"""Ic = {self.total_impulse}
-        I1 = {self.unit_impulse}
-        a = {self.a}""")
 
 
 class Impulse(InterfaceTemplate):
@@ -26,8 +21,8 @@ class Impulse(InterfaceTemplate):
         super().__init__(*args, **kwargs)
 
     def calculate_impulse(self, survey: Survey)\
-        -> Type[ImpulseOutput]:
-        o = ImpulseOutput
+        -> ImpulseOutput:
+        o = ImpulseOutput()
         o.fuel_mass = self.to_kg(survey.fuel_mass)
         o.smp_time = self.to_s(survey.sampling_time)
         o.jet_d = self.to_m(survey.jet_diameter)
@@ -43,7 +38,7 @@ class Impulse(InterfaceTemplate):
         o.unit_impulse = o.total_impulse / o.fuel_mass
 
         if survey.type == "pressthru":
-            thrust_values = self.to_J(values[1])
+            thrust_values = values[1]
             o.a = self.calculate_a(
                 press_values, thrust_values, o.jet_field)
         return o
@@ -63,6 +58,6 @@ class Impulse(InterfaceTemplate):
             sum_a += a
         return sum_a / len(press_values)
 
-    def get_results(self) -> Tuple[Type[ImpulseOutput], ...]:
+    def get_results(self) -> Tuple[ImpulseOutput, ...]:
         return tuple(self.calculate_impulse(survey)
                      for survey in self.data.surveys)

@@ -7,7 +7,7 @@ from globals import CALCULATION_METHODS as cal_m
 
 class ImpulseTest():
     def __init__(self):
-        fuel_name = "ttrr"
+        fuel_name = "Bazalt 2a"
         pressthru_surveys = db.load_surveys(fuel_name, "pressthru")
         data = Data(surveys=pressthru_surveys)
         config = Config(integration_method = "rect")
@@ -15,7 +15,10 @@ class ImpulseTest():
         impulse = Impulse(data, config)
         results = impulse.get_results()
         
-        for result in results:
-            print(result.total_impulse)
+        for i, result in enumerate(results):
+            print(f"""------------------- {i}
+Ic = {result.total_impulse}
+I1 = {result.unit_impulse}
+a = {result.a}""")
 
 ImpulseTest()

@@ -6,14 +6,14 @@ from globals import CALCULATION_METHODS as cal_m
 
 
 class Data(NamedTuple):
-    surveys: Tuple[Survey]
-    times: Optional[Tuple[float]] = None
+    surveys: Tuple[Survey, ...]
+    times: Optional[Tuple[float, ...]] = None
     variables: Optional[NamedTuple] = None
 
 
 class Config(NamedTuple):
-    integration_method: Optional[Tuple[str]]
-    calculation_method: Optional[Tuple[str]] = "average"
+    integration_method: Optional[str]
+    calculation_method: Optional[str] = "average"
 
 
 class InterfaceTemplate:
