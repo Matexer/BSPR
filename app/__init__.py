@@ -1,5 +1,5 @@
-from gui import GUI
-from .acts import load_acts
+from .gui import GUI
+from .head.acts import load_acts
 
 
 class Application:

@@ -1,5 +1,5 @@
 from typing import Generator
-from head.messages import Messages as Msg
+from ..messages import Messages as Msg
 
 
 class DataConverter:

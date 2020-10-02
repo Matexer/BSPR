@@ -1,18 +1,18 @@
-from gui.frames.left_menu import LeftMenuFrame
-from gui.frames.top_menu import TopMenuFrame
-from gui.frames.fuels_list import FuelsListFrame
-from gui.frames.add_fuel import AddFuelFrameTemplate
-from gui.frames.surveys_list import SurveysListFrame
-from gui.frames.add_survey import AddSurveyFrameTemplate,\
+from .left_menu import LeftMenuFrame
+from .top_menu import TopMenuFrame
+from .fuels_list import FuelsListFrame
+from .add_fuel import AddFuelFrameTemplate
+from .surveys_list import SurveysListFrame
+from .add_survey import AddSurveyFrameTemplate,\
                                   AddSurveyPressureValuesFrame,\
                                   AddSurveyDoubleValuesFrame,\
                                   AddSurveyThrustValuesFrame
-from gui.frames.edit_fuel import EditFuelFrame
-from gui.frames.edit_survey import EditSurveyFrame
-from gui.frames.config_impulse import ConfigImpulseFrame
-from gui.frames.config_An import ConfigAnFrame
-from gui.frames.config_engine_para import ConfigEngineParametersFrame
-from gui.frames.templates.results_frame import ResultsFrameTemplate
+from .edit_fuel import EditFuelFrame
+from .edit_survey import EditSurveyFrame
+from .config_impulse import ConfigImpulseFrame
+from .config_An import ConfigAnFrame
+from .config_engine_para import ConfigEngineParametersFrame
+from .templates.results_frame import ResultsFrameTemplate
 
 
 def load_frames(top):

@@ -1,8 +1,8 @@
 import tkinter as tk
 import tkinter.ttk as ttk
-from gui.elements import TreeList
-import head.database as db
-from globals import SURVEY_TYPES
+from ..elements import TreeList
+import .head.database as db
+from ...globals import SURVEY_TYPES
 from .templates import ListFrameTemplate
 
 

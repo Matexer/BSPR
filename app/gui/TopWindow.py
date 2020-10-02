@@ -1,6 +1,6 @@
 import tkinter as tk
-from gui.frames import load_frames, LeftMenuFrame, TopMenuFrame
-from gui.configure import *
+from .frames import load_frames, LeftMenuFrame, TopMenuFrame
+from .configure import *
 
 
 class TopWindow(tk.Frame):

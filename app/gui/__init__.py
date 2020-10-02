@@ -1,6 +1,6 @@
 import tkinter as tk
 from .TopWindow import TopWindow
-from globals import *
+from ..globals import *
 
 
 class GUI:

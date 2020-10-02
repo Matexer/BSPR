@@ -1,7 +1,7 @@
 import pickle
 import os
 import datetime
-from globals import FUELS_FOLDER
+from ..globals import FUELS_FOLDER
 
 
 ###########################     FUELS   ########################################

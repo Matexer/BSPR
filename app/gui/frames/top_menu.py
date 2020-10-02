@@ -3,9 +3,9 @@ import os
 import platform
 import subprocess
 import time
-from gui.configure import *
-from gui.elements import TopMenuButton
-from globals import FUELS_FOLDER
+from ..configure import FOLDER_IMG, WRENCH_IMG, TMF_BG
+from ..elements import TopMenuButton
+from ...globals import FUELS_FOLDER
 
 
 class TopMenuFrame(tk.Frame):

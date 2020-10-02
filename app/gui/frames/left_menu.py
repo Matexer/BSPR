@@ -1,6 +1,6 @@
 import tkinter as tk
-from gui.configure import *
-from gui.elements import LeftMenuButton
+from ..configure import LMF_BG, LMF_TEXT_COLOR
+from ..elements import LeftMenuButton
 
 
 class LeftMenuFrame(tk.Frame):
