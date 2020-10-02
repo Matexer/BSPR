@@ -1,6 +1,6 @@
 import tkinter as tk
-from gui.elements import *
-from gui.configure import TL_BG
+from ...elements import *
+from ...configure import TL_BG
 
 
 class FrameTemplate(tk.Frame):

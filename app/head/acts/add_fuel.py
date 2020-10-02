@@ -1,6 +1,6 @@
-from globals import FORBIDDEN_NAME_SIGNS
-import head.database as db
-from head.objects import Fuel
+from ...globals import FORBIDDEN_NAME_SIGNS
+from ...head.database import Database as db
+from ..objects import Fuel
 
 
 class AddFuelAct:

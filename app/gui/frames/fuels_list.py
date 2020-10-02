@@ -1,6 +1,6 @@
-from gui.elements import TreeList
+from ..elements import TreeList
 from .templates import ListFrameTemplate
-import head.database as db
+from ...head.database import Database as db
 
 
 class FuelsListFrame(ListFrameTemplate):

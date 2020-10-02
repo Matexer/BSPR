@@ -1,7 +1,7 @@
 import tkinter as tk
 from abc import ABCMeta, abstractmethod
-from gui.frames.templates import FrameTemplate
-from gui.elements import AddButton, EditButton, DeleteButton
+from ...frames.templates import FrameTemplate
+from ...elements import AddButton, EditButton, DeleteButton
 
 
 class ListFrameTemplate(FrameTemplate, metaclass=ABCMeta):

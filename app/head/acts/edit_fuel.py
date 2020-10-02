@@ -1,6 +1,6 @@
 from .add_fuel import AddFuelAct
-from head.objects import Fuel
-import head.database as db
+from ..objects import Fuel
+from ...head.database import Database as db
 
 
 class EditFuelAct(AddFuelAct):

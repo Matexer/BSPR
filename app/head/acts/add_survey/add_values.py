@@ -1,7 +1,7 @@
-from gui.configure import T0_COLOR, TK_COLOR, TC_COLOR
 import tkinter as tk
 import copy
-from gui.configure import IMP_VALUES_BTN_COLOR_2
+from ....gui.configure import T0_COLOR, TK_COLOR, TC_COLOR,\
+    IMP_VALUES_BTN_COLOR_2
 
 
 class AddSurveyValuesAct:

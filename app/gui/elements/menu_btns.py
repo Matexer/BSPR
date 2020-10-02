@@ -1,5 +1,6 @@
 import tkinter as tk
-from gui.configure import *
+from ..configure import TMB_WIDTH, TMB_BG, LMB_BG, LMB_wrap,\
+    LMB_width, LMF_TEXT_COLOR
 
 
 class Button(tk.Button):

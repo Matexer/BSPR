@@ -1,8 +1,8 @@
 from typing import NamedTuple, Tuple, Optional, Any
-from head.objects import Survey, Fuel
+from ..head.objects import Survey, Fuel
 from .tools import Integrals
-from globals import INTEGRATION_METHODS as int_m
-from globals import CALCULATION_METHODS as cal_m
+from ..globals import INTEGRATION_METHODS as int_m
+from ..globals import CALCULATION_METHODS as cal_m
 
 
 class Data(NamedTuple):

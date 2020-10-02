@@ -1,8 +1,8 @@
 import unittest
-from ...core import Data, Config, Impulse, ImpulseOutput
-from head import database as db
-from globals import INTEGRATION_METHODS as int_m
-from globals import CALCULATION_METHODS as cal_m
+from app.core import Data, Config, Impulse, ImpulseOutput
+from app.head.database import Database as db
+from app.globals import INTEGRATION_METHODS as int_m
+from app.globals import CALCULATION_METHODS as cal_m
 
 
 class ImpulseTest():

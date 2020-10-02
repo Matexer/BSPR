@@ -1,7 +1,7 @@
 from typing import Iterable
-from gui.elements import PlotFigureFrame
+from ...elements import PlotFigureFrame
 from .scrolled_frame import ScrolledFrameTemplate
-from gui.elements import TableFrame
+from ...elements import TableFrame
 
 
 class ResultsFrameTemplate(ScrolledFrameTemplate):

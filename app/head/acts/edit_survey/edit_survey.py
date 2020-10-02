@@ -1,7 +1,7 @@
-from head.acts.add_survey import AddSurveyAct
+from ...acts.add_survey import AddSurveyAct
 from .edit_values import EditSurveyValuesAct
-from gui.configure import IMP_VALUES_BTN_COLOR_2
-import head.database as db
+from ....gui.configure import IMP_VALUES_BTN_COLOR_2
+from ....head.database import Database as db
 
 
 class EditSurveyAct(AddSurveyAct):

@@ -1,5 +1,5 @@
 from tkinter import messagebox as mb
-import head.database as db
+from ....head.database import Database as db
 from .template import ListActTemplate
 
 

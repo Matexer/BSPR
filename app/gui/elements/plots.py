@@ -1,7 +1,7 @@
 import tkinter as tk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure, SubplotBase
-from gui.configure import TK_COLOR, T0_COLOR, TC_COLOR
+from ..configure import TK_COLOR, T0_COLOR, TC_COLOR
 from typing import Tuple, BinaryIO, Union
 
 

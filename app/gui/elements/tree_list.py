@@ -26,8 +26,8 @@ class TreeList(tk.Frame):
         container.pack(fill="both", expand=1)
         self.tree = tree
         if self.CHECK_OPTION:
-            self.checked_img = tk.PhotoImage(file='graphic/checked.gif')
-            self.unchecked_img = tk.PhotoImage(file='graphic/unchecked.gif')
+            self.checked_img = tk.PhotoImage(file='app/graphic/checked.gif')
+            self.unchecked_img = tk.PhotoImage(file='app/graphic/unchecked.gif')
             self.chosen_items_ids = []
             tree.bind("<Button-1>", self.__toggle_item)
 

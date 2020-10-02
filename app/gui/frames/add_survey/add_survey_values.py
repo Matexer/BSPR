@@ -1,4 +1,4 @@
-from gui.elements import AddSurveyValuesPlotFrame
+from ...elements import AddSurveyValuesPlotFrame
 from ..templates import FrameTemplate, ScrolledFrameTemplate
 
 

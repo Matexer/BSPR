@@ -1,5 +1,5 @@
 import tkinter as tk
-from gui.configure import *
+from ..configure import *
 
 
 class Label(tk.Label):

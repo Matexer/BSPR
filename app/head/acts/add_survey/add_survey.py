@@ -1,10 +1,10 @@
 from tkinter.filedialog import askopenfilename
 from .add_values import AddSurveyValuesAct
-from head.objects import Survey
-from globals import SURVEY_TYPES, SURVEY_VALUES_SEPARATOR, PRESS,\
+from ....head.objects import Survey
+from ....globals import SURVEY_TYPES, SURVEY_VALUES_SEPARATOR, PRESS,\
                     THRUST
-from gui.configure import IMP_VALUES_BTN_COLOR_1
-import head.database as db
+from ....gui.configure import IMP_VALUES_BTN_COLOR_1
+from ....head.database import Database as db
 
 
 class AddSurveyAct:

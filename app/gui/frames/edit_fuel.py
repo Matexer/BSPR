@@ -1,7 +1,7 @@
 import tkinter as tk
 from .add_fuel import AddFuelFrameTemplate
-from gui.elements import TitleLabel
-from gui.configure import TL_FG2, TL_BG
+from ..elements import TitleLabel
+from ..configure import TL_FG2, TL_BG
 
 
 class EditFuelFrame(AddFuelFrameTemplate):

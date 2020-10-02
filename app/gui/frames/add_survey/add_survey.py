@@ -1,8 +1,8 @@
 import tkinter as tk
 import tkinter.ttk as ttk
-from gui.frames.templates import FrameTemplate
-from gui.elements import Button, SubtitleLabel
-from gui.configure import STL_BG, IMP_VALUES_BTN_COLOR_1,\
+from ...frames.templates import FrameTemplate
+from ...elements import Button, SubtitleLabel
+from ...configure import STL_BG, IMP_VALUES_BTN_COLOR_1,\
     FILL_FUEL_BTN_COLOR, CHANGE_IMP_VALUES_BTN_COLOR
 
 

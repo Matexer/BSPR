@@ -1,7 +1,7 @@
 from typing import Optional, Type, Generator, Tuple
 import math
 from .template import InterfaceTemplate, Data, Config
-from head.objects import Survey, Fuel
+from ..head.objects import Survey, Fuel
 
 
 class ImpulseOutput():

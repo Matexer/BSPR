@@ -1,8 +1,9 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 from .scrolled_frame import ScrolledFrameTemplate
-from gui.elements import ChooseList, CboxTable, InputTable
-from head.objects.fuel import Fuel
+from ...elements import ChooseList, CboxTable, InputTable
+from ....head.objects import Fuel
+from ....head.database import Database as db
 
 
 class ConfigCalculationFrameTemplate(ScrolledFrameTemplate):

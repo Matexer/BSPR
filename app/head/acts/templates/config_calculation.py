@@ -1,11 +1,11 @@
 from typing import List, Optional, Iterable
-import head.database as db
-from globals import SURVEY_TYPES
-from head.data_management import DataManager as Dm
-from head.messages import Messages as Msg
+from ....head.database import Database as db
+from ....globals import SURVEY_TYPES
+from ....head.data_management import DataManager as Dm
+from ....head.messages import Messages as Msg
 
-from gui.TopWindow import TopWindow
-from head.objects.survey import Survey
+from ....gui.TopWindow import TopWindow
+from ....head.objects.survey import Survey
 
 
 class ConfigCalculationActTemplate:

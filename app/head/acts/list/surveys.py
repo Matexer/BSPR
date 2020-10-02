@@ -1,7 +1,7 @@
 from tkinter import messagebox as mb
-import head.database as db
+from ....head.database import Database as db
 from .template import ListActTemplate
-from globals import SURVEY_TYPES
+from ....globals import SURVEY_TYPES
 
 
 class SurveysListAct(ListActTemplate):
