@@ -5,5 +5,7 @@ if not TEST:
     app = Application()
 
 else:
-    from tests.impulse import ImpulseTest
+    from tests.core import ImpulseTest
+    from tests.core import AnTest
     ImpulseTest()
+    AnTest()

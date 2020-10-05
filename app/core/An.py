@@ -94,5 +94,5 @@ class An(InterfaceTemplate):
         x_bar = mean(xs)
         return tuple(x - x_bar for x in xs)
     
-    def get_results(self):
+    def get_results(self) -> AnOutplut:
         return AnOutplut(self.calculate_An(self.data.surveys))
