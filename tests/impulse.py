@@ -20,5 +20,3 @@ class ImpulseTest():
 Ic = {result.total_impulse}
 I1 = {result.unit_impulse}
 a = {result.a}""")
-
-ImpulseTest()

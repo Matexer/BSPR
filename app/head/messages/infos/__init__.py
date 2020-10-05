@@ -17,3 +17,5 @@ class InfoMessages(ComparisonMessages, LiveMessages):
     needs_to_choose_fuel = LiveMessages.needs_to_choose("paliwo")
     needs_2_diff_jets_diam = LiveMessages.needs_to_choose(
         "co najmniej dwa pomiary o różnych średnicach krytycznych dyszy")
+    needs_min_one_survey = LiveMessages.needs_to_choose(
+        "co najmniej jeden pomiar")

@@ -1,6 +1,6 @@
 import unittest
-from head.data_management import DataConverter
-from head.messages.messages import Messages as Msg
+from app.head.data_management import DataConverter
+from app.head.messages import Messages as Msg
 
 
 class DataConverterTest(DataConverter, unittest.TestCase):

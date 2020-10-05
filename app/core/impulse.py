@@ -17,9 +17,6 @@ class ImpulseOutput():
 class Impulse(InterfaceTemplate):
     END_TIME_INDEX = 2
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
     def calculate_impulse(self, survey: Survey)\
         -> ImpulseOutput:
         o = ImpulseOutput()
@@ -59,5 +56,6 @@ class Impulse(InterfaceTemplate):
         return sum_a / len(press_values)
 
     def get_results(self) -> Tuple[ImpulseOutput, ...]:
-        return tuple(self.calculate_impulse(survey)
-                     for survey in self.data.surveys)
+        if self.data.surveys:
+            return tuple(self.calculate_impulse(survey)
+                        for survey in self.data.surveys)

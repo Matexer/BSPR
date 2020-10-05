@@ -1,3 +1,9 @@
-from app import Application
+TEST = True
 
-app = Application()
+if not TEST:
+    from app import Application
+    app = Application()
+
+else:
+    from tests.impulse import ImpulseTest
+    ImpulseTest()
