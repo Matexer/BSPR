@@ -29,7 +29,7 @@ class An(InterfaceTemplate):
         smp_time = self.to_s(survey.sampling_time)
         times = (survey.t0, survey.tc, survey.tk)
 
-        values = tuple(self.cut_values(val, smp_time, times)
+        values = tuple(self.cut_values(val, survey.sampling_time, times)
                        for val in survey.values)
         press_values = self.to_J(values[0])
 
@@ -49,7 +49,7 @@ class An(InterfaceTemplate):
         index = int(round(time / smp_time, 0))
         p = press_values[index]
 
-        press_values = tuple(self.cut_values(val, smp_time, times)
+        press_values = tuple(self.cut_values(val, survey.sampling_time, times)
                              for val in press_values)  
         Ip = self.integrate(press_values, smp_time)
         D = survey.fuel_outer_diameter
@@ -95,4 +95,4 @@ class An(InterfaceTemplate):
         return tuple(x - x_bar for x in xs)
     
     def get_results(self) -> AnOutplut:
-        return AnOutplut(self.calculate_An(self.data.surveys))
+        return AnOutplut(*self.calculate_An(self.data.surveys))

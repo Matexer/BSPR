@@ -10,12 +10,11 @@ class AnTest():
         fuel_name = "Bazalt 2a"
         pressthru_surveys = db.load_surveys(fuel_name, "pressthru")
         data = Data(surveys=pressthru_surveys)
-        config = Config(integration_method = "rect")
+        config = Config("rect", "average")
 
         A_and_n = An(data, config)
         results = A_and_n.get_results()
         
-        for i, result in enumerate(results):
-            print(f"""------------------- {i}
-A = {result.total_impulse}
-n = {result.unit_impulse}""")
+        print(f"""-------------------
+A = {results.A}
+n = {results.n}""")

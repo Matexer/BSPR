@@ -25,7 +25,7 @@ class Impulse(InterfaceTemplate):
         o.jet_d = self.to_m(survey.jet_diameter)
         
         times = (survey.t0, survey.tc, survey.tk)
-        values = tuple(self.cut_values(val, o.smp_time, times)
+        values = tuple(self.cut_values(val, survey.sampling_time, times)
                        for val in survey.values)
         press_values = self.to_J(values[0])
 

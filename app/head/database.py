@@ -94,7 +94,8 @@ class Database:
 
     ##############################  SURVEYS #########################################
 
-    def save_survey(self, f_name, survey):
+    @classmethod
+    def save_survey(cls, f_name, survey):
         """
         :param f_name: <string>
         :param survey: <obiekt Survey>
@@ -112,7 +113,7 @@ class Database:
         if not os.path.exists(path):
             surveys = [survey]
         else:
-            surveys = self.load_surveys(f_name, survey.type)
+            surveys = cls.load_surveys(f_name, survey.type)
             surveys.append(survey)
         with open(path, 'wb') as file:
             pickle.dump(surveys, file)
