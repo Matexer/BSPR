@@ -1,6 +1,6 @@
 import math
 from typing import Tuple, NamedTuple
-from scratch.statistic import correlation, standard_deviation, mean
+from statistics import stdev, variance, mean
 from .template import InterfaceTemplate, Data, Config
 from ..head.objects import Survey
 
@@ -64,11 +64,35 @@ class An(InterfaceTemplate):
     def calculate_An(self, surveys: Tuple[Survey, ...])\
         -> Tuple[float, float]:
         cords = self.get_p_u(surveys)
-        x = tuple(math.log10(p) for p, _ in cords)
-        y = tuple(math.log10(u) for _, u in cords)
-        n = correlation(x, y) * standard_deviation(y) / standard_deviation(x)
-        A = math.exp(mean(y) - n * mean(x))
+        xs = tuple(math.log10(p) for p, _ in cords)
+        ys = tuple(math.log10(u) for _, u in cords)
+        n = self.correlation(xs, ys) * stdev(ys) / stdev(xs)
+        A = math.exp(mean(ys) - n * mean(xs))
         return A, n
 
+    def correlation(self, xs: Tuple[float, ...], ys: Tuple[float, ...])\
+        -> float:
+        stdev_x = stdev(xs)
+        stdev_y = stdev(ys)
+        if stdev_x > 0 and stdev_y > 0:
+            return self.covariance(xs, ys) / stdev_x / stdev_y
+        else:
+            return 0
+
+    def covariance(self, xs: Tuple[float, ...], ys: Tuple[float, ...])\
+        -> float:
+        return self.dot(self.de_mean(xs), self.de_mean(ys)) / (len(xs) - 1)
+
+    @staticmethod
+    def dot(xs: Tuple[float, ...], ys: Tuple[float, ...])\
+        -> float:
+        return sum(x_i * y_i for x_i, y_i in zip(xs, ys))
+
+    @staticmethod
+    def de_mean(xs: Tuple[float, ...])\
+        -> Tuple[float, ...]:
+        x_bar = mean(xs)
+        return tuple(x - x_bar for x in xs)
+    
     def get_results(self):
         return AnOutplut(self.calculate_An(self.data.surveys))
