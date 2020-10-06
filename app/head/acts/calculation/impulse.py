@@ -21,11 +21,11 @@ class ImpulseAct(CalculationActTemplate):
         table = frame.create_table(frame.interior, data)
 
         title.pack(fill="both")
-        table.pack(fill="both", expand=1, anchor="center", pady=20)
+        table.pack(pady=20)
 
     @staticmethod
     def get_table_data(output: ImpulseOutput) -> Tuple[tuple, ...]:
         headings = ("Nr. pomiaru", "Impuls\ncałkowity", "Impuls\njednostkowy", "a")
         data = [(i, item.total_impulse, item.unit_impulse) 
-                for i, item in enumerate(output)]
-        return tuple(headings, *data)
+                for i, item in enumerate(output, start=1)]
+        return tuple((headings, *data))

@@ -21,5 +21,5 @@ class ConfigImpulseAct(ConfigCalculationActTemplate):
 
         data = Data(surveys)
         config = Config(INTEGRATION_METHODS[cboxes[0]])
-        ImpulseAct(fuel_name, data, config)
+        ImpulseAct(self.top, fuel_name, data, config)
         self.top.change_frame(self.OUTPUT_FRAME_NUMBER)

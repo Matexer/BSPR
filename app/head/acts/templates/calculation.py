@@ -12,5 +12,5 @@ class CalculationActTemplate:
         self.clean_frame()
 
     def clean_frame(self):
-        for child in self.frame.winfo_children():
+        for child in self.frame.interior.winfo_children():
             child.destroy()
