@@ -4,7 +4,7 @@ from .scrolled_frame import ScrolledFrameTemplate
 from ...elements import TableFrame
 
 
-class ResultsFrameTemplate(ScrolledFrameTemplate):
+class ResultsFrame(ScrolledFrameTemplate):
     def __init__(self, top):
         super().__init__(top)
         self.generate_structure()

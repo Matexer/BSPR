@@ -1,8 +1,6 @@
 from typing import NamedTuple, Tuple, Optional, Any
 from ..head.objects import Survey, Fuel
 from .tools import Integrals
-from ..globals import INTEGRATION_METHODS as int_m
-from ..globals import CALCULATION_METHODS as cal_m
 
 
 class Data(NamedTuple):
@@ -12,19 +10,21 @@ class Data(NamedTuple):
 
 
 class Config(NamedTuple):
-    integration_method: Optional[str]
-    calculation_method: Optional[str] = "average"
+    integration_method: Optional[int]
+    #0-rect, 1-trapeze, 2-simpson
+    calculation_method: Optional[int] = 0
+    #0-average, 1-point
 
 
 class InterfaceTemplate:
     END_TIME_INDEX = 1  #0=t0, 1=tk, 2=tc
 
-    def __init__(self, data: Data, config):
+    def __init__(self, data: Data, config: Config):
         self.data = data
         self.config = config
-        self.__integrals = {int_m[0]: Integrals.rect_integral,
-                          int_m[1]: Integrals.trapeze_integral,
-                          int_m[2]: Integrals.simpson_integral}
+        self.__integrals = (Integrals.rect_integral,
+                            Integrals.trapeze_integral,
+                            Integrals.simpson_integral)
         self.to_kg = self.to_m
         self.to_g = self.to_mm
         self.to_s = self.to_m

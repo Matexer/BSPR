@@ -3,7 +3,6 @@ from ....head.database import Database as db
 from ....globals import SURVEY_TYPES
 from ....head.data_management import DataManager as Dm
 from ....head.messages import Messages as Msg
-
 from ....gui.TopWindow import TopWindow
 from ....head.objects.survey import Survey
 
@@ -13,6 +12,7 @@ class ConfigCalculationActTemplate:
     SURVEY_ARGS = "jet_diameter",
 
     FRAME_NUMBER = 9
+    OUTPUT_FRAME_NUMBER = 12
     NEEDED_SURVEY_TYPES = "press", "pressthru"
 
     def __init__(self, top: TopWindow):
@@ -29,8 +29,14 @@ class ConfigCalculationActTemplate:
             "<<ComboboxSelected>>", lambda e: self.__load_surveys())
 
     def set_buttons(self):
-        self.frame.navi_buttons[0].configure(command=lambda: self.parse_data())
-        self.frame.navi_buttons[1].configure(command=lambda: self.clean())
+        self.frame.navi_buttons[0].configure(
+            command=lambda: self.start_calculation())
+        self.frame.navi_buttons[1].configure(
+            command=lambda: self.clean())
+
+    def start_calculation(self):
+        """To be overwritten by the child class."""
+        pass
 
     def parse_data(self):
         message = self.frame.show_message

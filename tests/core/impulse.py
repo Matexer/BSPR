@@ -1,8 +1,6 @@
 import unittest
 from app.core import Data, Config, Impulse, ImpulseOutput
 from app.head.database import Database as db
-from app.globals import INTEGRATION_METHODS as int_m
-from app.globals import CALCULATION_METHODS as cal_m
 
 
 class ImpulseTest():
@@ -10,7 +8,7 @@ class ImpulseTest():
         fuel_name = "Bazalt 2a"
         pressthru_surveys = db.load_surveys(fuel_name, "pressthru")
         data = Data(surveys=pressthru_surveys)
-        config = Config(integration_method = "rect")
+        config = Config(0)
 
         impulse = Impulse(data, config)
         results = impulse.get_results()

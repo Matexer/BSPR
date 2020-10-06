@@ -4,6 +4,7 @@ from .scrolled_frame import ScrolledFrameTemplate
 from ...elements import ChooseList, CboxTable, InputTable
 from ....head.objects import Fuel
 from ....head.database import Database as db
+from ....globals import INTEGRATION_METHODS, CALCULATION_METHODS
 
 
 class ConfigCalculationFrameTemplate(ScrolledFrameTemplate):
@@ -13,8 +14,8 @@ class ConfigCalculationFrameTemplate(ScrolledFrameTemplate):
                        ("Var 3", "Var 4"))
 
     CBOX_VARIABLES = (
-        {"Dla wartości": ("średnich", "chwilowych")},
-        {"Metoda całkowania": ("liniowa", "trapezów", "Simpsona")}
+        {"Dla wartości": tuple(CALCULATION_METHODS.keys())},
+        {"Metoda całkowania": tuple(INTEGRATION_METHODS.keys())}
     )
 
     SURVEY_LIST_COLUMNS = {"ŚKD": 0.5}

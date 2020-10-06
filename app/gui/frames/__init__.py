@@ -12,7 +12,7 @@ from .edit_survey import EditSurveyFrame
 from .config_impulse import ConfigImpulseFrame
 from .config_An import ConfigAnFrame
 from .config_engine_para import ConfigEngineParametersFrame
-from .templates.results_frame import ResultsFrameTemplate
+from .results_frame import ResultsFrame
 
 
 def load_frames(top):
@@ -28,6 +28,6 @@ def load_frames(top):
               ConfigImpulseFrame(top),
               ConfigAnFrame(top), # 10
               ConfigEngineParametersFrame(top),
-              ResultsFrameTemplate(top)
+              ResultsFrame(top)
               )
     return frames

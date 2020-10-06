@@ -1,1 +1,2 @@
 from .config_calculation import ConfigCalculationActTemplate
+from .calculation import CalculationActTemplate
