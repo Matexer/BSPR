@@ -17,7 +17,7 @@ class Config(NamedTuple):
 
 
 class InterfaceTemplate:
-    END_TIME_INDEX = 1  #0=t0, 1=tc, 2=tk
+    END_TIME_INDEX = 1  #0=t0, 1=tk, 2=tc
 
     def __init__(self, data: Data, config):
         self.data = data

@@ -1,4 +1,4 @@
-TEST = 1
+TEST = 0
 
 if not TEST:
     from app import Application

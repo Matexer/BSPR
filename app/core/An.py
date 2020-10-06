@@ -41,7 +41,7 @@ class An(InterfaceTemplate):
     def get_average_p_u(self, survey: Survey)\
         -> Tuple[float, float]:
         smp_time = self.to_s(survey.sampling_time)
-        times = (survey.t0, survey.tc, survey.tk)
+        times = (survey.t0, survey.tk, survey.tc)
 
         values = tuple(self.cut_values(val, survey.sampling_time, times)
                        for val in survey.values)
@@ -59,7 +59,7 @@ class An(InterfaceTemplate):
     def get_pointed_p_u(self, survey: Survey, time: float)\
         -> Tuple[float, float]:
         smp_time = self.to_s(survey.sampling_time)
-        times = (survey.t0, survey.tc, survey.tk)
+        times = (survey.t0, survey.tk, survey.tc)
 
         press_values = self.to_J(survey.values[0])
         index = int(round(time / survey.sampling_time, 0))
