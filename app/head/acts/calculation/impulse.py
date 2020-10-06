@@ -11,12 +11,21 @@ class ImpulseAct(CalculationActTemplate):
         data = args[2]
         config = args[3]
         output = Impulse(data, config).get_results()
+        self.generate_report(self.frame, output)
 
     def generate_report(self, 
         frame: ResultsFrame, output: ImpulseOutput):
         title = frame.create_title(frame.interior, 
             f"WYNIKI OBLICZEŃ DLA PALIWA {self.fuel_name}")
+        data = self.get_table_data(output)
+        table = frame.create_table(frame.interior, data)
+
+        title.pack(fill="both")
+        table.pack(fill="both", expand=1, anchor="center", pady=20)
 
     @staticmethod
     def get_table_data(output: ImpulseOutput) -> Tuple[tuple, ...]:
-        ...
+        headings = ("Nr. pomiaru", "Impuls\ncałkowity", "Impuls\njednostkowy", "a")
+        data = [(i, item.total_impulse, item.unit_impulse) 
+                for i, item in enumerate(output)]
+        return tuple(headings, *data)
