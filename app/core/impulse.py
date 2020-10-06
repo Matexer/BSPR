@@ -1,10 +1,10 @@
-from typing import Optional, Type, Generator, Tuple
+from typing import Optional, Type, NamedTuple, Tuple
 import math
 from .template import InterfaceTemplate, Data, Config
 from ..head.objects import Survey, Fuel
 
 
-class ImpulseOutput():
+class ImpulseOutput(NamedTuple):
     total_impulse: float 
     unit_impulse: float
     smp_time: float #ms
@@ -18,27 +18,29 @@ class Impulse(InterfaceTemplate):
     END_TIME_INDEX = 2
 
     def calculate_impulse(self, survey: Survey)\
-        -> ImpulseOutput:
-        o = ImpulseOutput()
-        o.fuel_mass = self.to_kg(survey.fuel_mass)
-        o.smp_time = self.to_s(survey.sampling_time)
-        o.jet_d = self.to_m(survey.jet_diameter)
+        -> Type[ImpulseOutput]:
+        fuel_mass = self.to_kg(survey.fuel_mass)
+        smp_time = self.to_s(survey.sampling_time)
+        jet_d = self.to_m(survey.jet_diameter)
         
         times = (survey.t0, survey.tc, survey.tk)
         values = tuple(self.cut_values(val, survey.sampling_time, times)
                        for val in survey.values)
         press_values = self.to_J(values[0])
 
-        o.jet_field = math.pi * (o.jet_d**2) / 4
-        o.total_impulse = self.integrate(
-            press_values, o.smp_time)
-        o.unit_impulse = o.total_impulse / o.fuel_mass
+        jet_field = math.pi * (jet_d**2) / 4
+        total_impulse = self.integrate(
+            press_values, smp_time)
+        unit_impulse = total_impulse / fuel_mass
 
         if survey.type == "pressthru":
             thrust_values = values[1]
-            o.a = self.calculate_a(
-                press_values, thrust_values, o.jet_field)
-        return o
+            a = self.calculate_a(
+                press_values, thrust_values, jet_field)
+        else:
+            a = None
+        return ImpulseOutput(total_impulse, unit_impulse,
+            smp_time, jet_d, jet_field, fuel_mass, a)
 
     @staticmethod
     def calculate_a(

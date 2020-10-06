@@ -1,17 +1,31 @@
 import math
-from typing import Tuple, NamedTuple
+from typing import Tuple, NamedTuple, Optional, List
 from statistics import stdev, variance, mean
 from .template import InterfaceTemplate, Data, Config
 from ..head.objects import Survey
 
 
+class SurveyDetails(NamedTuple):
+    p: float
+    u: float
+    times: Tuple[float, float, float]
+    Ipk: float
+    point_time: Optional[float]
+
+
 class AnOutplut(NamedTuple):
     A: float
     n: float
+    surveys_details: Tuple[SurveyDetails, ...]
 
 
 class An(InterfaceTemplate):
     END_TIME_INDEX = 2
+
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.details: List[SurveyDetails, ...] = []
 
     def get_p_u(self, surveys: Tuple[Survey, ...])\
         -> Tuple[Tuple[float, float], ...]:
@@ -38,6 +52,8 @@ class An(InterfaceTemplate):
 
         e = (survey.fuel_outer_diameter - survey.fuel_inner_diameter) / 4
         ave_u = e / survey.tk
+
+        self.details.append(SurveyDetails(ave_p, ave_u, times, Ipk, None))
         return ave_p, ave_u
 
     def get_pointed_p_u(self, survey: Survey, time: float)\
@@ -46,7 +62,7 @@ class An(InterfaceTemplate):
         times = (survey.t0, survey.tc, survey.tk)
 
         press_values = self.to_J(survey.values[0])
-        index = int(round(time / smp_time, 0))
+        index = int(round(time / survey.sampling_time, 0))
         p = press_values[index]
 
         press_values = tuple(self.cut_values(val, survey.sampling_time, times)
@@ -59,13 +75,15 @@ class An(InterfaceTemplate):
         S = (2*math.pi*d/2*L) + (2*math.pi*D/2*L) +\
              2*(math.pi*((D/2)**2 - (d/2)**2))
         u = (V * p) / (S * Ip)
+
+        self.details.append(SurveyDetails(p, u, times, Ip, time))
         return p, u
 
     def calculate_An(self, surveys: Tuple[Survey, ...])\
         -> Tuple[float, float]:
         cords = self.get_p_u(surveys)
-        xs = tuple(math.log10(p) for p, _ in cords)
-        ys = tuple(math.log10(u) for _, u in cords)
+        xs = tuple(math.log(p) for p, _ in cords)
+        ys = tuple(math.log(u) for _, u in cords)
         n = self.correlation(xs, ys) * stdev(ys) / stdev(xs)
         A = math.exp(mean(ys) - n * mean(xs))
         return A, n
@@ -95,4 +113,4 @@ class An(InterfaceTemplate):
         return tuple(x - x_bar for x in xs)
     
     def get_results(self) -> AnOutplut:
-        return AnOutplut(*self.calculate_An(self.data.surveys))
+        return AnOutplut(*self.calculate_An(self.data.surveys), self.details)
