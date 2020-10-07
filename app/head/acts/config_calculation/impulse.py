@@ -15,9 +15,9 @@ class ConfigImpulseAct(ConfigCalculationActTemplate):
         if not surveys:
             return Msg.needs_min_one_survey
 
-    def start_calculation(self):
+    def start_calculation(self, data):
         fuel_name, cboxes, _, surveys, _ =\
-             self.parse_data()
+             data
 
         data = Data(surveys)
         config = Config(INTEGRATION_METHODS[cboxes[0]])

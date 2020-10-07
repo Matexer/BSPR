@@ -32,7 +32,7 @@ class AnAct(CalculationActTemplate):
     @staticmethod
     def get_table_data(output: AnOutplut) -> Tuple[tuple, ...]:
         headings = ("Nr. pomiaru", "t0 [ms]", "tk [ms]", "tc [ms]", "Ipk")
-        data = [(i, *item.times, item.Ipk) 
+        data = [(i, *item.times, round(item.Ipk, 2)) 
                 for i, item in enumerate(output.surveys_details, start=1)]
         return tuple((headings, *data))
 

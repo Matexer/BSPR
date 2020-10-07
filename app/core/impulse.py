@@ -11,6 +11,8 @@ class ImpulseOutput(NamedTuple):
     jet_d: float # mm
     jet_field: float # mm
     fuel_mass: float # g
+    chamber_length: float
+    chamber_d: float
     a: Optional[float] = None # []
 
 
@@ -40,7 +42,9 @@ class Impulse(InterfaceTemplate):
         else:
             a = None
         return ImpulseOutput(total_impulse, unit_impulse,
-            smp_time, jet_d, jet_field, fuel_mass, a)
+            survey.sampling_time, survey.jet_diameter, jet_field,
+            fuel_mass, survey.chamber_length, survey.chamber_diameter,
+            a)
 
     @staticmethod
     def calculate_a(

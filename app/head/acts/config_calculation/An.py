@@ -8,9 +8,9 @@ class ConfigAnAct(ConfigCalculationActTemplate):
     FRAME_NUMBER = 10
     NEEDED_SURVEY_TYPES = "press", "pressthru"
 
-    def start_calculation(self):
+    def start_calculation(self, data):
         fuel_name, cboxes, variables, surveys, times =\
-             self.parse_data()
+             data
 
         data = Data(surveys, times, variables)
         config = Config(CALCULATION_METHODS[cboxes[0]],

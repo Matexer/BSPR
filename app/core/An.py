@@ -65,8 +65,7 @@ class An(InterfaceTemplate):
         index = int(round(time / survey.sampling_time, 0))
         p = press_values[index]
 
-        press_values = tuple(self.cut_values(val, survey.sampling_time, times)
-                             for val in press_values)  
+        press_values = self.cut_values(press_values, survey.sampling_time, times)
         Ip = self.integrate(press_values, smp_time)
         D = survey.fuel_outer_diameter
         d = survey.fuel_inner_diameter

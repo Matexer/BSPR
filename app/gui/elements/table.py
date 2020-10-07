@@ -78,7 +78,8 @@ class TableFrame(tk.Frame):
     def __grid_table(table: Fields):
         for r_num, row in enumerate(table):
             for c_num, element in enumerate(row):
-                element.grid(row=r_num, column=c_num, sticky='WENS')
+                element.grid(row=r_num, column=c_num, sticky='WENS',
+                             ipadx=5, ipady=5)
 
 
 if __name__ == "__main__":

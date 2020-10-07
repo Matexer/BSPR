@@ -30,12 +30,17 @@ class ConfigCalculationActTemplate:
 
     def set_buttons(self):
         self.frame.navi_buttons[0].configure(
-            command=lambda: self.start_calculation())
+            command=lambda: self.start())
         self.frame.navi_buttons[1].configure(
             command=lambda: self.clean())
 
-    def start_calculation(self):
-        """To be overwritten by the child class."""
+    def start(self):
+        data = self.parse_data()
+        if data:
+            self.start_calculation(data)
+
+    def start_calculation(self, data):
+        "To be overwritten by the child class."
         pass
 
     def parse_data(self):
