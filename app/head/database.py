@@ -127,13 +127,16 @@ class Database:
         else:
             return False
 
-    def remove_survey(self, f_name, s_type, s_id):
-        surveys = self.load_surveys(f_name, s_type)
+    @classmethod
+    def remove_survey(cls, f_name, s_type, s_id):
+        surveys = cls.load_surveys(f_name, s_type)
         surveys.pop(s_id)
         path = '%s/%s/%s' % (FUELS_FOLDER, f_name, s_type)
         with open(path, 'wb') as file:
             pickle.dump(surveys, file)
 
-    def edit_survey(self, f_name, old_s_type, old_s_id, new_survey):
-        self.remove_survey(f_name, old_s_type, old_s_id)
-        self.save_survey(f_name, new_survey)
+    @classmethod
+    def edit_survey(cls, f_name, old_s_type, old_s_id, new_survey):
+        cls.remove_survey(f_name, old_s_type, old_s_id)
+        cls.save_survey(f_name, new_survey)
+

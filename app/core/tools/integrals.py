@@ -9,7 +9,7 @@ class Integrals:
     @staticmethod
     def trapeze_integral(prep_p_sur, smp_time):
         val_1 = smp_time * (prep_p_sur[0] + prep_p_sur[-1]) / 2
-        val_2 = sum(((v * smp_time for v in prep_p_sur[1:-1])))
+        val_2 = sum((v * smp_time for v in prep_p_sur[1:-1]))
         return val_1 + val_2
 
     @staticmethod

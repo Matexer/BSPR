@@ -13,7 +13,7 @@ class ConfigAnAct(ConfigCalculationActTemplate):
              data
 
         data = Data(surveys, times, variables)
-        config = Config(CALCULATION_METHODS[cboxes[0]],
-            INTEGRATION_METHODS[cboxes[1]])
+        config = Config(INTEGRATION_METHODS[cboxes[1]],
+            CALCULATION_METHODS[cboxes[0]])
         AnAct(self.top, fuel_name, data, config)
         self.top.change_frame(self.OUTPUT_FRAME_NUMBER)

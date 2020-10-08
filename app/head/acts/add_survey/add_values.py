@@ -19,6 +19,10 @@ class AddSurveyValuesAct:
         save_btn.configure(command=lambda: self.back())
         clear_btn.configure(command=lambda: self.reset_plot())
 
+    def save_survey(self):
+        survey = self.survey
+        
+
     def back(self):
         self.top.change_frame(self.previous_frame_number)
         imp_val_btn = self.top.frames[self.previous_frame_number].get_buttons()[0]

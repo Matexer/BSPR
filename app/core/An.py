@@ -48,11 +48,14 @@ class An(InterfaceTemplate):
                        for val in survey.values)
         press_values = self.to_J(values[0])
 
+        tk = self.to_s(survey.tk)
         Ipk = self.integrate(press_values, smp_time)
-        ave_p = Ipk / survey.tk
+        ave_p = Ipk / tk
 
-        e = (survey.fuel_outer_diameter - survey.fuel_inner_diameter) / 4
-        ave_u = e / survey.tk
+        d = self.to_m(survey.fuel_inner_diameter)
+        D = self.to_m(survey.fuel_outer_diameter)
+        e = (D - d) / 4
+        ave_u = e / tk
 
         self.details.append(SurveyDetails(ave_p, ave_u,
             times, Ipk, survey.jet_diameter, None))
@@ -69,9 +72,9 @@ class An(InterfaceTemplate):
 
         press_values = self.cut_values(press_values, survey.sampling_time, times)
         Ip = self.integrate(press_values, smp_time)
-        D = survey.fuel_outer_diameter
-        d = survey.fuel_inner_diameter
-        L = survey.fuel_length
+        D = self.to_m(survey.fuel_outer_diameter)
+        d = self.to_m(survey.fuel_inner_diameter)
+        L = self.to_m(survey.fuel_length)
         V = math.pi*((D/2)**2 - (d/2)**2)*L
         S = (2*math.pi*d/2*L) + (2*math.pi*D/2*L) +\
              2*(math.pi*((D/2)**2 - (d/2)**2))

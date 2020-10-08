@@ -27,6 +27,7 @@ class AnTest():
         output_data = self.get_output_data()
         for output in output_data:
             self.show(output)
+            ...
 
     def get_output_data(self):
         output_data = []
@@ -82,16 +83,16 @@ class AnTest():
         for i_name, i_m in INTEGRATION_METHODS.items():
             for c_name, c_m in CALCULATION_METHODS.items():
                 configs[0].append(
-                    str(f"M. obliczania: {c_name}\t M. całkowania: {i_name}"))
-                configs[1].append((c_m, i_m))
+                    str(f"M. całkowania: {i_name} \t M. obliczania: {c_name}"))
+                configs[1].append((i_m, c_m))
         return configs
 
     @staticmethod
     def get_table(details):
         data = []
         for i, s in enumerate(details, start=1):
-            headers = ("Lp.", "p", "u [mm/s]", "t0 [ms]", "tk [ms]",
-                "tc [ms]", "Ipk [MPa*s]", "t [ms]")
-            data.append((i, s.p, s.u*1000, *s.times, s.Ipk/1000_000,
-                s.point_time))
+            headers = ("Lp.", "p\n[MPa]", "u\n[mm/s]", "t0\n[ms]", "tk\n[ms]",
+                "tc\n[ms]", "Ipk\n[MPa*s]", "Śr. kryt.\ndyszy[mm]", "t\n[ms]")
+            data.append((i, s.p/1000_000, s.u*1000, *s.times,
+                s.Ipk/1000_000, s.jet_d ,s.point_time))
         return t.tabulate(data, headers, tablefmt='orgtbl')
