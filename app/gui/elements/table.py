@@ -6,7 +6,8 @@ from typing import Tuple, List, Union
 class Element(tk.Label):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.configure(font=14)
+        self.configure(font=14, borderwidth=1,
+            relief="groove")
 
 
 class Heading(Element):

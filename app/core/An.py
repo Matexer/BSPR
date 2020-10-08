@@ -6,11 +6,12 @@ from ..head.objects import Survey
 
 
 class SurveyDetails(NamedTuple):
-    p: float
-    u: float
-    times: Tuple[float, float, float]
+    p: float #Pa
+    u: float #m/s
+    times: Tuple[float, float, float] #ms
     Ipk: float
-    point_time: Optional[float]
+    jet_d: float #mm
+    point_time: Optional[float] #ms
 
 
 class AnOutplut(NamedTuple):
@@ -53,7 +54,8 @@ class An(InterfaceTemplate):
         e = (survey.fuel_outer_diameter - survey.fuel_inner_diameter) / 4
         ave_u = e / survey.tk
 
-        self.details.append(SurveyDetails(ave_p, ave_u, times, Ipk, None))
+        self.details.append(SurveyDetails(ave_p, ave_u,
+            times, Ipk, survey.jet_diameter, None))
         return ave_p, ave_u
 
     def get_pointed_p_u(self, survey: Survey, time: float)\
@@ -75,7 +77,8 @@ class An(InterfaceTemplate):
              2*(math.pi*((D/2)**2 - (d/2)**2))
         u = (V * p) / (S * Ip)
 
-        self.details.append(SurveyDetails(p, u, times, Ip, time))
+        self.details.append(SurveyDetails(p, u, times, Ip,
+            survey.jet_diameter, time))
         return p, u
 
     def calculate_An(self, surveys: Tuple[Survey, ...])\

@@ -1,8 +1,8 @@
-TEST = 0
+TEST = 1
 
 if not TEST:
     from app import Application
-    app = Application()
+    Application()
 
 else:
     from tests.core import ImpulseTest
