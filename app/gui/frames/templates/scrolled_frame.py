@@ -46,6 +46,8 @@ class ScrolledFrameTemplate(FrameTemplate):
         # track changes to the canvas and frame width and sync them,
         # also updating the scrollbar
         def _configure_interior(event):
+            if not interior:
+                return
             # update the scrollbars to match the size of the inner frame
             if canvas.winfo_height() < interior.winfo_reqheight():
                 height = interior.winfo_reqheight() + EXTRA_SPACE_AFTER_SCROLL
