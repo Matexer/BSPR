@@ -108,7 +108,6 @@ class AddSurveyValuesAct:
                 self.survey.multipliers[index] = m_value
                 self.import_frame.hide_message()
                 self.survey.values[index] = new_ys
-                print(f"Multiplier set to {m_value}")
 
     @staticmethod
     def get_times(data, smp_time):
@@ -228,4 +227,3 @@ class AddSurveyValuesAct:
         plot_data.set_ydata(y_data)
         plot_frame.canvas.draw()
         self.survey.values[i] = y_data.tolist()
-        print("Plot fixed")
