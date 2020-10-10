@@ -11,8 +11,8 @@ class AnAct(CalculationActTemplate):
         super().__init__(*args, **kwargs)
         self.fuel_name = args[1]
         data = args[2]
-        config = args[3]
-        output = An(data, config).get_results()
+        self.config = args[3]
+        output = An(data, self.config).get_results()
         self.generate_report(self.frame, output)
 
     def generate_report(self, 
@@ -33,12 +33,19 @@ class AnAct(CalculationActTemplate):
         final_output.pack(pady=10)
         table.pack()
 
-    @staticmethod
-    def get_table_data(output: AnOutplut) -> Tuple[tuple, ...]:
-        headings = ("Nr.\npomiaru", "p\n[MPa]", "u\n[mm/s]","t0\n[ms]", "tk\n[ms]", 
-            "tc\n[ms]", "Ipk\n[MPa⋅s]", "Śr. kryt.\ndyszy [mm]", "t chwil.\n[ms]")
-        data = [(i, round(item.p/1000, 3), round(item.u*1000, 2), *item.times,
-            round(item.Ipk/1000_000, 3), item.jet_d, item.point_time)
+    def get_table_data(self, output: AnOutplut) -> Tuple[tuple, ...]:
+        if self.config.calculation_method == 0:
+            headings = ("Nr.\npomiaru", "p śr.\n[MPa]", "u śr.\n[mm/s]","t0\n[ms]", "tk\n[ms]", 
+                "Ipk\n[MPa⋅s]", "Śr. kryt.\ndyszy [mm]")
+            data = [(i, round(item.p/1000_000, 3), round(item.u*1000, 2), *item.times[:-1],
+                round(item.Ipk/1000_000, 3), item.jet_d)
+                    for i, item in enumerate(output.surveys_details, start=1)]
+            return tuple((headings, *data))
+        
+        headings = ("Nr.\npomiaru", "p chw.\n[MPa]", "u chw.\n[mm/s]","t0\n[ms]", "tk\n[ms]", 
+            "Ipk\n[MPa⋅s]", "Śr. kryt.\ndyszy [mm]", "t chwil.\n[ms]")
+        data = [(i, round(item.p/1000_000, 3), round(item.u*1000, 2), *item.times[:-1],
+            round(item.Ipk/1000_000, 3), item.jet_d, round(item.point_time,2))
                 for i, item in enumerate(output.surveys_details, start=1)]
         return tuple((headings, *data))
 

@@ -44,13 +44,8 @@ class InterfaceTemplate:
         -> Tuple[float, ...]:
         start = int(round((times[0] / smp_time), 0))
         end = int(round((times[self.END_TIME_INDEX] / smp_time), 0))
-
-        val_length = len(values)
-        max_val = max(start, end+1)
-
-        if max_val > val_length:
-            tail = [float(0) for i in range((max_val - val_length))]
-            values = tuple(list(values) + tail)
+        if end >= len(values):
+            return values[start:]
         return values[start:end+1]
 
     @staticmethod

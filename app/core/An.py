@@ -21,7 +21,7 @@ class AnOutplut(NamedTuple):
 
 
 class An(InterfaceTemplate):
-    END_TIME_INDEX = 2
+    END_TIME_INDEX = 1
 
 
     def __init__(self, *args, **kwargs):
