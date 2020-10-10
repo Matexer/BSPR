@@ -19,17 +19,14 @@ class AddSurveyValuesAct:
         save_btn.configure(command=lambda: self.back())
         clear_btn.configure(command=lambda: self.reset_plot())
 
-    def save_survey(self):
-        survey = self.survey
-        
-
     def back(self):
         self.top.change_frame(self.previous_frame_number)
         imp_val_btn = self.top.frames[self.previous_frame_number].get_buttons()[0]
-        change_val_btn = self.top.frames[self.previous_frame_number].get_buttons()[5]
         imp_val_btn.config(
             text="Importuj inny plik",
             background=IMP_VALUES_BTN_COLOR_2)
+
+        change_val_btn = self.top.frames[self.previous_frame_number].get_buttons()[5]
         change_val_btn.pack(side="left", padx=10, pady=5)
         self.top.frames[self.previous_frame_number].\
             show_message("Zaimportowano plik pomyślnie.", "green")
@@ -101,15 +98,17 @@ class AddSurveyValuesAct:
         except ValueError:
             self.import_frame.show_message("Wartość mnożnika musi być liczbą.")
         else:
-            if 0 < m_value < 101:
-                new_y = [val * m_value for val in self.survey.values[index]]
-                plot_data.set_ydata(new_y)
+            if 0 < m_value < 10000:
+                new_ys = [val * m_value for val in self.survey.values[index]]
+                plot_data.set_ydata(new_ys)
                 _, xmax, _, _ = plot_frame.plot.axis()
-                y_max = max(new_y) * 1.05
+                y_max = max(new_ys) * 1.05
                 plot_frame.plot.axis([0, xmax, 0, y_max])
                 plot_frame.canvas.draw()
                 self.survey.multipliers[index] = m_value
                 self.import_frame.hide_message()
+                self.survey.values[index] = new_ys
+                print(f"Multiplier set to {m_value}")
 
     @staticmethod
     def get_times(data, smp_time):
@@ -205,7 +204,7 @@ class AddSurveyValuesAct:
             "Zaznacz kliknięciem pierwszą granicę.", "yellow")
 
     def fix_survey(self, i, x1, x2, plot_frame, plot_data):
-        y_data = plot_data.get_ydata()[:]
+        y_data = copy.deepcopy(plot_data.get_ydata())
 
         x = [x1, x2]
         t1 = min(x)
@@ -228,4 +227,5 @@ class AddSurveyValuesAct:
 
         plot_data.set_ydata(y_data)
         plot_frame.canvas.draw()
-        self.survey.values[i] = list(y_data)
+        self.survey.values[i] = y_data.tolist()
+        print("Plot fixed")
