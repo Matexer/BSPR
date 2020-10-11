@@ -18,7 +18,8 @@ class AnAct(CalculationActTemplate):
     def generate_report(self, 
         frame: ResultsFrame, output: AnOutplut):
         title = frame.create_title(frame.interior, 
-            f"WYNIKI OBLICZEŃ DLA PALIWA {self.fuel_name}")
+            f"WYNIKI OBLICZEŃ WSPÓŁCZYNNIKÓW A i n PRAWA\n"
+            "SZYBKOŚCI SPALANIA DLA PALIWA {self.fuel_name}")
 
         plotfig = self.draw_approx_plot(frame, output)
 
@@ -34,7 +35,7 @@ class AnAct(CalculationActTemplate):
         table.pack()
 
     def get_table_data(self, output: AnOutplut) -> Tuple[tuple, ...]:
-        if self.config.calculation_method == 0:
+        if self.config.calculation_method == 0: #average
             headings = ("Nr.\npomiaru", "p śr.\n[MPa]", "u śr.\n[mm/s]","t0\n[ms]", "tk\n[ms]", 
                 "Ipk\n[MPa⋅s]", "Śr. kryt.\ndyszy [mm]")
             data = [(i, round(item.p/1000_000, 3), round(item.u*1000, 2), *item.times[:-1],

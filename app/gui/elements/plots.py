@@ -54,7 +54,7 @@ class PlotFrame(tk.Frame):
         self.canvas: FigureCanvasTkAgg
 
     def create_plot(self):
-        fig = Figure(figsize=self.PLOT_FIG_SIZE, dpi=100)
+        self.fig = fig = Figure(figsize=self.PLOT_FIG_SIZE, dpi=100)
         self.canvas = canvas = FigureCanvasTkAgg(fig, master=self)
         canvas.draw()
         canvas.get_tk_widget().pack(side="top", fill="both", expand=1, padx=10)

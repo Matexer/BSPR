@@ -66,6 +66,12 @@ class ConfigCalculationFrameTemplate(ScrolledFrameTemplate):
         subtitle = self.create_subtitle(container, "LISTA DOSTĘPNYCH POMIARÓW")
         ch_list = ChooseList(container)
         ch_list.tree_frame.set_columns(tuple(columns.keys()))
+        plot = ch_list.plot_frame.plot
+        plot.set_title("Wykres/y pomiaru ciśnienia od czasu")
+        plot.set_xlabel("Czas [ms]")
+        plot.set_ylabel("Ciśnienie [MPa]")
+        ch_list.plot_frame.fig.subplots_adjust(
+            left=0.09, bottom=0.105, right=0.983, top=0.933)
 
         subtitle.pack(fill="x")
         ch_list.pack(pady=10)

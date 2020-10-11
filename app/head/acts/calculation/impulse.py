@@ -26,11 +26,12 @@ class ImpulseAct(CalculationActTemplate):
 
     @staticmethod
     def get_table_data(output: ImpulseOutput) -> Tuple[tuple, ...]:
-        headings = ("Nr. pomiaru", "Impuls\njednostkowy", "Impuls\ncałkowity",
-             "a", "Śr. kryt. dyszy\n[mm]", "Dł. komory spalania\n[mm]",
-             "Śr. komory spalania\n[mm]")
-        data = [(i, round(item.unit_impulse, 2), round(item.total_impulse, 2),
-                 round(item.a, 3), item.jet_d, item.chamber_length,
-                 item.chamber_d) 
-                 for i, item in enumerate(output, start=1)]
+        headings = ("Nr.\npomiaru", "Impuls jednostkowy\n[MPa*s/kg]",
+            "Impuls całkowity\n[MPa*s]", "a\n[-]", "Śr. kryt.\ndyszy [mm]",
+            "Dł. komory\nspalania [mm]", "Śr. komory\nspalania [mm]")
+        data = [(i, round(item.unit_impulse / 1000_000, 4),
+            round(item.total_impulse / 1000_000, 4),
+            round(item.a, 1), item.jet_d, item.chamber_length,
+            item.chamber_d)
+            for i, item in enumerate(output, start=1)]
         return tuple((headings, *data))
