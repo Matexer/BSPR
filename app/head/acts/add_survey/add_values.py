@@ -1,5 +1,6 @@
 import tkinter as tk
 import copy
+from typing import Dict
 from ....gui.configure import T0_COLOR, TK_COLOR, TC_COLOR,\
     IMP_VALUES_BTN_COLOR_2
 
@@ -43,12 +44,33 @@ class AddSurveyValuesAct:
         index = 0
         for plot_frame, data in zip(plot_frames, self.survey.values):
             plot_frame.plot.clear()
-            self.prepare_plot(index, plot_frame, survey.sampling_time, data)
+            labels = self.get_labels(index, self.survey.type)
+            self.prepare_plot(
+                index, plot_frame, survey.sampling_time, data, labels)
             plot_frame.canvas.draw()
             index += 1
 
-    def prepare_plot(self, index, plot_frame, sampling_time, data):
+    @staticmethod
+    def get_labels(i, s_type)\
+        -> Dict[str, str]:
+        press_labels = {"y": "Ciśnienie [MPa]", "title": "ciśnienia"}
+        thrust_labels = {"y": "Ciąg [kN]", "title": "ciągu"}
+        if s_type == "press":
+            return press_labels
+        elif s_type == "thrust":
+            return thrust_labels
+        elif s_type == "pressthru":
+            if i == 0:
+                return press_labels
+            else:
+                return thrust_labels
+        else:
+            return {"y": "", "title": ""}
+
+    def prepare_plot(
+            self, index, plot_frame, sampling_time, data, labels):
         plot = plot_frame.plot
+
         plot_data = self.draw_plot(plot, sampling_time, data)[0]
 
         if not (self.survey.tk or self.survey.t0 or self.survey.tc):
@@ -61,6 +83,11 @@ class AddSurveyValuesAct:
 
         plot.legend(["Wykes pomiaru", "t0 = %s ms" % self.survey.t0,
                      "tk = %s ms" % self.survey.tk, "tc = %s ms" % self.survey.tc])
+
+        plot.set_title(f"Wykres pomiaru {labels['title']}")
+        plot.set_xlabel("Czas [ms]")
+        plot.set_ylabel(labels["y"])
+        plot.grid()
 
         _, xmax, _, ymax = plot.axis()
         plot.axis([0, xmax, 0, ymax])

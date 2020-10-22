@@ -2,13 +2,16 @@ import tkinter as tk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure, SubplotBase
 from ..configure import TK_COLOR, T0_COLOR, TC_COLOR
-from typing import Tuple, BinaryIO, Union
+from typing import Tuple, Literal, Union
+
+
+Boolean = Literal[True, False]
 
 
 class PlotFigureFrame(tk.Frame):
     FIGSIZE: Tuple[int] = (10, 4)
     DPI: int = 100
-    TOOLBAR: BinaryIO = True
+    TOOLBAR: Boolean = True
     SUBPLOTS_ADJUST: dict = {"left": 0.08, "bottom": 0.12,
                              "right": 0.99, "top": 0.99}
 
@@ -17,8 +20,8 @@ class PlotFigureFrame(tk.Frame):
         super().__init__(*args, **kwargs)
         self.canvas, self.figure = self.__create_figure()
 
-    def add_subplot(self, position: Union[int, Tuple[int]]) \
-            -> SubplotBase:
+    def add_subplot(self, position: Union[int, Tuple[int]])\
+        -> SubplotBase:
         return self.figure.add_subplot(position)
 
     def __update_vars(self, kwargs: dict):
@@ -64,8 +67,8 @@ class PlotFrame(tk.Frame):
         toolbar.pack(side="top", fill="both", expand=1, padx=10)
 
         plot = fig.add_subplot(111)
-        fig.subplots_adjust(left=0.08, bottom=0.12,
-                            right=0.99, top=0.99)
+        fig.subplots_adjust(left=0.086, bottom=0.12,
+                            right=0.99, top=0.936)
         return plot, toolbar
 
     def show_toolbar(self):

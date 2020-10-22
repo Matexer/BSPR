@@ -173,6 +173,14 @@ class AddSurveyAct:
 
         if path_to_file:
             raw_survey_values = self.get_data_from_file(path_to_file)
+            
+            #Scale thrust to KN
+            if survey_type == "pressthru":
+                raw_survey_values[1] = [val/1000 
+                    for val in raw_survey_values[1]]
+            elif survey_type == "thrust":
+                raw_survey_values[0] = [val/1000 
+                    for val in raw_survey_values[0]]
         else:
             self.frame.show_message("Należy wybrać plik z wynikami pomiaru.")
             return
