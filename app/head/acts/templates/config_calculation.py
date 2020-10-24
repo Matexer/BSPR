@@ -20,7 +20,9 @@ class ConfigCalculationActTemplate:
         self.frame = top.frames[self.FRAME_NUMBER]
         self.surveys = {}
 
-        self.__set_fuels_cbox()
+        self.frame.ch_fuel_cbox.bind(
+            "<Button>", lambda e: self.__set_fuels_cbox())
+
         self.activate_events()
         self.set_buttons()
 

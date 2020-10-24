@@ -27,9 +27,13 @@ class AddSurveyAct:
     def set_comboboxes(self):
         f_name = self.frame.name_cbox
         s_type = self.frame.init_widgets[0]
-        fuel_names = [fuel.name for fuel in self.fuels_data]
-        f_name.configure(values=fuel_names)
+        f_name.bind(
+            "<Button>", lambda e: self.__load_fuels_names(f_name))
         s_type.configure(values=tuple(SURVEY_TYPES.keys()))
+
+    @staticmethod
+    def __load_fuels_names(cbox):
+        cbox.configure(values=db.get_fuels_list())
 
     def get_fuels_data(self):
         fuels_list_frame = self.top.frames[0]

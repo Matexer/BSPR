@@ -7,6 +7,13 @@ from ....globals import SURVEY_TYPES
 class SurveysListAct(ListActTemplate):
     def __init__(self, top):
         super().__init__(top, top.frames[2])
+        fuels_cbox = top.frames[2].cboxes[0]
+        fuels_cbox.bind(
+            "<Button>", lambda e: self.__load_fuels(fuels_cbox))
+
+    @staticmethod
+    def __load_fuels(cbox):
+        cbox.configure(values=db.get_fuels_list())
 
     def set_buttons(self, frame):
         edit_btn = frame.buttons[1]
