@@ -11,3 +11,9 @@ class ConfigImpulseFrame(ConfigCalculationFrameTemplate):
     SURVEY_LIST_COLUMNS = {"ŚKD": 0.34, "k": 0.34}
 
     TITLE = "WYZNACZANIE IMPULSU JEDNOSTKOWEGO"
+
+    @staticmethod
+    def set_plot_labels(plot):
+        plot.set_title("Wykres/y pomiaru ciągu od czasu")
+        plot.set_xlabel("Czas [ms]")
+        plot.set_ylabel("Ciąg [kN]")

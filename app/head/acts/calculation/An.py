@@ -34,7 +34,8 @@ class AnAct(CalculationActTemplate):
         final_output.pack(pady=10)
         table.pack()
 
-    def get_table_data(self, output: AnOutplut) -> Tuple[tuple, ...]:
+    def get_table_data(self, output: AnOutplut)\
+        -> Tuple[tuple, ...]:
         if self.config.calculation_method == 0: #average
             headings = ("Nr.\npomiaru", "p śr.\n[MPa]", "u śr.\n[mm/s]","t0\n[ms]", "tk\n[ms]", 
                 "Ipk\n[MPa⋅s]", "Śr. kryt.\ndyszy [mm]")
@@ -51,7 +52,8 @@ class AnAct(CalculationActTemplate):
         return tuple((headings, *data))
 
     @staticmethod
-    def get_plot_cords(output: AnOutplut) -> Tuple[tuple, tuple]:
+    def get_plot_cords(output: AnOutplut)\
+        -> Tuple[tuple, tuple]:
         xs = tuple(math.log(survey.p) for survey in output.surveys_details)
         ys = tuple(math.log(survey.u) for survey in output.surveys_details)
         return xs, ys

@@ -7,7 +7,8 @@ from ....globals import INTEGRATION_METHODS
 
 class ConfigImpulseAct(ConfigCalculationActTemplate):
     FRAME_NUMBER = 9
-    NEEDED_SURVEY_TYPES = "press", "pressthru"
+    NEEDED_SURVEY_TYPES = "thrust", "pressthru"
+    SHOW_VALUES = "thrust"
 
 
     @staticmethod

@@ -126,7 +126,8 @@ class AddSurveyValuesAct:
             self.import_frame.show_message("Wartość mnożnika musi być liczbą.")
         else:
             if 0 < m_value < 10000:
-                new_ys = [val * m_value for val in self.survey.values[index]]
+                new_ys = [val * m_value 
+                    for val in self.survey.raw_values[index]]
                 plot_data.set_ydata(new_ys)
                 _, xmax, _, _ = plot_frame.plot.axis()
                 y_max = max(new_ys) * 1.05

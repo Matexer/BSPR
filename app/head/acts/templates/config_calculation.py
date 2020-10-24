@@ -14,6 +14,7 @@ class ConfigCalculationActTemplate:
     FRAME_NUMBER = 9
     OUTPUT_FRAME_NUMBER = 12
     NEEDED_SURVEY_TYPES = "press", "pressthru"
+    SHOW_VALUES = "press"
 
     def __init__(self, top: TopWindow):
         self.top = top
@@ -166,15 +167,21 @@ class ConfigCalculationActTemplate:
                 list_data.append(
                     [survey.__getattribute__(arg) for arg in self.SURVEY_ARGS])
 
-                plots_data.append((survey.values[0],
-                                   survey.sampling_time,
-                                   survey.comment))
+                if self.SHOW_VALUES == "thrust" and survey.type == "pressthru":
+                    plots_data.append((survey.values[1],
+                        survey.sampling_time,
+                        survey.comment))
+                else:
+                    plots_data.append((survey.values[0],
+                    survey.sampling_time,
+                    survey.comment))
+                
 
         self.frame.surveys_list.tree_frame.set_data(list_data)
         self.frame.surveys_list.set_plots_data(plots_data)
 
     @staticmethod
     def __load_surveys_from_db(
-            fuel_name: str, survey_type: SURVEY_TYPES.values())\
+            fuel_name: str, survey_type: str)\
             -> Optional[List[Survey]]:
         return db.load_surveys(fuel_name, survey_type)

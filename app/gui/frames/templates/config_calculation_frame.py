@@ -34,6 +34,13 @@ class ConfigCalculationFrameTemplate(ScrolledFrameTemplate):
         self.cboxes_frame = None
 
         self.generate_structure()
+        self.set_plot_labels(self.surveys_list.plot_frame.plot)
+
+    @staticmethod
+    def set_plot_labels(plot):
+        plot.set_title("Wykres/y pomiaru ciśnienia od czasu")
+        plot.set_xlabel("Czas [ms]")
+        plot.set_ylabel("Ciśnienie [MPa]")
 
     @staticmethod
     def create_choose_fuel_container(top):
@@ -66,10 +73,6 @@ class ConfigCalculationFrameTemplate(ScrolledFrameTemplate):
         subtitle = self.create_subtitle(container, "LISTA DOSTĘPNYCH POMIARÓW")
         ch_list = ChooseList(container)
         ch_list.tree_frame.set_columns(tuple(columns.keys()))
-        plot = ch_list.plot_frame.plot
-        plot.set_title("Wykres/y pomiaru ciśnienia od czasu")
-        plot.set_xlabel("Czas [ms]")
-        plot.set_ylabel("Ciśnienie [MPa]")
         ch_list.plot_frame.fig.subplots_adjust(
             left=0.09, bottom=0.105, right=0.983, top=0.933)
 

@@ -68,3 +68,8 @@ class InterfaceTemplate:
     def to_J(values: Tuple[float, ...])\
         -> Tuple[float, ...]:
         return tuple(val * 1000_000 for val in values)
+    
+    @staticmethod
+    def to_N(values: Tuple[float, ...])\
+        -> Tuple[float, ...]:
+        return tuple(val * 1000 for val in values)
