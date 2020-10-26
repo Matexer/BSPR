@@ -1,7 +1,15 @@
+from typing import NamedTuple
+from ...objects import Fuel
+from ...database import Database as db
 from ..templates import ConfigCalculationActTemplate
 from ....core import Data, Config
 from ..calculation import AnAct
 from ....globals import INTEGRATION_METHODS, CALCULATION_METHODS
+
+
+class AnVariables(NamedTuple):
+    w: float
+    fuel: Fuel
 
 
 class ConfigAnAct(ConfigCalculationActTemplate):
@@ -12,7 +20,9 @@ class ConfigAnAct(ConfigCalculationActTemplate):
         fuel_name, cboxes, variables, surveys, times =\
              data
 
-        data = Data(surveys, times, variables)
+        fuel = db.load_fuel(fuel_name)
+        An_variables = AnVariables(variables[0], fuel)
+        data = Data(surveys, times, An_variables)
         config = Config(INTEGRATION_METHODS[cboxes[1]],
             CALCULATION_METHODS[cboxes[0]])
         AnAct(self.top, fuel_name, data, config)

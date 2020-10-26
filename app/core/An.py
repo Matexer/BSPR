@@ -11,6 +11,7 @@ class SurveyDetails(NamedTuple):
     times: Tuple[float, float, float] #ms
     Ipk: float
     jet_d: float #mm
+    d_min: float #mm2
     point_time: Optional[float] #ms
 
 
@@ -57,8 +58,10 @@ class An(InterfaceTemplate):
         e = (D - d) / 4
         ave_u = e / tk
 
+        F_min = self.F_min(survey)
+
         self.details.append(SurveyDetails(ave_p, ave_u,
-            times, Ipk, survey.jet_diameter, None))
+            times, Ipk, survey.jet_diameter, F_min, None))
         return ave_p, ave_u
 
     def get_pointed_p_u(self, survey: Survey, time: float)\
@@ -70,7 +73,8 @@ class An(InterfaceTemplate):
         index = int(round(time / survey.sampling_time, 0))
         p = press_values[index]
 
-        press_values = self.cut_values(press_values, survey.sampling_time, times)
+        press_values = self.cut_values(
+            press_values, survey.sampling_time, times)
         Ip = self.integrate(press_values, smp_time)
         D = self.to_m(survey.fuel_outer_diameter)
         d = self.to_m(survey.fuel_inner_diameter)
@@ -80,8 +84,10 @@ class An(InterfaceTemplate):
              2*(math.pi*((D/2)**2 - (d/2)**2))
         u = (V * p) / (S * Ip)
 
+        F_min = self.F_min(survey)
+
         self.details.append(SurveyDetails(p, u, times, Ip,
-            survey.jet_diameter, time))
+            survey.jet_diameter, F_min, time))
         return p, u
 
     def calculate_An(self, surveys: Tuple[Survey, ...])\
@@ -92,6 +98,27 @@ class An(InterfaceTemplate):
         n = self.correlation(xs, ys) * stdev(ys) / stdev(xs)
         A = math.exp(mean(ys) - n * mean(xs))
         return A, n
+
+    def F_min(self, survey: Survey)\
+        -> float:
+        w = self.data.variables.w
+        fi = survey.heat_lose_factor
+        lam = survey.expense_lose_factor
+        fp = self.to_J(self.data.variables.fuel.strength)
+        k = self.data.variables.fuel.k
+
+        D_ch = self.to_m(survey.chamber_diameter)
+        D = self.to_m(survey.fuel_outer_diameter)
+        d = self.to_m(survey.fuel_inner_diameter)
+
+        F_ch = math.pi * D_ch**2 / 4
+        F_f = math.pi * (D - d)**2 / 4
+
+        K0 = ((2 / (k + 1))**(1/(k-1))) * math.sqrt((2*k)/(k+1))
+        Fp = F_ch - F_f
+        Fmin = (w * Fp) / (fi * K0 * math.sqrt(lam * fp))
+
+        return self.to_mm(2 * math.sqrt(Fmin / math.pi))
 
     def correlation(self, xs: Tuple[float, ...], ys: Tuple[float, ...])\
         -> float:

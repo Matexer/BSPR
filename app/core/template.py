@@ -1,4 +1,4 @@
-from typing import NamedTuple, Tuple, Optional, Any
+from typing import NamedTuple, Tuple, Optional, Any, Union
 from ..head.objects import Survey, Fuel
 from .tools import Integrals
 
@@ -65,8 +65,10 @@ class InterfaceTemplate:
         return val/1000000
 
     @staticmethod
-    def to_J(values: Tuple[float, ...])\
-        -> Tuple[float, ...]:
+    def to_J(values: Union[Tuple[float, ...], float])\
+        -> Union[Tuple[float, ...], float]:
+        if isinstance(values, float):
+            return values * 1000_000
         return tuple(val * 1000_000 for val in values)
     
     @staticmethod
