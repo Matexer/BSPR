@@ -38,7 +38,8 @@ class Database:
         else:
             return False
 
-    def edit_fuel(self, fuel):
+    @classmethod
+    def edit_fuel(cls, fuel):
         """
         :param fuel: <obiekt Fuel>
         :return None:
@@ -46,13 +47,13 @@ class Database:
         na nowo.
         """
         name = fuel.name
-        if self.is_fuel(name):
-            old_fuel = self.load_fuel(name)
+        if cls.is_fuel(name):
+            old_fuel = cls.load_fuel(name)
             fuel.save_date = old_fuel.save_date
             fuel.save_time = old_fuel.save_time
             path = '%s/%s/%s' % (FUELS_FOLDER, name, name)
             os.remove(path)
-        self.save_fuel(fuel)
+        cls.save_fuel(fuel)
 
     @staticmethod
     def remove_fuel(f_name):

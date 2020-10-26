@@ -10,9 +10,11 @@ class CheckTreeList(TreeList):
     AUTO_NUMBERING = True
 
 
-class ChooseList(tk.Frame):
+class ExtendedPlotFrame(PlotFrame):
     PLOT_FIG_SIZE = 20, 4
 
+
+class ChooseList(tk.Frame):
     def __init__(self, top, *args, **kwargs):
         super().__init__(top, *args, **kwargs)
 
@@ -71,8 +73,6 @@ class ChooseList(tk.Frame):
         return tree_frame, mark_all_btn
 
     def __create_plot_frame(self, top):
-        ExtendedPlotFrame = PlotFrame
-        ExtendedPlotFrame.plot_fig_size = self.PLOT_FIG_SIZE
         plot_frame = ExtendedPlotFrame(top)
         plot_frame.hide_toolbar()
         plot_frame.canvas.get_tk_widget().pack_configure(padx=0)
