@@ -47,7 +47,7 @@ class An(InterfaceTemplate):
 
         values = tuple(self.cut_values(val, survey.sampling_time, times)
                        for val in survey.values)
-        press_values = self.to_J(values[0])
+        press_values = self.to_Pa(values[0])
 
         tk = self.to_s(survey.tk)
         Ipk = self.integrate(press_values, smp_time)
@@ -69,7 +69,7 @@ class An(InterfaceTemplate):
         smp_time = self.to_s(survey.sampling_time)
         times = (survey.t0, survey.tk, survey.tc)
 
-        press_values = self.to_J(survey.values[0])
+        press_values = self.to_Pa(survey.values[0])
         index = int(round(time / survey.sampling_time, 0))
         p = press_values[index]
 
@@ -104,7 +104,7 @@ class An(InterfaceTemplate):
         w = self.data.variables.w
         fi = survey.heat_lose_factor
         lam = survey.expense_lose_factor
-        fp = self.to_J(self.data.variables.fuel.strength)
+        fp = self.to_Pa(self.data.variables.fuel.strength)
         k = self.data.variables.fuel.k
 
         D_ch = self.to_m(survey.chamber_diameter)

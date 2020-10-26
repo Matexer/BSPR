@@ -13,6 +13,7 @@ class ImpulseOutput(NamedTuple):
     fuel_mass: float # g
     chamber_length: float
     chamber_d: float
+    a: Optional[float] = None
 
 
 class Impulse(InterfaceTemplate):
@@ -30,6 +31,7 @@ class Impulse(InterfaceTemplate):
 
         if survey.type == "pressthru":
             thrust_values = self.to_N(values[1])
+            press_values = self.to_Pa(values[0])
         else:
             thrust_values = self.to_N(values[0])
 
@@ -38,11 +40,32 @@ class Impulse(InterfaceTemplate):
             thrust_values, smp_time)
         unit_impulse = total_impulse / fuel_mass
 
+        if survey.type == "pressthru":
+            thrust_values = values[1]
+            a = self.calculate_a(
+                press_values, thrust_values, jet_field)
+        else:
+            a = None
         return ImpulseOutput(total_impulse, unit_impulse,
             survey.sampling_time, survey.jet_diameter, jet_field,
-            fuel_mass, survey.chamber_length, survey.chamber_diameter)
+            fuel_mass, survey.chamber_length, survey.chamber_diameter, a)
 
     def get_results(self) -> Tuple[ImpulseOutput, ...]:
         if self.data.surveys:
             return tuple(self.calculate_impulse(survey)
                         for survey in self.data.surveys)
+
+    @staticmethod
+    def calculate_a(
+        press_values: Tuple[float, ...],
+        thrust_values: Tuple[float, ...],
+        jet_field: float)\
+        -> float:
+        sum_a = float(0)
+        for press, thrust in zip(press_values, thrust_values):
+            if press:
+                a = thrust / (press * jet_field)
+            else:
+                a = 0
+            sum_a += a
+        return sum_a / len(press_values)

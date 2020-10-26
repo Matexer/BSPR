@@ -29,6 +29,9 @@ class InterfaceTemplate:
         self.to_g = self.to_mm
         self.to_s = self.to_m
         self.to_ms = self.to_mm
+        self.to_Pa = self.to_J
+        self.to_MPa = self.to_mm2
+        self.N_to_kN = self.to_m
 
     def integrate(self, 
         values: Tuple[float, ...], smp_time: float)\
@@ -57,8 +60,11 @@ class InterfaceTemplate:
         return val*1000000
 
     @staticmethod
-    def to_m(val: float) -> float:
-        return val/1000
+    def to_m(values: Union[Tuple[float, ...], float])\
+        -> Union[Tuple[float, ...], float]:
+        if isinstance(values, float):
+            return values / 1000
+        return tuple(val / 1000 for val in values)
     
     @staticmethod
     def to_m2(val: float) -> float:
@@ -75,3 +81,7 @@ class InterfaceTemplate:
     def to_N(values: Tuple[float, ...])\
         -> Tuple[float, ...]:
         return tuple(val * 1000 for val in values)
+
+    @staticmethod
+    def hPa_to_Pa(val: float) -> float:
+        return val * 100
