@@ -4,8 +4,8 @@ if TEST:
     from tests.core import ImpulseTest
     from tests.core import AnTest
 
-    # ImpulseTest()
-    AnTest()
+    ImpulseTest()
+    #AnTest()
 
 else:
     from app import Application

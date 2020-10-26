@@ -18,8 +18,8 @@ class AnAct(CalculationActTemplate):
     def generate_report(self, 
         frame: ResultsFrame, output: AnOutplut):
         title = frame.create_title(frame.interior, 
-            f"WYNIKI OBLICZEŃ WSPÓŁCZYNNIKÓW A i n PRAWA\n"
-            "SZYBKOŚCI SPALANIA DLA PALIWA {self.fuel_name}")
+            "WYNIKI OBLICZEŃ WSPÓŁCZYNNIKÓW A i n PRAWA "
+            f"SZYBKOŚCI SPALANIA DLA PALIWA {self.fuel_name}")
 
         plotfig = self.draw_approx_plot(frame, output)
 

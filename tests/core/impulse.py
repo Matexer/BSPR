@@ -15,6 +15,5 @@ class ImpulseTest():
         
         for i, result in enumerate(results):
             print(f"""------------------- {i}
-Ic = {result.total_impulse}
-I1 = {result.unit_impulse}
-a = {result.a}""")
+Ic = {result.total_impulse} N⋅s
+I1 = {result.unit_impulse} N⋅s/kg""")
