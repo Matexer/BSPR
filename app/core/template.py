@@ -25,13 +25,22 @@ class InterfaceTemplate:
         self.__integrals = (Integrals.rect_integral,
                             Integrals.trapeze_integral,
                             Integrals.simpson_integral)
-        self.to_kg = self.to_m
-        self.to_g = self.to_mm
-        self.to_s = self.to_m
-        self.to_ms = self.to_mm
-        self.to_Pa = self.to_J
-        self.to_MPa = self.to_mm2
-        self.N_to_kN = self.to_m
+
+        self.g_to_kg = lambda v: self.multiplier(0.001, v)
+        self.kg_to_g = lambda v: self.multiplier(1000, v)
+        self.mm_to_m = lambda v: self.multiplier(0.001, v)
+        self.m_to_mm = lambda v: self.multiplier(1000, v)
+        self.N_to_kN = lambda v: self.multiplier(0.001, v)
+        self.kN_to_N = lambda v: self.multiplier(1000, v)
+        self.ms_to_s = lambda v: self.multiplier(0.001, v)
+        self.s_to_ms = lambda v: self.multiplier(1000, v)
+
+        self.MPa_to_Pa = lambda v: self.multiplier(1000_000, v)
+        self.hPa_to_Pa = lambda v: self.multiplier(100, v)
+        self.Pa_to_MPa = lambda v: self.multiplier(0.000_001, v)
+        self.MJ_to_J = lambda v: self.multiplier(1000_000, v)
+        self.m2_to_mm2 = lambda v: self.multiplier(1000_000, v)
+        self.mm2_to_m2 = lambda v: self.multiplier(0.000_001, v)
 
     def integrate(self, 
         values: Tuple[float, ...], smp_time: float)\
@@ -52,36 +61,9 @@ class InterfaceTemplate:
         return values[start:end+1]
 
     @staticmethod
-    def to_mm(val: float) -> float:
-        return val*1000
-    
-    @staticmethod
-    def to_mm2(val: float) -> float:
-        return val*1000000
-
-    @staticmethod
-    def to_m(values: Union[Tuple[float, ...], float])\
+    def multiplier(m: Union[int, float],
+        vals: Union[Tuple[float, ...], float])\
         -> Union[Tuple[float, ...], float]:
-        if isinstance(values, float):
-            return values / 1000
-        return tuple(val / 1000 for val in values)
-    
-    @staticmethod
-    def to_m2(val: float) -> float:
-        return val/1000000
-
-    @staticmethod
-    def to_J(values: Union[Tuple[float, ...], float])\
-        -> Union[Tuple[float, ...], float]:
-        if isinstance(values, float):
-            return values * 1000_000
-        return tuple(val * 1000_000 for val in values)
-    
-    @staticmethod
-    def to_N(values: Tuple[float, ...])\
-        -> Tuple[float, ...]:
-        return tuple(val * 1000 for val in values)
-
-    @staticmethod
-    def hPa_to_Pa(val: float) -> float:
-        return val * 100
+        if isinstance(vals, float):
+            return vals * m
+        return tuple(val * m for val in vals)

@@ -42,19 +42,19 @@ class An(InterfaceTemplate):
 
     def get_average_p_u(self, survey: Survey)\
         -> Tuple[float, float]:
-        smp_time = self.to_s(survey.sampling_time)
+        smp_time = self.ms_to_s(survey.sampling_time)
         times = (survey.t0, survey.tk, survey.tc)
 
         values = tuple(self.cut_values(val, survey.sampling_time, times)
                        for val in survey.values)
-        press_values = self.to_Pa(values[0])
+        press_values = self.MPa_to_Pa(values[0])
 
-        tk = self.to_s(survey.tk)
+        tk = self.ms_to_s(survey.tk)
         Ipk = self.integrate(press_values, smp_time)
         ave_p = Ipk / tk
 
-        d = self.to_m(survey.fuel_inner_diameter)
-        D = self.to_m(survey.fuel_outer_diameter)
+        d = self.mm_to_m(survey.fuel_inner_diameter)
+        D = self.mm_to_m(survey.fuel_outer_diameter)
         e = (D - d) / 4
         ave_u = e / tk
 
@@ -66,19 +66,19 @@ class An(InterfaceTemplate):
 
     def get_pointed_p_u(self, survey: Survey, time: float)\
         -> Tuple[float, float]:
-        smp_time = self.to_s(survey.sampling_time)
+        smp_time = self.ms_to_s(survey.sampling_time)
         times = (survey.t0, survey.tk, survey.tc)
 
-        press_values = self.to_Pa(survey.values[0])
+        press_values = self.MPa_to_Pa(survey.values[0])
         index = int(round(time / survey.sampling_time, 0))
         p = press_values[index]
 
         press_values = self.cut_values(
             press_values, survey.sampling_time, times)
         Ip = self.integrate(press_values, smp_time)
-        D = self.to_m(survey.fuel_outer_diameter)
-        d = self.to_m(survey.fuel_inner_diameter)
-        L = self.to_m(survey.fuel_length)
+        D = self.mm_to_m(survey.fuel_outer_diameter)
+        d = self.mm_to_m(survey.fuel_inner_diameter)
+        L = self.mm_to_m(survey.fuel_length)
         V = math.pi*((D/2)**2 - (d/2)**2)*L
         S = (2*math.pi*d/2*L) + (2*math.pi*D/2*L) +\
              2*(math.pi*((D/2)**2 - (d/2)**2))
@@ -104,12 +104,12 @@ class An(InterfaceTemplate):
         w = self.data.variables.w
         fi = survey.heat_lose_factor
         lam = survey.expense_lose_factor
-        fp = self.to_Pa(self.data.variables.fuel.strength)
+        fp = self.MPa_to_Pa(self.data.variables.fuel.strength)
         k = self.data.variables.fuel.k
 
-        D_ch = self.to_m(survey.chamber_diameter)
-        D = self.to_m(survey.fuel_outer_diameter)
-        d = self.to_m(survey.fuel_inner_diameter)
+        D_ch = self.mm_to_m(survey.chamber_diameter)
+        D = self.mm_to_m(survey.fuel_outer_diameter)
+        d = self.mm_to_m(survey.fuel_inner_diameter)
 
         F_ch = math.pi * D_ch**2 / 4
         F_f = math.pi * (D - d)**2 / 4
@@ -118,7 +118,7 @@ class An(InterfaceTemplate):
         Fp = F_ch - F_f
         Fmin = (w * Fp) / (fi * K0 * math.sqrt(lam * fp))
 
-        return self.to_mm(2 * math.sqrt(Fmin / math.pi))
+        return self.m_to_mm(2 * math.sqrt(Fmin / math.pi))
 
     def correlation(self, xs: Tuple[float, ...], ys: Tuple[float, ...])\
         -> float:

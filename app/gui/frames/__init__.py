@@ -11,7 +11,7 @@ from .edit_fuel import EditFuelFrame
 from .edit_survey import EditSurveyFrame
 from .config_impulse import ConfigImpulseFrame
 from .config_An import ConfigAnFrame
-from .config_engine_para import ConfigEngineParametersFrame
+from .config_enginepara import ConfigEngineParametersFrame
 from .results_frame import ResultsFrame
 
 

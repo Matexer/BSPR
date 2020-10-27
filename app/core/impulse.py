@@ -21,19 +21,19 @@ class Impulse(InterfaceTemplate):
 
     def calculate_impulse(self, survey: Survey)\
         -> Type[ImpulseOutput]:
-        fuel_mass = self.to_kg(survey.fuel_mass)
-        smp_time = self.to_s(survey.sampling_time)
-        jet_d = self.to_m(survey.jet_diameter)
+        fuel_mass = self.g_to_kg(survey.fuel_mass)
+        smp_time = self.ms_to_s(survey.sampling_time)
+        jet_d = self.mm_to_m(survey.jet_diameter)
 
         times = (survey.t0, survey.tc, survey.tk)
         values = tuple(self.cut_values(val, survey.sampling_time, times)
                        for val in survey.values)
 
         if survey.type == "pressthru":
-            thrust_values = self.to_N(values[1])
-            press_values = self.to_Pa(values[0])
+            thrust_values = self.kN_to_N(values[1])
+            press_values = self.MPa_to_Pa(values[0])
         else:
-            thrust_values = self.to_N(values[0])
+            thrust_values = self.kN_to_N(values[0])
 
         jet_field = math.pi * (jet_d**2) / 4
         total_impulse = self.integrate(
