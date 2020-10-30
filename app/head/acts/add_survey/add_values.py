@@ -254,4 +254,7 @@ class AddSurveyValuesAct:
 
         plot_data.set_ydata(y_data)
         plot_frame.canvas.draw()
-        self.survey.values[i] = y_data.tolist()
+        if not isinstance(y_data, list):
+            y_data = y_data.tolist()
+
+        self.survey.values[i] = y_data
