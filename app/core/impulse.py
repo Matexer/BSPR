@@ -1,6 +1,6 @@
 from typing import Optional, Type, NamedTuple, Tuple
 import math
-from .template import InterfaceTemplate, Data, Config
+from .template import DesignationTemplate, Data, Config
 from ..head.objects import Survey, Fuel
 
 
@@ -16,9 +16,7 @@ class ImpulseOutput(NamedTuple):
     a: Optional[float] = None
 
 
-class Impulse(InterfaceTemplate):
-    END_TIME_INDEX = 2
-
+class Impulse(DesignationTemplate):
     def calculate_impulse(self, survey: Survey)\
         -> Type[ImpulseOutput]:
         fuel_mass = self.g_to_kg(survey.fuel_mass)
@@ -26,7 +24,8 @@ class Impulse(InterfaceTemplate):
         jet_d = self.mm_to_m(survey.jet_diameter)
 
         times = (survey.t0, survey.tc, survey.tk)
-        values = tuple(self.cut_values(val, survey.sampling_time, times)
+        values = tuple(self.cut_values(val, survey.sampling_time,
+                       times, 2)
                        for val in survey.values)
 
         if survey.type == "pressthru":

@@ -1,7 +1,7 @@
 import math
 from typing import Tuple, NamedTuple, Optional, List
 from statistics import stdev, variance, mean
-from .template import InterfaceTemplate, Data, Config
+from .template import DesignationTemplate, Data, Config
 from ..head.objects import Survey
 
 
@@ -21,10 +21,7 @@ class AnOutplut(NamedTuple):
     surveys_details: Tuple[SurveyDetails, ...]
 
 
-class An(InterfaceTemplate):
-    END_TIME_INDEX = 1
-
-
+class An(DesignationTemplate):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.details: List[SurveyDetails, ...] = []
@@ -45,7 +42,8 @@ class An(InterfaceTemplate):
         smp_time = self.ms_to_s(survey.sampling_time)
         times = (survey.t0, survey.tk, survey.tc)
 
-        values = tuple(self.cut_values(val, survey.sampling_time, times)
+        values = tuple(self.cut_values(val, survey.sampling_time,
+                       times, 1)
                        for val in survey.values)
         press_values = self.MPa_to_Pa(values[0])
 
@@ -74,7 +72,8 @@ class An(InterfaceTemplate):
         p = press_values[index]
 
         press_values = self.cut_values(
-            press_values, survey.sampling_time, times)
+            press_values, survey.sampling_time,
+            times, 2)
         Ip = self.integrate(press_values, smp_time)
         D = self.mm_to_m(survey.fuel_outer_diameter)
         d = self.mm_to_m(survey.fuel_inner_diameter)

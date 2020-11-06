@@ -1,7 +1,7 @@
 from typing import List, NamedTuple
 import math
 import scipy.optimize as spo
-from .template import InterfaceTemplate, Data, Config
+from .template import DesignationTemplate, Data, Config
 
 
 class EngineParaOutput(NamedTuple):
@@ -19,10 +19,7 @@ class EngineParaOutput(NamedTuple):
     P: float  #[MPa*s]
 
 
-class EnginePara(InterfaceTemplate):
-    END_TIME_INDEX = 2
-
-
+class EnginePara(DesignationTemplate):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -93,7 +90,8 @@ class EnginePara(InterfaceTemplate):
         smp_time = self.ms_to_s(survey.sampling_time)
         times = (survey.t0, survey.tk, survey.tc)
         press_values = self.cut_values(
-            survey.values[0], survey.sampling_time, times)
+            survey.values[0], survey.sampling_time,
+            times, 2)
         press_values = self.MPa_to_Pa(press_values)
         return self.integrate(press_values, smp_time)
 
@@ -117,7 +115,8 @@ P = {P} Pa*s
         smp_time = self.ms_to_s(survey.sampling_time)
         times = (survey.t0, survey.tk, survey.tc)
         thrust_values = self.cut_values(
-            survey.values[1], survey.sampling_time, times)
+            survey.values[1], survey.sampling_time,
+            times, 2)
         thrust_values = self.kN_to_N(thrust_values)
         return self.integrate(thrust_values, smp_time)
 
