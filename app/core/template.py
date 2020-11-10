@@ -20,9 +20,9 @@ class DesignationTemplate:
     def __init__(self, data: Data, config: Config):
         self.data = data
         self.config = config
-        self.__integrals = (Integrals.rect_integral,
-                            Integrals.trapeze_integral,
-                            Integrals.simpson_integral)
+        self.__integrals = (Integrals.rect,
+                            Integrals.trapeze,
+                            Integrals.simpson)
 
         self.g_to_kg = lambda v: self.multiply(0.001, v)
         self.kg_to_g = lambda v: self.multiply(1000, v)

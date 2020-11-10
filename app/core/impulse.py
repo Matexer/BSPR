@@ -41,7 +41,7 @@ class Impulse(DesignationTemplate):
 
         if survey.type == "pressthru":
             thrust_values = values[1]
-            a = self.calculate_a(
+            a = self.get_a(
                 press_values, thrust_values, jet_field)
         else:
             a = None
@@ -50,12 +50,11 @@ class Impulse(DesignationTemplate):
             fuel_mass, survey.chamber_length, survey.chamber_diameter, a)
 
     def get_results(self) -> Tuple[ImpulseOutput, ...]:
-        if self.data.surveys:
-            return tuple(self.calculate_impulse(survey)
-                        for survey in self.data.surveys)
+        return tuple(self.calculate_impulse(survey)
+                    for survey in self.data.surveys)
 
     @staticmethod
-    def calculate_a(
+    def get_a(
         press_values: Tuple[float, ...],
         thrust_values: Tuple[float, ...],
         jet_field: float)\

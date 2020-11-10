@@ -29,7 +29,7 @@ class An(DesignationTemplate):
     def get_p_u(self, surveys: Tuple[Survey, ...])\
         -> Tuple[Tuple[float, float], ...]:
         values = list()
-        if self.config.calculation_method == 0: #average
+        if self.config.calculation_method == 0: #mean
             for survey in surveys:
                 values.append(self.get_average_p_u(survey))
         else:

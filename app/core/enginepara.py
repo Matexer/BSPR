@@ -20,9 +20,6 @@ class EngineParaOutput(NamedTuple):
 
 
 class EnginePara(DesignationTemplate):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
     def get_results(self):
         fuel = self.data.variables.fuel
         survey = self.data.surveys[0]

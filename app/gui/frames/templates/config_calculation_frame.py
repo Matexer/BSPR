@@ -18,7 +18,7 @@ class ConfigCalculationFrameTemplate(ScrolledFrameTemplate):
         {"Metoda całkowania": tuple(INTEGRATION_METHODS.keys())}
     )
 
-    SURVEY_LIST_COLUMNS = {"ŚKD": 0.5}
+    SURVEY_LIST_COLUMNS = {"ŚKD [mm]": 0.5}
 
     TITLE = "ConfigCalculationFrameTemplate"
 
@@ -97,7 +97,7 @@ class ConfigCalculationFrameTemplate(ScrolledFrameTemplate):
         ch_fuel_container, self.ch_fuel_cbox =\
             self.create_choose_fuel_container(self.interior)
 
-        columns = {"ŚKD": 0.5}
+        columns = self.SURVEY_LIST_COLUMNS
         surveys_cont, self.surveys_list =\
             self.create_surveys_container(self.interior, columns)
 

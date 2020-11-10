@@ -3,17 +3,17 @@ import numpy as np
 
 class Integrals:
     @staticmethod
-    def rect_integral(prep_p_sur, smp_time):
+    def rect(prep_p_sur, smp_time):
         return sum((v*smp_time for v in prep_p_sur))
 
     @staticmethod
-    def trapeze_integral(prep_p_sur, smp_time):
+    def trapeze(prep_p_sur, smp_time):
         val_1 = smp_time * (prep_p_sur[0] + prep_p_sur[-1]) / 2
         val_2 = sum((v * smp_time for v in prep_p_sur[1:-1]))
         return val_1 + val_2
 
     @staticmethod
-    def simpson_integral(prep_p_sur, smp_time):
+    def simpson(prep_p_sur, smp_time):
         h_smp_time = smp_time / 2
         x = [h_smp_time * i for i in range(2 * len(prep_p_sur) - 1)]
         y = [prep_p_sur[0]]
@@ -49,5 +49,4 @@ class Integrals:
 
             P = a * ((x_k ** 3) - (x_p ** 3)) / 3 + b * ((x_k ** 2) - (x_p ** 2)) / 2 + c * (x_k - x_p)
             sum += P
-
         return sum
