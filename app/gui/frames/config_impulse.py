@@ -17,3 +17,10 @@ class ConfigImpulseFrame(ConfigCalculationFrameTemplate):
         plot.set_title("Wykres/y pomiaru ciągu od czasu")
         plot.set_xlabel("Czas [ms]")
         plot.set_ylabel("Ciąg [kN]")
+    
+    def create_surveys_container(self, top, columns):
+        container, ch_list =\
+            ConfigCalculationFrameTemplate.\
+                create_surveys_container(self, top, columns)
+        ch_list.plot_buttons[1].pack_forget()
+        return container, ch_list

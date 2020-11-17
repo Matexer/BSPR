@@ -30,6 +30,9 @@ class ChooseList(tk.Frame):
         self.surveys_t_lines = []
         self.drawn_plots = []
 
+        #Hiding unsupported buttons
+        self.plot_buttons[0].pack_forget()
+
     def set_plots_data(self, data: Tuple[Tuple, int, AnyStr]):
         self.plot_frame.plot.lines = []
         self.plots_data = data

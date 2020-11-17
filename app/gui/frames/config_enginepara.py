@@ -12,3 +12,10 @@ class ConfigEngineParametersFrame(ConfigCalculationFrameTemplate):
     )
 
     TITLE = "WYZNACZANIE WSPÓŁCZYNNIKÓW STRAT GAZODYNAMICZNYCH I CIEPLNYCH"
+
+    def create_surveys_container(self, top, columns):
+        container, ch_list =\
+            ConfigCalculationFrameTemplate.\
+                create_surveys_container(self, top, columns)
+        ch_list.plot_buttons[1].pack_forget()
+        return container, ch_list
