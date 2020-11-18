@@ -49,3 +49,10 @@ class EditButton(Button):
         Button.__init__(self, top, *args, **kwargs)
         self.configure(background="yellow",
                        text="Edytuj")
+
+
+class ExportButton(Button):
+    def __init__(self, top, *args, **kwargs):
+        Button.__init__(self, top, *args, **kwargs)
+        self.configure(background="green",
+                       text="Eksportuj do .csv")

@@ -29,10 +29,15 @@ class AnAct(CalculationActTemplate):
         data = self.get_table_data(output)
         table = frame.create_table(frame.interior, data)
 
+        export_btn = frame.create_export_btn(frame.interior)
+
         title.pack(fill="both")
         plotfig.pack(expand=1, fill="both")
         final_output.pack(pady=10)
         table.pack()
+        export_btn.pack(pady=5)
+        
+        export_btn.configure(command=lambda: self.export_data(data))
 
     def get_table_data(self, output: AnOutplut)\
         -> Tuple[tuple, ...]:

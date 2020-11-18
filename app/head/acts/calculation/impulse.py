@@ -21,8 +21,13 @@ class ImpulseAct(CalculationActTemplate):
         data = self.get_table_data(output)
         table = frame.create_table(frame.interior, data)
 
+        export_btn = frame.create_export_btn(frame.interior)
+
         title.pack(fill="both")
         table.pack(pady=20)
+        export_btn.pack(pady=5)
+
+        export_btn.configure(command=lambda: self.export_data(data))
 
     @staticmethod
     def get_table_data(output: ImpulseOutput) -> Tuple[tuple, ...]:

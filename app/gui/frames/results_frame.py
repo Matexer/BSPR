@@ -1,7 +1,6 @@
 from typing import Iterable
-from ..elements import PlotFigureFrame
+from ..elements import PlotFigureFrame, TableFrame, ExportButton
 from .templates.scrolled_frame import ScrolledFrameTemplate
-from ..elements import TableFrame
 
 
 class ResultsFrame(ScrolledFrameTemplate):
@@ -16,3 +15,7 @@ class ResultsFrame(ScrolledFrameTemplate):
     @staticmethod
     def create_plot(top, *args, **kwargs) -> PlotFigureFrame:
         return PlotFigureFrame(top, *args, **kwargs)
+
+    @staticmethod 
+    def create_export_btn(top, *args, **kwargs):
+        return ExportButton(top)

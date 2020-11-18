@@ -23,6 +23,8 @@ class EngineParaAct(CalculationActTemplate):
         data = self.get_table_data(output)
         table = frame.create_table(frame.interior, data)
 
+        export_btn = frame.create_export_btn(frame.interior)
+
         title.pack(fill="both")
         tk.Label(frame.interior,
             text=f"φ_1 = {output.fi1:.3g}", font=16).pack()
@@ -31,6 +33,9 @@ class EngineParaAct(CalculationActTemplate):
         tk.Label(frame.interior,
             text=f"λ = {output.lam:.3g}", font=16).pack(pady=10)
         table.pack(pady=20)
+        export_btn.pack(pady=5)
+
+        export_btn.configure(command=lambda: self.export_data(data))
 
     @staticmethod
     def get_table_data(output: EngineParaOutput) -> Tuple[tuple, ...]:
