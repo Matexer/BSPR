@@ -33,5 +33,5 @@ class CalculationActTemplate:
 
     def export_data(self, data):
         headings = [item.replace("\n", " ") for item in data[0]]
-        csv_data = tuple((headings, *data[1:-1]))
+        csv_data = tuple((headings, *data[1:]))
         self.save_csv_file(csv_data)
