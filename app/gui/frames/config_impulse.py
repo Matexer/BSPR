@@ -8,7 +8,7 @@ class ConfigImpulseFrame(ConfigCalculationFrameTemplate):
         {"Metoda całkowania": tuple(INTEGRATION_METHODS.keys())}
     )
 
-    SURVEY_LIST_COLUMNS = {"ŚKD": 0.34, "k": 0.34}
+    SURVEY_LIST_COLUMNS = {"ŚKD [mm]": 1}
 
     TITLE = "WYZNACZANIE IMPULSU JEDNOSTKOWEGO"
 
