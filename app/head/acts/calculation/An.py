@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Tuple, List
 import math
 import tkinter as tk
 from ..templates import CalculationActTemplate
@@ -36,18 +36,20 @@ class AnAct(CalculationActTemplate):
         final_output.pack(pady=10)
         table.pack()
         export_btn.pack(pady=5)
-        
+
+        data.append('')
+        data.append(("A [m/(s⋅Pa^n)]", output.A, "n", output.n), )
         export_btn.configure(command=lambda: self.export_data(data))
 
     def get_table_data(self, output: AnOutplut)\
-        -> Tuple[tuple, ...]:
+        -> List[tuple]:
         if self.config.calculation_method == 0: #average
             headings = ("Nr.\npomiaru", "p śr.\n[MPa]", "u śr.\n[mm/s]","t0\n[ms]", "tk\n[ms]", 
                 "Ipk\n[MPa⋅s]", "Śr. kryt.\ndyszy [mm]", "Min. śr. kryt.\ndyszy [mm]")
             data = [(i, round(item.p/1000_000, 3), round(item.u*1000, 2), *item.times[:-1],
                 round(item.Ipk/1000_000, 3), item.jet_d, round(item.d_min, 1))
                     for i, item in enumerate(output.surveys_details, start=1)]
-            return tuple((headings, *data))
+            return list((headings, *data))
         
         headings = ("Nr.\npomiaru", "p chw.\n[MPa]", "u chw.\n[mm/s]","t0\n[ms]", "tk\n[ms]", 
             "Ipk\n[MPa⋅s]", "Śr. kryt.\ndyszy [mm]", "Min. śr. kryt.\ndyszy [mm]", "t chwil.\n[ms]")
@@ -55,7 +57,7 @@ class AnAct(CalculationActTemplate):
             round(item.Ipk/1000_000, 3), item.jet_d, round(item.d_min, 1),
             round(item.point_time,2))
                 for i, item in enumerate(output.surveys_details, start=1)]
-        return tuple((headings, *data))
+        return list((headings, *data))
 
     @staticmethod
     def get_plot_cords(output: AnOutplut)\

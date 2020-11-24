@@ -24,12 +24,14 @@ class CalculationActTemplate:
             filetypes=[('CSV files','*.csv')], defaultextension="*.csv",
             initialfile="wyniki.csv")
 
-        if filename:
-            with open(filename, 'w', newline='') as csvfile:
-                writer = csv.writer(csvfile, delimiter='\t',
-                    quotechar='|', quoting=csv.QUOTE_MINIMAL)
-                for row in data:
-                    writer.writerow(row)
+        if not filename:
+            return
+
+        with open(filename, 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile, delimiter='\t',
+                quotechar='|', quoting=csv.QUOTE_MINIMAL)
+            for row in data:
+                writer.writerow(row)
 
     def export_data(self, data):
         headings = [item.replace("\n", " ") for item in data[0]]
