@@ -31,7 +31,7 @@ class ImpulseAct(CalculationActTemplate):
 
     @staticmethod
     def get_table_data(output: ImpulseOutput) -> Tuple[tuple, ...]:
-        headings = ("Nr.\npomiaru", "Impuls jednostkowy\n[N⋅s/kg]",
+        headings = ("Nr\npomiaru", "Impuls jednostkowy\n[N⋅s/kg]",
             "Impuls całkowity\n[N⋅s]", "Śr. kryt.\ndyszy [mm]",
             "Dł. komory\nspalania [mm]", "Śr. komory\nspalania [mm]")
         data = [(i, round(item.unit_impulse, 4),

@@ -44,7 +44,7 @@ class AnAct(CalculationActTemplate):
     def get_table_data(self, output: AnOutplut)\
         -> List[tuple]:
         if self.config.calculation_method == 0: #average
-            headings = ("Nr.\npomiaru", "p śr.\n[MPa]", "u śr.\n[mm/s]","t0\n[ms]", "tk\n[ms]", 
+            headings = ("Nr\npomiaru", "p śr.\n[MPa]", "u śr.\n[mm/s]","t0\n[ms]", "tk\n[ms]", 
                 "Ipk\n[MPa⋅s]", "Śr. kryt.\ndyszy [mm]", "Min. śr. kryt.\ndyszy [mm]")
             data = [(i, round(item.p/1000_000, 3), round(item.u*1000, 2), *item.times[:-1],
                 round(item.Ipk/1000_000, 3), item.jet_d, round(item.d_min, 1))
