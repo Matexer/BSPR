@@ -15,7 +15,7 @@ class SurveyDetails(NamedTuple):
     point_time: Optional[float] #ms
 
 
-class AnOutplut(NamedTuple):
+class AnOutput(NamedTuple):
     A: float
     n: float
     surveys_details: Tuple[SurveyDetails, ...]
@@ -143,5 +143,5 @@ class An(DesignationTemplate):
         x_bar = mean(xs)
         return tuple(x - x_bar for x in xs)
     
-    def get_results(self) -> AnOutplut:
-        return AnOutplut(*self.calculate_An(self.data.surveys), self.details)
+    def get_results(self) -> AnOutput:
+        return AnOutput(*self.calculate_An(self.data.surveys), self.details)

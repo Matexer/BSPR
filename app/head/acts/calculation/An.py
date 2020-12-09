@@ -2,7 +2,7 @@ from typing import Tuple, List
 import math
 import tkinter as tk
 from ..templates import CalculationActTemplate
-from ....core import An, AnOutplut
+from ....core import An, AnOutput
 from ....gui.frames import ResultsFrame
 
 
@@ -16,7 +16,7 @@ class AnAct(CalculationActTemplate):
         self.generate_report(self.frame, output)
 
     def generate_report(self, 
-        frame: ResultsFrame, output: AnOutplut):
+        frame: ResultsFrame, output: AnOutput):
         title = frame.create_title(frame.interior, 
             "WYNIKI OBLICZEŃ WSPÓŁCZYNNIKÓW A i n PRAWA "
             f"SZYBKOŚCI SPALANIA DLA PALIWA {self.fuel_name}")
@@ -41,7 +41,7 @@ class AnAct(CalculationActTemplate):
         data.append(("A [m/(s⋅Pa^n)]", output.A, "n", output.n), )
         export_btn.configure(command=lambda: self.export_data(data))
 
-    def get_table_data(self, output: AnOutplut)\
+    def get_table_data(self, output: AnOutput)\
         -> List[tuple]:
         if self.config.calculation_method == 0: #average
             headings = ("Nr\npomiaru", "p śr.\n[MPa]", "u śr.\n[mm/s]","t0\n[ms]", "tk\n[ms]", 
@@ -60,7 +60,7 @@ class AnAct(CalculationActTemplate):
         return list((headings, *data))
 
     @staticmethod
-    def get_plot_cords(output: AnOutplut)\
+    def get_plot_cords(output: AnOutput)\
         -> Tuple[tuple, tuple]:
         xs = tuple(math.log(survey.p) for survey in output.surveys_details)
         ys = tuple(math.log(survey.u) for survey in output.surveys_details)
@@ -68,10 +68,10 @@ class AnAct(CalculationActTemplate):
 
     def draw_approx_plot(self, frame, output):
         plotfig = frame.create_plot(frame.interior)
-        plotfig.figure.subplots_adjust(left=0.095, top=0.93)
+        plotfig.figure.subplots_adjust(left=0.095, top=0.883)
         plot = plotfig.add_subplot(111)
-        plot.set_title("Wykres zależności szybkości spalania "
-            "SPR od ciśnienia w komorze spalania")
+        plot.set_title("Wykres zależności szybkości spalania SPR od ciśnienia w komorze spalania\n"
+         "we współrzędnych logarytmicznych")
         plot.set_xlabel("ln(p)")
         plot.set_ylabel("ln(u)")
         plot.grid()

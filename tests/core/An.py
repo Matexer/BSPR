@@ -1,7 +1,7 @@
 import unittest
 import tabulate as t
 from typing import Tuple, NamedTuple
-from app.core import Data, Config, An, AnOutplut
+from app.core import Data, Config, An, AnOutput
 from app.head.database import Database as db
 from app.globals import INTEGRATION_METHODS, CALCULATION_METHODS, SURVEY_TYPES
 
