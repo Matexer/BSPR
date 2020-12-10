@@ -9,6 +9,11 @@ class CheckTreeList(TreeList):
     CHECK_OPTION = True
     AUTO_NUMBERING = True
 
+    def __init__(self, top):
+        super().__init__(top)
+        self.tree.unbind("<Button-1>")
+        self.tree.bind("<Button-3>", self._toggle_item)
+
 
 class ExtendedPlotFrame(PlotFrame):
     PLOT_FIG_SIZE = 20, 4

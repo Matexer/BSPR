@@ -29,7 +29,7 @@ class TreeList(tk.Frame):
             self.checked_img = tk.PhotoImage(file='app/graphic/checked.gif')
             self.unchecked_img = tk.PhotoImage(file='app/graphic/unchecked.gif')
             self.chosen_items_ids = []
-            tree.bind("<Button-1>", self.__toggle_item)
+            tree.bind("<Button-1>", self._toggle_item)
 
     def set_data(self, data):
         self.chosen_items_ids = []
@@ -112,7 +112,7 @@ class TreeList(tk.Frame):
             self.chosen_items_ids = []
 
     @check_option
-    def __toggle_item(self, event):
+    def _toggle_item(self, event):
         row_id = self.tree.identify("item", event.x, event.y)
         if not row_id:
             return

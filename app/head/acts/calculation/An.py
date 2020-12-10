@@ -46,16 +46,16 @@ class AnAct(CalculationActTemplate):
         if self.config.calculation_method == 0: #average
             headings = ("Nr\npomiaru", "p śr.\n[MPa]", "u śr.\n[mm/s]","t0\n[ms]", "tk\n[ms]", 
                 "Ipk\n[MPa⋅s]", "Śr. kryt.\ndyszy [mm]", "Min. śr. kryt.\ndyszy [mm]")
-            data = [(i, round(item.p/1000_000, 3), round(item.u*1000, 2), *item.times[:-1],
-                round(item.Ipk/1000_000, 3), item.jet_d, round(item.d_min, 1))
+            data = [(i, round(item.p/1000_000, 3), round(item.u*1000, 1), *item.times[:-1],
+                    round(item.Ipk/1000_000, 3), item.jet_d, round(item.d_min, 1))
                     for i, item in enumerate(output.surveys_details, start=1)]
             return list((headings, *data))
         
         headings = ("Nr.\npomiaru", "p chw.\n[MPa]", "u chw.\n[mm/s]","t0\n[ms]", "tk\n[ms]", 
             "Ipk\n[MPa⋅s]", "Śr. kryt.\ndyszy [mm]", "Min. śr. kryt.\ndyszy [mm]", "t chwil.\n[ms]")
-        data = [(i, round(item.p/1000_000, 3), round(item.u*1000, 2), *item.times[:-1],
-            round(item.Ipk/1000_000, 3), item.jet_d, round(item.d_min, 1),
-            round(item.point_time,2))
+        data = [(i, round(item.p/1000_000, 3), round(item.u*1000, 1), *item.times[:-1],
+                round(item.Ipk/1000_000, 3), item.jet_d, round(item.d_min, 1),
+                round(item.point_time, 1))
                 for i, item in enumerate(output.surveys_details, start=1)]
         return list((headings, *data))
 
