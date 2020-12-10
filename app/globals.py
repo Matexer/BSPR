@@ -4,7 +4,7 @@ FUELS_FOLDER = 'database'
 SURVEY_TYPES = {"ciśnienia i ciągu": "pressthru",
                 "ciśnienia": 'press',
                 "ciągu": "thrust"}
-INTEGRATION_METHODS = {"liniowa": 0, "trapezów": 1, "Simpsona": 2}
+INTEGRATION_METHODS = {"prostokątów": 0, "trapezów": 1, "Simpsona": 2}
 CALCULATION_METHODS = {"średnich": 0, "chwilowych": 1}
 SURVEY_VALUES_SEPARATOR = "    "
 PRESS = "press"

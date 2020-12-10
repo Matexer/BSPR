@@ -82,7 +82,7 @@ class ChooseList(tk.Frame):
 
     def __create_plot_frame(self, top):
         plot_frame = ExtendedPlotFrame(top)
-        plot_frame.hide_toolbar()
+        #plot_frame.hide_toolbar()
         plot_frame.canvas.get_tk_widget().pack_configure(padx=0)
         btn_container = tk.Frame(plot_frame)
         edit_btn = Button(btn_container, text="Edytuj wybrany", background="yellow")
