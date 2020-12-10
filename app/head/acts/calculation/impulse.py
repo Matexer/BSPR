@@ -34,8 +34,8 @@ class ImpulseAct(CalculationActTemplate):
         headings = ("Nr\npomiaru", "Impuls jednostkowy\n[N⋅s/kg]",
             "Impuls całkowity\n[N⋅s]", "Śr. kryt.\ndyszy [mm]",
             "Dł. komory\nspalania [mm]", "Śr. komory\nspalania [mm]")
-        data = [(i, round(item.unit_impulse, 4),
-            round(item.total_impulse, 4),
+        data = [(i, int(round(item.unit_impulse, 0)),
+            round(item.total_impulse, 1),
             item.jet_d, item.chamber_length,
             item.chamber_d)
             for i, item in enumerate(output, start=1)]
