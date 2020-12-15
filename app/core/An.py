@@ -42,10 +42,9 @@ class An(DesignationTemplate):
         smp_time = self.ms_to_s(survey.sampling_time)
         times = (survey.t0, survey.tk, survey.tc)
 
-        values = tuple(self.cut_values(val, survey.sampling_time,
-                       times, 1)
-                       for val in survey.values)
-        press_values = self.MPa_to_Pa(values[0])
+        press_values = self.cut_values(
+            survey.values[0], survey.sampling_time, times, 2)
+        press_values = self.MPa_to_Pa(press_values)
 
         tk = self.ms_to_s(survey.tk)
         Ipk = self.integrate(press_values, smp_time)
