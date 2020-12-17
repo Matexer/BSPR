@@ -3,20 +3,28 @@ import math
 from app.head.database import Database
 
 
-f_name = "RNDSI-5k"
-TIME = 0
-A = 4.862 * 10**(-6)     # [m/s*Pa^n]
-n = 0.477                # [-]
-density = 1560
+f_name1 = "RNDSI-5k"
+A1 = 5.452 * 10**(-6), 5.796 * 10**(-6)
+n1 = 0.467, 0.466
+density1 = 1560
 
-dmins = 0.0073, 0.0078, 0.008
-times = 241.8, 280.2, 287.3
+dmins1 = 0.0073, 0.0078, 0.008, 0.0084
+times1 = 248, 279, 283, 305
+
+f_name2 = "Bazalt 2a"
+A2 = 1.370 * 10**(-5), 1.038 * 10**(-5)
+n2 = 0.442, 0.454
+density2 = 1620
+
+dmins2 = 0.0098, 0.010
+times2 = 96, 98, 103
 
 
 db = Database()
-surveys = db.load_surveys(f_name, "pressthru")
+surveys1 = db.load_surveys(f_name1, "pressthru")
+surveys2 = db.load_surveys(f_name2, "pressthru")
 
-def show_plot(dmin, pr, size, p_time):
+def show_plot(dmin, pr_ch, pr_sr, size, p_time, surveys, f_name):
     survey = None
     for s in surveys:
         if round(s.jet_diameter / 1000, 4) == dmin:
@@ -33,19 +41,19 @@ def show_plot(dmin, pr, size, p_time):
 
     plot = plt.subplot(size)
     plt.plot(time, press_values)
-    plt.axhline(pr, color="red")
+    plt.axhline(pr_ch, color="red")
+    plt.axhline(pr_sr, color="black")
     plt.axvline(t0, color="green", linestyle="--")
     plt.axvline(tk, color="pink", linestyle="--")
-    if TIME:
-        plt.axvline(p_time, color="orange", linestyle="--")
-    plt.axis(xmin=0, ymin=0, ymax=max(pr, max(press_values)) * 1.05)
-    plot.set_title(f"Dla ŚKD = {survey.jet_diameter} mm".replace(".", ","))
+    plt.axvline(p_time, color="orange", linestyle="--")
+    plt.axis(xmin=survey.t0 - 10, ymin=0,
+    ymax=max(pr_sr ,pr_ch, max(press_values)) * 1.05, xmax=survey.tk * 1.1)
+    plot.set_title(f"{f_name} dla ŚKD = {survey.jet_diameter} mm".replace(".", ","))
     plot.set_xlabel("Czas [ms]")
     plot.set_ylabel("Ciśnienie [MPa]")
-    legend = ["ciśnienie", f"ciśnienie robocze\n{round(pr,2)} MPa".replace(".", ","),
-    f"t0 = {int(round(t0, 0))} ms", f"tk = {int(round(tk, 0))} ms"]
-    if TIME:
-        legend.append(f"t = {p_time} ms")
+    legend = ["ciśnienie", f"ciśnienie robocze\nn. p. ch. w. = {str(round(pr_ch,2)).replace('.', ',')} MPa",
+    f"ciśnienie robocze\nn. p. śr. w. = {str(round(pr_sr,2)).replace('.', ',')} MPa",
+    f"t0 = {int(round(t0, 0))} ms", f"tk = {int(round(tk, 0))} ms", f"t = {p_time} ms"]
     plot.legend(legend)
 
 
@@ -63,14 +71,20 @@ def get_pr(dmin, f_name, density, A, n):
     p_r = ((density * S * A) / (c * Fm)) ** (1 / (1 - n))
     return p_r
 
+fig = plt.figure(figsize=(9, 27))
+sizes = 321, 322, 323, 324, 325, 326
 
-fig = plt.figure(figsize=(9, 9))
-sizes = 221, 222, 223
-plt.subplots_adjust(left=0.062, bottom=0.057, right=0.983,
-    top=0.964, wspace=0.162, hspace=0.25)
+plt.subplots_adjust(left=0.071, bottom=0.048, right=1,
+    top=0.971, wspace=0.145, hspace=0.283)
 
-for dmin, size, time in zip(dmins, sizes, times):
-    pr = get_pr(dmin, f_name, density, A, n) / 1000_000
-    show_plot(dmin, pr, size, time)
+for dmin, size, time in zip(dmins1, sizes[:4], times1):
+    pr_ch = get_pr(dmin, f_name1, density1, A1[0], n1[0]) / 1000_000
+    pr_sr = get_pr(dmin, f_name1, density1, A1[1], n1[1]) / 1000_000
+    show_plot(dmin, pr_ch, pr_sr, size, time, surveys1, f_name1)
+
+for dmin, size, time in zip(dmins2, sizes[4:], times2):
+    pr_ch = get_pr(dmin, f_name2, density2, A2[0], n2[0]) / 1000_000
+    pr_sr = get_pr(dmin, f_name2, density2, A2[1], n2[1]) / 1000_000
+    show_plot(dmin, pr_ch, pr_sr, size, time, surveys2, f_name2)
 
 plt.show()
