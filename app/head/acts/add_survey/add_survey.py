@@ -209,6 +209,17 @@ class AddSurveyAct:
             return s_type
 
     def get_data_from_file(self, path):
+        def get_start_line_i(lines):
+            for i in range(len(lines)):
+                try:
+                    line = lines[i].strip().split(SURVEY_VALUES_SEPARATOR)
+                    for data in line:
+                        float(data)
+                except Exception:
+                    continue
+                else:
+                    return i
+
         try:
             file = open(path, 'r')
         except Exception:
@@ -216,6 +227,9 @@ class AddSurveyAct:
         finally:
             lines = file.readlines()
             file.close()
+            start_index = get_start_line_i(lines)
+            lines = lines[start_index:]
+            print(start_index)
             line = lines[0].strip().split(SURVEY_VALUES_SEPARATOR)
             data = []
             for _ in range(len(line)):
