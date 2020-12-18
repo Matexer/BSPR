@@ -177,6 +177,9 @@ class AddSurveyAct:
 
         if path_to_file:
             raw_survey_values = self.get_data_from_file(path_to_file)
+
+        if not raw_survey_values:
+            return
             
             #Scale thrust to KN
             if survey_type == "pressthru":
@@ -229,7 +232,6 @@ class AddSurveyAct:
             file.close()
             start_index = get_start_line_i(lines)
             lines = lines[start_index:]
-            print(start_index)
             line = lines[0].strip().split(SURVEY_VALUES_SEPARATOR)
             data = []
             for _ in range(len(line)):
@@ -242,8 +244,7 @@ class AddSurveyAct:
             return data
 
     def validate_imported_data(self, data):
-        error_message = "Nie można importować danych ponieważ nie wszystkie\n" \
-                        "wartości to liczby. Sprawdź plik pomiaru."
+        error_message = "Nie można zaimportować danych."
         valid_data = []
         for column in data:
             try:
