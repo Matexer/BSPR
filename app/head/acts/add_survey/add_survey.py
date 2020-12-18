@@ -169,36 +169,34 @@ class AddSurveyAct:
             self.frame.show_message("Czas próbkowania musi być liczbą.")
             return
 
-        if survey_type:
-            path_to_file = askopenfilename()
-        else:
+        if not survey_type:
             self.frame.show_message("Należy wybrać rodzaj pomiaru.")
             return
+        
+        path_to_file = askopenfilename()
 
-        if path_to_file:
+        if not path_to_file:
+            self.frame.show_message("Należy wybrać plik z danymi pomiarowymi.")
+
+        try:
             raw_survey_values = self.get_data_from_file(path_to_file)
+        except Exception:
+            self.frame.show_message("W pliku nie znaleziono danych pomiarowych.")
 
-        if not raw_survey_values:
-            return
-            
-            #Scale thrust to KN
-            if survey_type == "pressthru":
-                raw_survey_values[1] = [val/1000 
-                    for val in raw_survey_values[1]]
-            elif survey_type == "thrust":
-                raw_survey_values[0] = [val/1000 
-                    for val in raw_survey_values[0]]
-        else:
-            self.frame.show_message("Należy wybrać plik z wynikami pomiaru.")
-            return
-
-        if raw_survey_values:
-            self.survey.update({"type": survey_type,
-                                "sampling_time": sampling_time,
-                                "raw_values": raw_survey_values[:],
-                                "values": raw_survey_values[:],
-                                "multipliers": [1 for _ in raw_survey_values]})
-            self.start_adding_act()
+        #Scale thrust to KN
+        if survey_type == "pressthru":
+            raw_survey_values[1] = [val/1000 
+                for val in raw_survey_values[1]]
+        elif survey_type == "thrust":
+            raw_survey_values[0] = [val/1000 
+                for val in raw_survey_values[0]]
+    
+        self.survey.update({"type": survey_type,
+                            "sampling_time": sampling_time,
+                            "raw_values": raw_survey_values[:],
+                            "values": raw_survey_values[:],
+                            "multipliers": [1 for _ in raw_survey_values]})
+        self.start_adding_act()
 
     def start_adding_act(self):
         self.change_frame(self.survey.type)
