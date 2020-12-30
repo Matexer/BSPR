@@ -12,6 +12,8 @@ class SurveyDetails(NamedTuple):
     Ipk: float
     jet_d: float #mm
     d_min: float #mm2
+    press_values: Tuple[float, ...]
+    smp_time: float
     point_time: Optional[float] #ms
 
 
@@ -19,6 +21,7 @@ class AnOutput(NamedTuple):
     A: float
     n: float
     surveys_details: Tuple[SurveyDetails, ...]
+    work_pressures: Tuple[float, ...]
 
 
 class An(DesignationTemplate):
@@ -58,7 +61,8 @@ class An(DesignationTemplate):
         F_min = self.F_min(survey)
 
         self.details.append(SurveyDetails(ave_p, ave_u,
-            times, Ipk, survey.jet_diameter, F_min, None))
+            times, Ipk, survey.jet_diameter, F_min,
+            survey.sampling_time, survey.values[0], None))
         return ave_p, ave_u
 
     def get_pointed_p_u(self, survey: Survey, time: float)\
@@ -85,7 +89,8 @@ class An(DesignationTemplate):
         F_min = self.F_min(survey)
 
         self.details.append(SurveyDetails(p, u, times, Ip,
-            survey.jet_diameter, F_min, time))
+            survey.jet_diameter, F_min, survey.sampling_time,
+            survey.values[0], time))
         return p, u
 
     def calculate_An(self, surveys: Tuple[Survey, ...])\
@@ -118,6 +123,24 @@ class An(DesignationTemplate):
 
         return self.m_to_mm(2 * math.sqrt(Fmin / math.pi))
 
+    def work_p(self, survey: Survey, A, n)\
+        -> float:
+        D = self.mm_to_m(survey.fuel_outer_diameter)
+        d = self.mm_to_m(survey.fuel_inner_diameter)
+        L = self.mm_to_m(survey.fuel_length)
+        fp = self.MPa_to_Pa(self.data.variables.fuel.strength)
+        k = self.data.variables.fuel.k
+        dmin = self.mm_to_m(survey.jet_diameter)
+
+        V = (math.pi * (D**2 - d**2) / 4) * L
+        density = survey.fuel_mass / V
+
+        S = (2 * math.pi * (D**2 - d**2) / 4) + (2 * math.pi * L * (D + d) / 2)
+        K0 = ((2 / (k + 1))**(1/(k-1))) * math.sqrt((2*k)/(k+1))
+        c = K0 / math.sqrt(fp)
+        Fm = (math.pi * dmin ** 2) / 4
+        return ((density * S * A) / (c * Fm)) ** (1 / (1 - n))
+
     def correlation(self, xs: Tuple[float, ...], ys: Tuple[float, ...])\
         -> float:
         stdev_x = stdev(xs)
@@ -143,4 +166,6 @@ class An(DesignationTemplate):
         return tuple(x - x_bar for x in xs)
     
     def get_results(self) -> AnOutput:
-        return AnOutput(*self.calculate_An(self.data.surveys), self.details)
+        A, n = self.calculate_An(self.data.surveys)
+        w_p = tuple((self.work_p(s, A, n) for s in self.data.surveys))
+        return AnOutput(A, n, self.details, w_p)
