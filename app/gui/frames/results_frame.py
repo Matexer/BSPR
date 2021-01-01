@@ -9,7 +9,7 @@ class ResultsFrame(ScrolledFrameTemplate):
 
     @staticmethod
     def create_table(top, data: Iterable[Iterable], *args, **kwargs)\
-            -> TableFrame:
+        -> TableFrame:
         return TableFrame(top, data, *args, **kwargs)
 
     @staticmethod

@@ -21,21 +21,30 @@ class AnAct(CalculationActTemplate):
             "WYNIKI OBLICZEŃ WSPÓŁCZYNNIKÓW A i n PRAWA "
             f"SZYBKOŚCI SPALANIA DLA PALIWA {self.fuel_name}")
 
-        plotfig = self.draw_approx_plot(frame, output)
+        app_plotfig = self.draw_approx_plot(frame, output)
 
+        An_subtitle = frame.create_subtitle(frame.interior, "Wartości charakterystyk")
         final_output = tk.Label(frame.interior, text=f"A = {output.A:.3e} m/(s⋅Pa^n)\
             n = {output.n:.3g}", font=("bold", 20))
 
+        table_subtitle = frame.create_subtitle(frame.interior, "Tabela wyników")
         data = self.get_table_data(output)
         table = frame.create_table(frame.interior, data)
 
         export_btn = frame.create_export_btn(frame.interior)
 
+        wp_subtitle = frame.create_subtitle(frame.interior, "Wykresy pomiarów")
+        wp_plotfig = self.draw_work_p_plots(frame, output)
+
         title.pack(fill="both")
-        plotfig.pack(expand=1, fill="both")
+        app_plotfig.pack(expand=1, fill="both")
+        An_subtitle.pack(fill="both", pady=5)
         final_output.pack(pady=10)
+        table_subtitle.pack(fill="both", pady=5)
         table.pack()
         export_btn.pack(pady=5)
+        wp_subtitle.pack(fill="both", pady=5)
+        wp_plotfig.pack(expand=1, fill="both")
 
         data.append('')
         data.append(("A [m/(s⋅Pa^n)]", output.A, "n", output.n), )
@@ -89,3 +98,40 @@ class AnAct(CalculationActTemplate):
         line = plot.axline((xs[0], ys[0]), (xs[1], ys[1]), ls="--")
         plot.legend((points, line), ("Pomiar", "Aproksymacja"))
         return plotfig
+
+    def draw_work_p_plots(self, frame, output):
+        subplots_rows = math.ceil(len(output.surveys_details) / 2)
+        figsize = (1, subplots_rows * 5)
+        plotfig = frame.create_plot(frame.interior, figsize=figsize)
+        top = 0.971 if subplots_rows > 2 else 0.95
+        plotfig.figure.subplots_adjust(left=0.071, bottom=0.048,
+            right=0.998, top=top, wspace=0.145, hspace=0.200)
+
+        for i, d in enumerate(zip(output.surveys_details, output.work_pressures), start=1):
+            wp = d[1]
+            d = d[0]
+            size = int("%i%i%i"%(subplots_rows, 2, i))
+            self.draw_subplot(plotfig, size, d.smp_time, d.press_values, 
+                wp, d.times[0], d.times[1], d.point_time)
+
+        return plotfig
+
+    @staticmethod
+    def draw_subplot(plotfig, size, smp_time, press_values, wp, t0, tk, t=None):
+        plt = plotfig.add_subplot(size)
+        time = tuple((smp_time * i for i in range(len(press_values))))
+        plt.plot(time, press_values)
+        plt.axhline(wp, color="red")
+        plt.axvline(t0, color="green", linestyle="--")
+        plt.axvline(tk, color="pink", linestyle="--")
+        plt.axis(xmin=t0 - 10, ymin=0,
+            ymax=max(wp, *press_values) * 1.05, xmax=tk * 1.1)
+        plt.set_title(f"Pomiar nr {str(size)[-1]}")
+        plt.set_xlabel("Czas [ms]")
+        plt.set_ylabel("Ciśnienie [MPa]")
+        legend = ["ciśnienie", f"ciśnienie robocze\n{str(round(wp,2)).replace('.', ',')} MPa",
+        f"t0 = {int(round(t0, 0))} ms", f"tk = {int(round(tk, 0))} ms"]
+        if t != None:
+            plt.axvline(t, color="orange", linestyle="--")
+            legend.append(f"t = {int(round(t, 0))} ms")
+        plt.legend(legend)

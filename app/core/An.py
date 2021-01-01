@@ -12,9 +12,9 @@ class SurveyDetails(NamedTuple):
     Ipk: float
     jet_d: float #mm
     d_min: float #mm2
-    press_values: Tuple[float, ...]
     smp_time: float
-    point_time: Optional[float] #ms
+    press_values: Tuple[float, ...]
+    point_time: Optional[float] = None #ms
 
 
 class AnOutput(NamedTuple):
@@ -133,13 +133,13 @@ class An(DesignationTemplate):
         dmin = self.mm_to_m(survey.jet_diameter)
 
         V = (math.pi * (D**2 - d**2) / 4) * L
-        density = survey.fuel_mass / V
+        density = self.g_to_kg(survey.fuel_mass) / V
 
         S = (2 * math.pi * (D**2 - d**2) / 4) + (2 * math.pi * L * (D + d) / 2)
         K0 = ((2 / (k + 1))**(1/(k-1))) * math.sqrt((2*k)/(k+1))
         c = K0 / math.sqrt(fp)
         Fm = (math.pi * dmin ** 2) / 4
-        return ((density * S * A) / (c * Fm)) ** (1 / (1 - n))
+        return self.Pa_to_MPa(((density * S * A) / (c * Fm)) ** (1 / (1 - n)))
 
     def correlation(self, xs: Tuple[float, ...], ys: Tuple[float, ...])\
         -> float:
