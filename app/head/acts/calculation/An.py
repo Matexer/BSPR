@@ -103,7 +103,7 @@ class AnAct(CalculationActTemplate):
         subplots_rows = math.ceil(len(output.surveys_details) / 2)
         figsize = (1, subplots_rows * 5)
         plotfig = frame.create_plot(frame.interior, figsize=figsize)
-        top = 0.971 if subplots_rows > 2 else 0.95
+        top = 0.971 if subplots_rows > 1 else 0.95
         plotfig.figure.subplots_adjust(left=0.071, bottom=0.048,
             right=0.998, top=top, wspace=0.145, hspace=0.200)
 
