@@ -1,5 +1,7 @@
 """This code comes from: https://gist.github.com/bakineugene/76c8f9bcec5b390e45df
-and https://gist.github.com/novel-yet-trivial/3eddfce704db3082e38c84664fc1fdf8"""
+and https://gist.github.com/novel-yet-trivial/3eddfce704db3082e38c84664fc1fdf8
+and was a bit modified to fix some problems"""
+
 import tkinter as tk
 import _tkinter
 from ...configure import EXTRA_SPACE_AFTER_SCROLL
@@ -54,13 +56,14 @@ class ScrolledFrameTemplate(FrameTemplate):
         # track changes to the canvas and frame width and sync them,
         # also updating the scrollbar
         def _configure_interior(event):
+            height = interior.winfo_reqheight() + EXTRA_SPACE_AFTER_SCROLL
             # update the scrollbars to match the size of the inner frame
-            if canvas.winfo_height() < interior.winfo_reqheight():
-                height = interior.winfo_reqheight() + EXTRA_SPACE_AFTER_SCROLL
-            else:
-                height = 0
-            size = (interior.winfo_reqwidth(), height)
-            canvas.config(scrollregion="0 0 %s %s" % size)
+            if canvas.winfo_height() > interior.winfo_reqheight():
+                self._unbind_mouse()
+                canvas.xview_moveto(0)
+                canvas.yview_moveto(0)
+
+            canvas.config(scrollregion=f"0 0 {interior.winfo_reqwidth()} {height}")
             if interior.winfo_reqwidth() != canvas.winfo_width():
                 # update the canvas's width to fit the inner frame
                 canvas.config(width=interior.winfo_reqwidth())
