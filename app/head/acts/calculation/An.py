@@ -110,14 +110,14 @@ class AnAct(CalculationActTemplate):
         for i, d in enumerate(zip(output.surveys_details, output.work_pressures), start=1):
             wp = d[1]
             d = d[0]
-            size = int("%i%i%i"%(subplots_rows, 2, i))
+            size = subplots_rows, 2, i
             self.draw_subplot(plotfig, size, d.smp_time, d.press_values, 
-                wp, d.times[0], d.times[1], d.point_time)
+                wp, d.times[0], d.times[1], d.jet_d, d.point_time)
 
         return plotfig
 
     @staticmethod
-    def draw_subplot(plotfig, size, smp_time, press_values, wp, t0, tk, t=None):
+    def draw_subplot(plotfig, size, smp_time, press_values, wp, t0, tk, jet_d, t=None):
         plt = plotfig.add_subplot(size)
         time = tuple((smp_time * i for i in range(len(press_values))))
         plt.plot(time, press_values)
@@ -126,7 +126,7 @@ class AnAct(CalculationActTemplate):
         plt.axvline(tk, color="pink", linestyle="--")
         plt.axis(xmin=t0 - 10, ymin=0,
             ymax=max(wp, *press_values) * 1.05, xmax=tk * 1.1)
-        plt.set_title(f"Pomiar nr {str(size)[-1]}")
+        plt.set_title(f"Pomiar nr {size[-1]}, ŚKD = {jet_d} mm")
         plt.set_xlabel("Czas [ms]")
         plt.set_ylabel("Ciśnienie [MPa]")
         legend = ["ciśnienie", f"ciśnienie robocze\n{str(round(wp,2)).replace('.', ',')} MPa",

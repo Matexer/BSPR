@@ -22,6 +22,8 @@ class PlotFigureFrame(tk.Frame):
 
     def add_subplot(self, position: Union[int, Tuple[int]])\
         -> SubplotBase:
+        if isinstance(position, tuple):
+            return self.figure.add_subplot(*position)
         return self.figure.add_subplot(position)
 
     def __update_vars(self, kwargs: dict):
