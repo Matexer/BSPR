@@ -1,4 +1,4 @@
-version = 1.0
+version = 1.1
 TITLE = "Badanie stałych paliw rakietowych v" + str(version)
 FUELS_FOLDER = 'database'
 SURVEY_TYPES = {"ciśnienia i ciągu": "pressthru",

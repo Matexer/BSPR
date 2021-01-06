@@ -31,11 +31,18 @@ class ImpulseAct(CalculationActTemplate):
 
     @staticmethod
     def get_table_data(output: ImpulseOutput) -> Tuple[tuple, ...]:
+        def get_a(item):
+            if item.a:
+                return round(item.a, 2)
+            else:
+                return "-"
+
         headings = ("Nr\npomiaru", "Impuls jednostkowy\n[N⋅s/kg]",
-            "Impuls całkowity\n[N⋅s]", "Śr. kryt.\ndyszy [mm]",
+            "Impuls całkowity\n[N⋅s]", "a\n[-]", "Śr. kryt.\ndyszy [mm]",
             "Dł. komory\nspalania [mm]", "Śr. komory\nspalania [mm]")
+
         data = [(i, int(round(item.unit_impulse, 0)),
-            round(item.total_impulse, 1),
+            round(item.total_impulse, 1), get_a(item),
             item.jet_d, item.chamber_length,
             item.chamber_d)
             for i, item in enumerate(output, start=1)]

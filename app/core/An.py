@@ -45,17 +45,18 @@ class An(DesignationTemplate):
         times = (survey.t0, survey.tk, survey.tc)
 
         press_values = self.cut_values(
-            survey.values[0], survey.sampling_time, times, 2)
+            survey.values[0], survey.sampling_time, times, 1)
         press_values = self.MPa_to_Pa(press_values)
 
+        t0 = self.ms_to_s(survey.t0)
         tk = self.ms_to_s(survey.tk)
         Ipk = self.integrate(press_values, smp_time)
-        ave_p = Ipk / tk
+        ave_p = Ipk / (tk - t0)
 
         d = self.mm_to_m(survey.fuel_inner_diameter)
         D = self.mm_to_m(survey.fuel_outer_diameter)
         e = (D - d) / 4
-        ave_u = e / tk
+        ave_u = e / (tk - t0)
 
         F_min = self.F_min(survey)
 
@@ -75,7 +76,7 @@ class An(DesignationTemplate):
 
         press_values = self.cut_values(
             press_values, survey.sampling_time,
-            times, 2)
+            times, 1)
         Ip = self.integrate(press_values, smp_time)
         D = self.mm_to_m(survey.fuel_outer_diameter)
         d = self.mm_to_m(survey.fuel_inner_diameter)

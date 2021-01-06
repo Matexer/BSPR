@@ -40,9 +40,7 @@ class Impulse(DesignationTemplate):
         unit_impulse = total_impulse / fuel_mass
 
         if survey.type == "pressthru":
-            thrust_values = values[1]
-            a = self.get_a(
-                press_values, thrust_values, jet_field)
+            a = self.get_a(press_values, thrust_values, jet_field)
         else:
             a = None
         return ImpulseOutput(total_impulse, unit_impulse,
@@ -53,10 +51,7 @@ class Impulse(DesignationTemplate):
         return tuple(self.calculate_impulse(survey)
                     for survey in self.data.surveys)
 
-    @staticmethod
-    def get_a(
-        press_values: Tuple[float, ...],
-        thrust_values: Tuple[float, ...],
+    def get_a(self, press_values: Tuple[float, ...], thrust_values: Tuple[float, ...],
         jet_field: float)\
         -> float:
         sum_a = float(0)
@@ -66,4 +61,5 @@ class Impulse(DesignationTemplate):
             else:
                 a = 0
             sum_a += a
+
         return sum_a / len(press_values)
