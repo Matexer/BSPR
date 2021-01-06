@@ -4,7 +4,6 @@ from statistics import stdev, variance, mean
 from .template import DesignationTemplate, Data, Config
 from ..head.objects import Survey
 
-
 class SurveyDetails(NamedTuple):
     p: float #Pa
     u: float #m/s

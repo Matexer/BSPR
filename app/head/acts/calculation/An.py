@@ -23,17 +23,17 @@ class AnAct(CalculationActTemplate):
 
         app_plotfig = self.draw_approx_plot(frame, output)
 
-        An_subtitle = frame.create_subtitle(frame.interior, "Wartości charakterystyk")
+        An_subtitle = frame.create_subtitle(frame.interior, "WARTOŚCI CHARAKTERYSTYK")
         final_output = tk.Label(frame.interior, text=f"A = {output.A:.3e} m/(s⋅Pa^n)\
             n = {output.n:.3g}", font=("bold", 20))
 
-        table_subtitle = frame.create_subtitle(frame.interior, "Tabela wyników")
+        table_subtitle = frame.create_subtitle(frame.interior, "TABELA WYNIKÓW")
         data = self.get_table_data(output)
         table = frame.create_table(frame.interior, data)
 
         export_btn = frame.create_export_btn(frame.interior)
 
-        wp_subtitle = frame.create_subtitle(frame.interior, "Wykresy pomiarów")
+        wp_subtitle = frame.create_subtitle(frame.interior, "WYKRESY POMIARÓW")
         wp_plotfig = self.draw_work_p_plots(frame, output)
 
         title.pack(fill="both")
@@ -79,8 +79,8 @@ class AnAct(CalculationActTemplate):
         plotfig = frame.create_plot(frame.interior)
         plotfig.figure.subplots_adjust(left=0.095, top=0.883)
         plot = plotfig.add_subplot(111)
-        plot.set_title("Wykres zależności szybkości spalania SPR od ciśnienia w komorze spalania\n"
-         "we współrzędnych logarytmicznych")
+        plot.set_title("Wykres zależności szybkości spalania SPR od ciśnienia"
+            " w komorze spalania\n we współrzędnych logarytmicznych")
         plot.set_xlabel("ln(p)")
         plot.set_ylabel("ln(u)")
         plot.grid()
@@ -129,7 +129,7 @@ class AnAct(CalculationActTemplate):
         plt.set_title(f"Pomiar nr {size[-1]}, ŚKD = {jet_d} mm")
         plt.set_xlabel("Czas [ms]")
         plt.set_ylabel("Ciśnienie [MPa]")
-        legend = ["ciśnienie", f"ciśnienie robocze\n{str(round(wp,2)).replace('.', ',')} MPa",
+        legend = ["ciśnienie", f"ciśnienie robocze\n{round(wp,2)} MPa",
         f"t0 = {int(round(t0, 0))} ms", f"tk = {int(round(tk, 0))} ms"]
         if t != None:
             plt.axvline(t, color="orange", linestyle="--")
