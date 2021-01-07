@@ -100,6 +100,7 @@ class An(DesignationTemplate):
         ys = tuple(math.log(u) for _, u in cords)
         n = self.correlation(xs, ys) * stdev(ys) / stdev(xs)
         A = math.exp(mean(ys) - n * mean(xs))
+        print(f"A={A}, n={n}")
         return A, n
 
     def F_min(self, survey: Survey)\

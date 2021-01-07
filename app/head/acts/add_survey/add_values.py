@@ -113,7 +113,11 @@ class AddSurveyValuesAct:
             command=lambda: self.start_fix_survey(i, plot_frame, plot_data))
 
         value = tk.StringVar()
-        value.set(1)
+        if self.survey.multipliers:
+            value.set(self.survey.multipliers[i])
+        else:
+            value.set(1)
+
         value.trace(
             "w", lambda name, mode, index, value=value:
             self.change_multiplier_value(i, value, plot_frame, plot_data))

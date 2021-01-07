@@ -55,11 +55,16 @@ class Impulse(DesignationTemplate):
         jet_field: float)\
         -> float:
         sum_a = float(0)
+        skip = 0
+
         for press, thrust in zip(press_values, thrust_values):
             if press:
                 a = thrust / (press * jet_field)
             else:
                 a = 0
+                if not thrust:
+                    skip += 1
+
             sum_a += a
 
-        return sum_a / len(press_values)
+        return sum_a / max((len(press_values) - skip), 1)

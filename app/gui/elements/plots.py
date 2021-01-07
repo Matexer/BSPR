@@ -100,7 +100,7 @@ class AddSurveyValuesPlotFrame(PlotFrame):
         set_tc_btn = tk.Button(container, text="Ustaw tc", background=TC_COLOR)
         fix_plot_btn = tk.Button(container, text="Napraw pomiar")
         multiplier_label = tk.Label(container, text="Mnożnik wartości")
-        multiplier = tk.Entry(container, width=2)
+        multiplier = tk.Entry(container, width=6)
 
         set_t0_btn.pack(side="left")
         set_tk_btn.pack(side="left")
