@@ -4,20 +4,20 @@ from app.head.database import Database
 
 
 f_name1 = "RNDSI-5k"
-A1 = 5.452 * 10**(-6), 5.796 * 10**(-6)
-n1 = 0.467, 0.466
-density1 = 1560
+A1 = 6.933 * 10**(-4), 4.566 * 10**(-4)
+n1 = 0.173, 0.199
+density1 = 1580.8105809106291
 
-dmins1 = 0.0073, 0.0078, 0.008, 0.0084
-times1 = 248, 279, 283, 305
+dmins1 = 0.0078, 0.008, 0.00835
+times1 = 173, 173, 173
 
 f_name2 = "Bazalt 2a"
-A2 = 1.370 * 10**(-5), 1.038 * 10**(-5)
-n2 = 0.442, 0.454
-density2 = 1620
+A2 = 3.552 * 10**(-5), 1.9 * 10**(-6)
+n2 = 0.381, 0.57
+density2 = 1598.5686935445774
 
 dmins2 = 0.0098, 0.010
-times2 = 96, 98, 103
+times2 = 66, 66,
 
 
 db = Database()
@@ -27,7 +27,7 @@ surveys2 = db.load_surveys(f_name2, "pressthru")
 def show_plot(dmin, pr_ch, pr_sr, size, p_time, surveys, f_name):
     survey = None
     for s in surveys:
-        if round(s.jet_diameter / 1000, 4) == dmin:
+        if round(s.jet_diameter / 1000, 5) == dmin:
             survey = s
     if not survey:
         print("Brak pomiaru")
@@ -51,8 +51,8 @@ def show_plot(dmin, pr_ch, pr_sr, size, p_time, surveys, f_name):
     plot.set_title(f"{f_name} dla ŚKD = {survey.jet_diameter} mm".replace(".", ","))
     plot.set_xlabel("Czas [ms]")
     plot.set_ylabel("Ciśnienie [MPa]")
-    legend = ["ciśnienie", f"ciśnienie robocze\nn. p. ch. w. = {str(round(pr_ch,2)).replace('.', ',')} MPa",
-    f"ciśnienie robocze\nn. p. śr. w. = {str(round(pr_sr,2)).replace('.', ',')} MPa",
+    legend = ["ciśnienie", f"ciśnienie równowagi\n(śr. An) = {str(round(pr_ch,2)).replace('.', ',')} MPa",
+    f"ciśnienie równowagi\n(ch. An) = {str(round(pr_sr,2)).replace('.', ',')} MPa",
     f"t0 = {int(round(t0, 0))} ms", f"tk = {int(round(tk, 0))} ms", f"t = {p_time} ms"]
     plot.legend(legend)
 
@@ -74,7 +74,7 @@ def get_pr(dmin, f_name, density, A, n):
 fig = plt.figure(figsize=(9, 27))
 sizes = 321, 322, 323, 324, 325, 326
 
-plt.subplots_adjust(left=0.071, bottom=0.048, right=1,
+plt.subplots_adjust(left=0.071, bottom=0.048, right=0.99,
     top=0.971, wspace=0.145, hspace=0.283)
 
 for dmin, size, time in zip(dmins1, sizes[:4], times1):

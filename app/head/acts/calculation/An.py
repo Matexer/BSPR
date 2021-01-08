@@ -129,7 +129,7 @@ class AnAct(CalculationActTemplate):
         plt.set_title(f"Pomiar nr {size[-1]}, ŚKD = {jet_d} mm")
         plt.set_xlabel("Czas [ms]")
         plt.set_ylabel("Ciśnienie [MPa]")
-        legend = ["ciśnienie", f"ciśnienie robocze\n{round(wp,2)} MPa",
+        legend = ["ciśnienie", f"ciśnienie równowagi\n{round(wp,2)} MPa",
         f"t0 = {int(round(t0, 0))} ms", f"tk = {int(round(tk, 0))} ms"]
         if t != None:
             plt.axvline(t, color="orange", linestyle="--")
