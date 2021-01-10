@@ -16,6 +16,8 @@ class TopMenuButton(Button):
         Button.__init__(self, top, *args, **kwargs)
         self.configure(background=TMB_BG,
                        width=TMB_WIDTH)
+        self.bind("<Enter>", lambda e: self.config(fg=LMF_TEXT_COLOR, bg=LMB_BG))
+        self.bind("<Leave>", lambda e: self.config(fg=LMB_BG, bg=TMB_BG))
 
 
 class LeftMenuButton(Button):
@@ -25,3 +27,5 @@ class LeftMenuButton(Button):
                        wrap=LMB_wrap,
                        width=LMB_width,
                        foreground=LMF_TEXT_COLOR)
+        self.bind("<Enter>", lambda e: self.config(fg=LMB_BG, bg=LMF_TEXT_COLOR))
+        self.bind("<Leave>", lambda e: self.config(fg=LMF_TEXT_COLOR, bg=LMB_BG))

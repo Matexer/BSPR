@@ -21,19 +21,19 @@ class TopMenuFrame(tk.Frame):
                                      command=lambda: top.change_frame(0))
 
         self.survey_list_btn = TopMenuButton(self)
-        self.survey_list_btn.pack(side="left")
+        self.survey_list_btn.pack(side="left", ipadx=5)
         self.survey_list_btn.configure(text='Lista pomiarów',
                                        command=lambda: top.change_frame(2))
 
         self.configure_btn = TopMenuButton(self)
-        self.configure_btn.pack(side="right", ipadx=50)
+        self.configure_btn.pack(side="right", ipadx=50, ipady=1)
         self.configure_btn.configure(text='Konfiguracja',
                                      image=self.wrench_img,
                                      compound="left",
                                      command=lambda: top.change_frame(12))
 
         self.configure_btn = TopMenuButton(self)
-        self.configure_btn.pack(side="right", ipadx=45)
+        self.configure_btn.pack(side="right", ipadx=45, ipady=1)
         self.configure_btn.configure(text='Baza danych',
                                      image=self.folder_img,
                                      compound="left",
