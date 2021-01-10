@@ -31,7 +31,11 @@ class CalculationActTemplate:
             writer = csv.writer(csvfile, delimiter='\t',
                 quotechar='|', quoting=csv.QUOTE_MINIMAL)
             for row in data:
-                writer.writerow(row)
+                try:
+                    writer.writerow(row)
+                except UnicodeEncodeError:
+                    row = [str(w).replace('\u22c5', "*") for w in row]
+                    writer.writerow(row)
 
     def export_data(self, data):
         headings = [item.replace("\n", " ") for item in data[0]]
