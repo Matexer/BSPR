@@ -60,7 +60,7 @@ class AddSurveyThrustValuesFrame(AddSurveyValuesBaseFrameTemplate):
 
     def adjust_plot(self):
         super().adjust_plot()
-        self.plot_frames[0].plot.set_ylabel("Siła ciągu [kN]")
+        self.plot_frames[0].plot.set_ylabel("Ciąg [kN]")
 
 
 class AddSurveyDoubleValuesFrame(AddSurveyValuesBaseFrameTemplate):
@@ -77,4 +77,4 @@ class AddSurveyDoubleValuesFrame(AddSurveyValuesBaseFrameTemplate):
     def adjust_plot(self):
         super().adjust_plot()
         self.plot_frames[0].plot.set_ylabel("Ciśnienie [MPa]")
-        self.plot_frames[1].plot.set_ylabel("Siła ciągu [kN]")
+        self.plot_frames[1].plot.set_ylabel("Ciąg [kN]")

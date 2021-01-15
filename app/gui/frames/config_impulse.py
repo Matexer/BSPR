@@ -8,13 +8,13 @@ class ConfigImpulseFrame(ConfigCalculationFrameTemplate):
         {"Metoda całkowania": tuple(INTEGRATION_METHODS.keys())}
     )
 
-    SURVEY_LIST_COLUMNS = {"ŚKD [mm]": 1}
+    SURVEY_LIST_COLUMNS = {"dm [mm]": 1}
 
     TITLE = "WYZNACZANIE IMPULSU JEDNOSTKOWEGO"
 
     @staticmethod
     def set_plot_labels(plot):
-        plot.set_title("Wykres/y pomiaru ciągu od czasu")
+        plot.set_title("Wykres/y ciągu w funkcji czasu")
         plot.set_xlabel("Czas [ms]")
         plot.set_ylabel("Ciąg [kN]")
     

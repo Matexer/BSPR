@@ -1,5 +1,6 @@
 import tkinter as tk
 import tkinter.ttk as ttk
+import math
 
 
 def check_option(func):
@@ -14,7 +15,7 @@ class TreeList(tk.Frame):
     CHECK_OPTION = False
     AUTO_NUMBERING = False
 
-    def __init__(self, top):
+    def __init__(self, top, dm_index=1):
         super().__init__(top)
         container = tk.Frame(self)
         scroll = tk.Scrollbar(container)
@@ -25,6 +26,7 @@ class TreeList(tk.Frame):
         tree.config(yscrollcommand=scroll.set)
         container.pack(fill="both", expand=1)
         self.tree = tree
+        self.dm_index = dm_index
         if self.CHECK_OPTION:
             self.checked_img = tk.PhotoImage(file='app/graphic/checked.gif')
             self.unchecked_img = tk.PhotoImage(file='app/graphic/unchecked.gif')
@@ -37,25 +39,33 @@ class TreeList(tk.Frame):
         self.add_to_list(data)
 
     def add_to_list(self, data):
+        i = self.dm_index
         if self.CHECK_OPTION:
             image = {"image": self.unchecked_img}
         else:
             image = {}
 
-        def add_with_auto_num():
-            for n, row in enumerate(data):
-                self.tree.insert(
-                    '', "end", text=n+1, values=row, **image)
-
-        def add_without_auto_num():
+        min_precision = 0
+        if i >= 0:
             for row in data:
-                self.tree.insert(
-                    '', "end", text=row[0], values=row[1:], **image)
+                dm = str(row[i])
+                if "." in dm:
+                    prec = len(dm) - dm.index(".") - 1
+                    min_precision = max(min_precision, prec)
 
-        if self.AUTO_NUMBERING:
-            add_with_auto_num()
-        else:
-            add_without_auto_num()
+        for n, row in enumerate(data):
+            if i >= 0:
+                row = list(row)
+                row[i] = format(row[i], f'.{min_precision}f')
+
+            if self.AUTO_NUMBERING:
+                text = n + 1
+                vals = row
+            else:
+                text = row[0]
+                vals = row[1:]
+            self.tree.insert(
+                '', "end", text=text, values=vals, **image)
 
     def clean(self):
         for item in self.tree.get_children():

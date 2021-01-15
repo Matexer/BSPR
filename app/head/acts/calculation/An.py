@@ -14,6 +14,7 @@ class AnAct(CalculationActTemplate):
         self.config = args[3]
         output = An(data, self.config).get_results()
         self.generate_report(self.frame, output)
+        self.min_precision = 0
 
     def generate_report(self, 
         frame: ResultsFrame, output: AnOutput):
@@ -52,19 +53,23 @@ class AnAct(CalculationActTemplate):
 
     def get_table_data(self, output: AnOutput)\
         -> List[tuple]:
+        dms = tuple(item.jet_d for item in output.surveys_details)
+        self.min_precision = self.get_dm_precision(dms)
+
         if self.config.calculation_method == 0: #average
             headings = ("Nr\npomiaru", "p śr.\n[MPa]", "u śr.\n[mm/s]","t0\n[ms]", "tk\n[ms]", 
-                "Ipk\n[MPa⋅s]", "Śr. kryt.\ndyszy [mm]", "Min. śr. kryt.\ndyszy [mm]")
+                "Ipk\n[MPa⋅s]", "dm\n[mm]", "Max. dm\n[mm]")
             data = [(i, round(item.p/1000_000, 3), round(item.u*1000, 1), *item.times[:-1],
-                    round(item.Ipk/1000_000, 3), item.jet_d, round(item.d_min, 1))
+                    round(item.Ipk/1000_000, 3), format(item.jet_d, f'.{self.min_precision}f'),
+                    round(item.d_min, 1))
                     for i, item in enumerate(output.surveys_details, start=1)]
             return list((headings, *data))
         
         headings = ("Nr.\npomiaru", "p chw.\n[MPa]", "u chw.\n[mm/s]","t0\n[ms]", "tk\n[ms]", 
-            "Ipk\n[MPa⋅s]", "Śr. kryt.\ndyszy [mm]", "Min. śr. kryt.\ndyszy [mm]", "t chwil.\n[ms]")
+            "Ipk\n[MPa⋅s]", "dm\n[mm]", "Max. dm\n[mm]", "t chwil.\n[ms]")
         data = [(i, round(item.p/1000_000, 3), round(item.u*1000, 1), *item.times[:-1],
-                round(item.Ipk/1000_000, 3), item.jet_d, round(item.d_min, 1),
-                round(item.point_time, 1))
+                round(item.Ipk/1000_000, 3), format(item.jet_d, f'.{self.min_precision}f'),
+                round(item.d_min, 1), round(item.point_time, 1))
                 for i, item in enumerate(output.surveys_details, start=1)]
         return list((headings, *data))
 
@@ -116,8 +121,7 @@ class AnAct(CalculationActTemplate):
 
         return plotfig
 
-    @staticmethod
-    def draw_subplot(plotfig, size, smp_time, press_values, wp, t0, tk, jet_d, t=None):
+    def draw_subplot(self, plotfig, size, smp_time, press_values, wp, t0, tk, jet_d, t=None):
         plt = plotfig.add_subplot(size)
         time = tuple((smp_time * i for i in range(len(press_values))))
         plt.plot(time, press_values)
@@ -126,7 +130,8 @@ class AnAct(CalculationActTemplate):
         plt.axvline(tk, color="pink", linestyle="--")
         plt.axis(xmin=t0 - 10, ymin=0,
             ymax=max(wp, *press_values) * 1.05, xmax=tk * 1.1)
-        plt.set_title(f"Pomiar nr {size[-1]}, ŚKD = {jet_d} mm")
+        dmin = format(jet_d, f'.{self.min_precision}f')
+        plt.set_title(f"Pomiar nr {size[-1]}, dm = {dmin} mm")
         plt.set_xlabel("Czas [ms]")
         plt.set_ylabel("Ciśnienie [MPa]")
         legend = ["ciśnienie", f"ciśnienie równowagi\n{round(wp,2)} MPa",

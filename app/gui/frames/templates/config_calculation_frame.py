@@ -18,7 +18,7 @@ class ConfigCalculationFrameTemplate(ScrolledFrameTemplate):
         {"Metoda całkowania": tuple(INTEGRATION_METHODS.keys())}
     )
 
-    SURVEY_LIST_COLUMNS = {"ŚKD [mm]": 0.5}
+    SURVEY_LIST_COLUMNS = {"dm [mm]": 0.5}
 
     TITLE = "ConfigCalculationFrameTemplate"
 
@@ -38,7 +38,7 @@ class ConfigCalculationFrameTemplate(ScrolledFrameTemplate):
 
     @staticmethod
     def set_plot_labels(plot):
-        plot.set_title("Wykres/y pomiaru ciśnienia od czasu")
+        plot.set_title("Wykres/y ciśnienia w funkcji czasu")
         plot.set_xlabel("Czas [ms]")
         plot.set_ylabel("Ciśnienie [MPa]")
 

@@ -26,24 +26,28 @@ class ImpulseAct(CalculationActTemplate):
         title.pack(fill="both")
         table.pack(pady=20)
         export_btn.pack(pady=5)
-
         export_btn.configure(command=lambda: self.export_data(data))
 
-    @staticmethod
-    def get_table_data(output: ImpulseOutput) -> Tuple[tuple, ...]:
+    def get_table_data(self, output: ImpulseOutput) -> Tuple[tuple, ...]:
         def get_a(item):
             if item.a:
                 return round(item.a, 2)
             else:
                 return "-"
 
+        dms = tuple(item.jet_d for item in output)
+        min_precision = self.get_dm_precision(dms)
+
         headings = ("Nr\npomiaru", "Impuls jednostkowy\n[N⋅s/kg]",
-            "Impuls całkowity\n[N⋅s]", "a\n[-]", "Śr. kryt.\ndyszy [mm]",
+            "Impuls całkowity\n[N⋅s]", "a\n[-]", "dm [mm]",
             "Dł. komory\nspalania [mm]", "Śr. komory\nspalania [mm]")
 
-        data = [(i, int(round(item.unit_impulse, 0)),
-            round(item.total_impulse, 1), get_a(item),
-            item.jet_d, item.chamber_length,
-            item.chamber_d)
-            for i, item in enumerate(output, start=1)]
-        return tuple((headings, *data))
+        data = [headings]
+
+        for i, item in enumerate(output, start=1):
+            row = (i, int(round(item.unit_impulse, 0)), round(item.total_impulse, 1),
+                get_a(item), format(item.jet_d, f'.{min_precision}f'), item.chamber_length,
+                item.chamber_d)
+            data.append(row)
+
+        return data

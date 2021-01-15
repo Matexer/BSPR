@@ -81,10 +81,10 @@ class AddSurveyValuesAct:
                             "tk": self.draw_line(plot, self.survey.tk, color=TK_COLOR),
                             "tc": self.draw_line(plot, self.survey.tc, color=TC_COLOR)}
 
-        plot.legend(["Wykes pomiaru", "t0 = %s ms" % self.survey.t0,
+        plot.legend(["Wykres pomiaru", "t0 = %s ms" % self.survey.t0,
                      "tk = %s ms" % self.survey.tk, "tc = %s ms" % self.survey.tc])
 
-        plot.set_title(f"Wykres pomiaru {labels['title']}")
+        plot.set_title(f"Wykres {labels['title']}")
         plot.set_xlabel("Czas [ms]")
         plot.set_ylabel(labels["y"])
         plot.grid()
@@ -201,7 +201,7 @@ class AddSurveyValuesAct:
                                 lambda event: end_updating())
 
     def refresh_legend(self, plot):
-        plot.legend(["Wykes pomiaru", "t0 = %s ms" % self.survey.t0,
+        plot.legend(["Wykres pomiaru", "t0 = %s ms" % self.survey.t0,
                      "tk = %s ms" % self.survey.tk, "tc = %s ms" % self.survey.tc])
 
     def start_fix_survey(self, i, plot_frame, plot_data):

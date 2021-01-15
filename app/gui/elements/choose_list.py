@@ -13,6 +13,7 @@ class CheckTreeList(TreeList):
         super().__init__(top)
         self.tree.unbind("<Button-1>")
         self.tree.bind("<Button-3>", self._toggle_item)
+        self.dm_index = 0
 
 
 class ExtendedPlotFrame(PlotFrame):

@@ -41,3 +41,13 @@ class CalculationActTemplate:
         headings = [item.replace("\n", " ") for item in data[0]]
         csv_data = tuple((headings, *data[1:]))
         self.save_csv_file(csv_data)
+
+    @staticmethod
+    def get_dm_precision(dms):
+        min_precision = 0
+        for dm in dms:
+            dm = str(dm)
+            if "." in dm:
+                prec = len(dm) - dm.index(".") - 1
+                min_precision = max(min_precision, prec)
+        return min_precision

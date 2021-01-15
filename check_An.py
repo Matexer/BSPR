@@ -2,18 +2,18 @@ import matplotlib.pyplot as plt
 import math
 from app.head.database import Database
 
-
+# chwilowe, średnie
 f_name1 = "RNDSI-5k"
-A1 = 6.933 * 10**(-4), 4.566 * 10**(-4)
-n1 = 0.173, 0.199
+A1 = 4.566 * 10**(-4), 6.933 * 10**(-4)
+n1 = 0.199, 0.173
 density1 = 1580.8105809106291
 
 dmins1 = 0.0078, 0.008, 0.00835
 times1 = 173, 173, 173
 
 f_name2 = "Bazalt 2a"
-A2 = 3.552 * 10**(-5), 1.9 * 10**(-6)
-n2 = 0.381, 0.57
+A2 = 1.9 * 10**(-6), 3.552 * 10**(-5)
+n2 = 0.57, 0.381
 density2 = 1598.5686935445774
 
 dmins2 = 0.0098, 0.010
@@ -41,18 +41,22 @@ def show_plot(dmin, pr_ch, pr_sr, size, p_time, surveys, f_name):
 
     plot = plt.subplot(size)
     plt.plot(time, press_values)
-    plt.axhline(pr_ch, color="red")
     plt.axhline(pr_sr, color="black")
+    plt.axhline(pr_ch, color="red")
     plt.axvline(t0, color="green", linestyle="--")
     plt.axvline(tk, color="pink", linestyle="--")
     plt.axvline(p_time, color="orange", linestyle="--")
     plt.axis(xmin=survey.t0 - 10, ymin=0,
     ymax=max(pr_sr ,pr_ch, max(press_values)) * 1.05, xmax=survey.tk * 1.1)
-    plot.set_title(f"{f_name} dla ŚKD = {survey.jet_diameter} mm".replace(".", ","))
+    plot.set_title(f"{f_name} dla dm = {format(survey.jet_diameter, f'.2f')} mm".replace(".", ","))
     plot.set_xlabel("Czas [ms]")
     plot.set_ylabel("Ciśnienie [MPa]")
-    legend = ["ciśnienie", f"ciśnienie równowagi\n(śr. An) = {str(round(pr_ch,2)).replace('.', ',')} MPa",
-    f"ciśnienie równowagi\n(ch. An) = {str(round(pr_sr,2)).replace('.', ',')} MPa",
+
+    pr_ch = format(pr_ch, ".1f")
+    pr_sr = format(pr_sr, ".1f")
+
+    legend = ["ciśnienie", f"ciśnienie równowagi\n(śr. An) = {pr_sr.replace('.', ',')} MPa",
+    f"ciśnienie równowagi\n(ch. An) = {pr_ch.replace('.', ',')} MPa",
     f"t0 = {int(round(t0, 0))} ms", f"tk = {int(round(tk, 0))} ms", f"t = {p_time} ms"]
     plot.legend(legend)
 
