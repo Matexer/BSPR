@@ -17,6 +17,8 @@ class CalculationActTemplate:
     def clean_frame(self):
         for child in self.frame.interior.winfo_children():
             child.destroy()
+        self.frame.canvas.xview_moveto(0)
+        self.frame.canvas.yview_moveto(0)
     
     def save_csv_file(self, data: Tuple[Tuple[Union[str, float], ...], ...])\
         -> Literal[True, None]:

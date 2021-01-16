@@ -70,7 +70,8 @@ class ConfigCalculationFrameTemplate(ScrolledFrameTemplate):
 
     def create_surveys_container(self, top, columns):
         container = tk.Frame(top)
-        subtitle = self.create_subtitle(container, "LISTA DOSTĘPNYCH POMIARÓW")
+        subtitle = self.create_subtitle(container,
+            "LISTA DOSTĘPNYCH POMIARÓW (PPM - wybór, LPM - podgląd)")
         ch_list = ChooseList(container)
         ch_list.tree_frame.set_columns(tuple(columns.keys()))
         ch_list.plot_frame.fig.subplots_adjust(

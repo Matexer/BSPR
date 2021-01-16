@@ -35,3 +35,10 @@ class ConfigEngineParaAct(ConfigCalculationActTemplate):
     def check_surveys(surveys):
         if not surveys:
             return Msg.needs_min_one_survey
+
+    #Disabling 
+    def set_buttons(self):
+        self.frame.navi_buttons[0].configure(
+            command=lambda: self.frame.show_message("Opcja niedostępna w obecnej wersji."))
+        self.frame.navi_buttons[1].configure(
+            command=lambda: self.clean())
