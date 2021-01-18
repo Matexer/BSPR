@@ -6,7 +6,7 @@ from ...configure import STL_BG, IMP_VALUES_BTN_COLOR_1,\
     FILL_FUEL_BTN_COLOR, CHANGE_IMP_VALUES_BTN_COLOR
 
 
-class AddSurveyFrameTemplate(FrameTemplate):
+class AddSurveyFrame(FrameTemplate):
     def __init__(self, top):
         super().__init__(top)
         self.create_head_section()

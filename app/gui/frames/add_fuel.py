@@ -2,7 +2,7 @@ import tkinter as tk
 from .templates import FrameTemplate
 
 
-class AddFuelFrameTemplate(FrameTemplate):
+class AddFuelFrame(FrameTemplate):
     def __init__(self, top):
         super().__init__(top)
         self.create_head_section()

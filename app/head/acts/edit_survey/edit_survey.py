@@ -20,7 +20,7 @@ class EditSurveyAct(AddSurveyAct):
 
     def start_adding_act(self):
         if not self.survey.values:
-            self.survey = self.frame.survey
+           self.survey = self.frame.survey
         self.change_frame(self.survey.type)
         EditSurveyValuesAct(self.top, self.import_frame, self.survey)
 

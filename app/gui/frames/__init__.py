@@ -1,9 +1,9 @@
 from .left_menu import LeftMenuFrame
 from .top_menu import TopMenuFrame
 from .fuels_list import FuelsListFrame
-from .add_fuel import AddFuelFrameTemplate
+from .add_fuel import AddFuelFrame
 from .surveys_list import SurveysListFrame
-from .add_survey import AddSurveyFrameTemplate,\
+from .add_survey import AddSurveyFrame,\
                                   AddSurveyPressureValuesFrame,\
                                   AddSurveyDoubleValuesFrame,\
                                   AddSurveyThrustValuesFrame
@@ -16,17 +16,17 @@ from .results_frame import ResultsFrame
 
 
 def load_frames(top):
-    frames = (FuelsListFrame(top),
-              AddFuelFrameTemplate(top),
-              SurveysListFrame(top),
-              AddSurveyFrameTemplate(top),
-              EditFuelFrame(top),
-              AddSurveyPressureValuesFrame(top),  # 5
+    frames = (FuelsListFrame(top),                  #0
+              AddFuelFrame(top),                    #1
+              SurveysListFrame(top),                #2
+              AddSurveyFrame(top),                  #3
+              EditFuelFrame(top),                   #4
+              AddSurveyPressureValuesFrame(top),    #5
               AddSurveyThrustValuesFrame(top),
               AddSurveyDoubleValuesFrame(top),
               EditSurveyFrame(top),
               ConfigImpulseFrame(top),
-              ConfigAnFrame(top), # 10
+              ConfigAnFrame(top),                   #10
               ConfigEngineParametersFrame(top),
               ResultsFrame(top)
               )
