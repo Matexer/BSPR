@@ -2,7 +2,7 @@
 /venv
 .idea
 __pycache__/
-/database
+/database/*
 .vscode
 .mypy_cache
 /build
