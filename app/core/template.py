@@ -1,6 +1,7 @@
 from typing import NamedTuple, Tuple, Optional, Any, Union
 from ..head.objects import Survey, Fuel
 from .tools import Integrals
+from abc import ABCMeta
 
 
 class Data(NamedTuple):
@@ -16,7 +17,7 @@ class Config(NamedTuple):
     #0-mean, 1-moment
 
 
-class DesignationTemplate:
+class DesignationTemplate(metaclass=ABCMeta):
     def __init__(self, data: Data, config: Config):
         self.data = data
         self.config = config
