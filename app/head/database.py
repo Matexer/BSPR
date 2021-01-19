@@ -6,6 +6,10 @@ from ..globals import FUELS_FOLDER
 
 class Database:
     ###########################     FUELS   ########################################
+    @staticmethod
+    def test_db():
+        if not os.path.exists("database"):
+            os.mkdir("database")
 
     @staticmethod
     def save_fuel(fuel):
