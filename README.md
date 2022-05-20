@@ -2,6 +2,9 @@ PL
 # Badanie Stałych Paliw Rakietowych v1.1
 Program umożliwia opracowanie wyników badań stałych paliw rakietowych, w celu wyznaczenia impulsu jednostkowego paliwa oraz charakterystyk A i n potęgowego prawa szybkości spalania. Stanowił zadanie do realizacji pracy dyplomowej na studiach I stopnia, na kierunku mechatronika.
 
+Wersja dla systemu Windows, nie wymagająca instalacji dodtakowych składników (Python etc.).
+https://drive.google.com/file/d/1-S0pdQ1UP_KuVMmwkPsVQdOwsqRK_tu7/view?usp=sharing
+
 Użytkownik posiada możliwość korekty importowanych przebiegów ciśnienia i ciągu, polegającej na podaniu wartości współczynnika skali i zaznaczenia na wykresie odpowiednio:
 - czasu rozpoczęcia pracy silnika,
 - czasu końca spalania paliwa,
